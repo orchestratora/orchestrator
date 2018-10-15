@@ -1,7 +1,7 @@
 import { async, TestBed } from '@angular/core/testing';
 import { OrchestratorCoreModule } from './core.module';
 
-describe('CoreModule', () => {
+describe('OrchestratorCoreModule', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [OrchestratorCoreModule],
