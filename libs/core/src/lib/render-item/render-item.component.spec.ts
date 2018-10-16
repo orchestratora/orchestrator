@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RenderItemComponent } from './render-item.component';
 
-describe('RenderItemComponent', () => {
+xdescribe('RenderItemComponent', () => {
   let component: RenderItemComponent;
   let fixture: ComponentFixture<RenderItemComponent>;
 
