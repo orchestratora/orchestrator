@@ -1,13 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { ANALYZE_FOR_ENTRY_COMPONENTS, ModuleWithProviders, NgModule, Type } from '@angular/core';
+import { ANALYZE_FOR_ENTRY_COMPONENTS, ModuleWithProviders, NgModule } from '@angular/core';
+import { DynamicModule } from 'ng-dynamic-component';
 
 import { COMPONENT_MAP, ComponentMap, COMPONENTS } from './component-map';
+import { OrchestratorComponent } from './orchestrator/orchestrator.component';
+import { RenderItemComponent } from './render-item/render-item.component';
+import { OrchestratorDynamicComponent } from './types';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, DynamicModule.withComponents([])],
+  declarations: [OrchestratorComponent, RenderItemComponent],
+  exports: [OrchestratorComponent, RenderItemComponent],
 })
 export class OrchestratorCoreModule {
-  static withComponents(components: Type<any>[], compMap?: ComponentMap): ModuleWithProviders {
+  static withComponents(
+    components: OrchestratorDynamicComponent<any>[],
+    compMap?: ComponentMap,
+  ): ModuleWithProviders {
     return {
       ngModule: OrchestratorCoreModule,
       providers: [

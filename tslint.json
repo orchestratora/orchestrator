@@ -70,13 +70,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "app",
+      "orc",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "app",
+      "orc",
       "kebab-case"
     ],
     "no-output-on-prefix": true,
