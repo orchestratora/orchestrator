@@ -6,7 +6,10 @@
     "lib": {
       "entryFile": "./src/public_api.ts"
     },
-    "dest": "./../../dist/@orchestrator/core"
+    "dest": "./../../dist/@orchestrator/core",
+    "whitelistedNonPeerDependencies": [
+      "ng-dynamic-component"
+    ]
   },
   "repository": {
     "type": "git",
