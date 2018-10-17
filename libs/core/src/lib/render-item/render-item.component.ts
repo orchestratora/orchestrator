@@ -2,9 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   ComponentRef,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 
@@ -21,7 +23,9 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RenderItemComponent implements OnInit, OnChanges {
-  @Input() item: OrchestratorConfigItem<any>;
+  @Input() item: OrchestratorConfigItem<any> | undefined;
+
+  @Output() componentCreated = new EventEmitter<ComponentRef<any>>();
 
   component: OrchestratorDynamicComponentType;
 
@@ -42,11 +46,17 @@ export class RenderItemComponent implements OnInit, OnChanges {
     }
   }
 
-  onComponentCreated(compRef: ComponentRef<any>) {}
+  onComponentCreated(compRef: ComponentRef<any>) {
+    this.componentCreated.emit(compRef);
+  }
 
   private updateComponent() {
-    this.component = this.componentLocatorService.resolve(this.item.component);
-    this.inputs.items = this.item.items;
-    this.inputs.config = this.item.config;
+    if (this.item) {
+      this.component = this.componentLocatorService.resolve(this.item.component);
+      this.inputs.items = this.item.items;
+      this.inputs.config = this.item.config;
+    } else {
+      this.component = this.inputs.items = this.inputs.config = null;
+    }
   }
 }
