@@ -1,8 +1,12 @@
 import { InjectionToken, Type } from '@angular/core';
 
-export interface ComponentMap {
-  [k: string]: Type<any>;
+import { OrchestratorDynamicComponentType } from './types';
+
+export interface ComponentMap<T extends Type<any> = Type<T>> {
+  [k: string]: T;
 }
 
-export const COMPONENTS = new InjectionToken<Type<any>[]>('COMPONENTS');
-export const COMPONENT_MAP = new InjectionToken<ComponentMap>('COMPONENT_MAP');
+export const COMPONENTS = new InjectionToken<OrchestratorDynamicComponentType[]>('COMPONENTS');
+export const COMPONENT_MAP = new InjectionToken<ComponentMap<OrchestratorDynamicComponentType>>(
+  'COMPONENT_MAP',
+);

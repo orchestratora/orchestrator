@@ -5,7 +5,7 @@ import { DynamicModule } from 'ng-dynamic-component';
 import { COMPONENT_MAP, ComponentMap, COMPONENTS } from './component-map';
 import { OrchestratorComponent } from './orchestrator/orchestrator.component';
 import { RenderItemComponent } from './render-item/render-item.component';
-import { OrchestratorDynamicComponent } from './types';
+import { OrchestratorDynamicComponentType } from './types';
 
 @NgModule({
   imports: [CommonModule, DynamicModule.withComponents([])],
@@ -14,7 +14,7 @@ import { OrchestratorDynamicComponent } from './types';
 })
 export class OrchestratorCoreModule {
   static withComponents(
-    components: OrchestratorDynamicComponent<any>[],
+    components: OrchestratorDynamicComponentType[],
     compMap?: ComponentMap,
   ): ModuleWithProviders {
     return {
