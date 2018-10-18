@@ -1,0 +1,37 @@
+sudo: required
+dist: trusty
+language: node_js
+cache:
+  npm: true
+notifications:
+  email: false
+node_js: lts/*
+branches:
+  only:
+    - master
+    - /^greenkeeper/.*$/
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y libappindicator1 fonts-liberation
+  - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  - sudo dpkg -i google-chrome*.deb
+  - export CHROME_BIN=/usr/bin/google-chrome
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+stages:
+  - test
+  - name: deploy
+    if: branch = master and type != pull_request
+jobs:
+  include:
+    - stage: test
+      script:
+        - npm run ci
+#     - stage: release
+#       node_js: lts/*
+#       script: skip
+#       deploy:
+#         provider: script
+#         skip_cleanup: true
+#         script:
+# - yarn semantic-release
