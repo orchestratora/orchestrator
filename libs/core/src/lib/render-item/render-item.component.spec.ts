@@ -3,17 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DynamicModule } from 'ng-dynamic-component';
 
-import { COMPONENT_MAP } from '../component-map';
+import { COMPONENT_MAP, ComponentMap } from '../component-map';
 import { OrchestratorConfigItem, OrchestratorDynamicComponent } from '../types';
 import { RenderItemComponent } from './render-item.component';
 
 @Component({
   selector: 'orc-host-comp',
-  template: `<orc-render-item [item]="item" (componentCreated)="onComponentCreated($event)"></orc-render-item>`,
+  template: `<orc-render-item
+    [item]="item"
+    (componentCreated)="onComponentCreated($event)"
+    (childComponentsCreated)="onChildComponentsCreated($event)"></orc-render-item>`,
 })
 class HostComponent {
   item: OrchestratorConfigItem<any>;
   onComponentCreated() {}
+  onChildComponentsCreated() {}
 }
 
 @Component({ selector: 'orc-dyn-base', template: `` })
@@ -134,6 +138,61 @@ describe('RenderItemComponent', () => {
       expect(hostComp.onComponentCreated).toHaveBeenCalledWith(
         jasmine.objectContaining({ instance: jasmine.any(Dynamic1Component) }),
       );
+    });
+
+    it('should emit `childComponentsCreated` with `ComponentRef[]` when all components instantiated', () => {
+      spyOn(hostComp, 'onChildComponentsCreated');
+      hostComp.item = {
+        component: Dynamic1Component,
+        items: [
+          { component: Dynamic1Component, items: [{ component: Dynamic2Component }] },
+          { component: Dynamic1Component },
+        ],
+      };
+
+      fixture.detectChanges();
+
+      expect(hostComp.onChildComponentsCreated).toHaveBeenCalledTimes(1);
+      expect(hostComp.onChildComponentsCreated).toHaveBeenCalledWith([
+        jasmine.any(ComponentRef),
+        jasmine.any(ComponentRef),
+        jasmine.any(ComponentRef),
+      ]);
+      expect(hostComp.onChildComponentsCreated).toHaveBeenCalledWith([
+        jasmine.objectContaining({ instance: jasmine.any(Dynamic1Component) }),
+        jasmine.objectContaining({ instance: jasmine.any(Dynamic1Component) }),
+        jasmine.objectContaining({ instance: jasmine.any(Dynamic2Component) }),
+      ]);
+    });
+  });
+
+  describe('with component strings', () => {
+    const componentMap: ComponentMap = {
+      dyn1: Dynamic1Component,
+      dyn2: Dynamic2Component,
+    };
+
+    beforeEach(() => {
+      TestBed.overrideProvider(COMPONENT_MAP, { useValue: componentMap });
+      init();
+    });
+
+    it('should render mapped component', () => {
+      hostComp.item = { component: 'dyn1' };
+
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.directive(Dynamic1Component))).toBeTruthy();
+    });
+
+    it('should render nested mapped component', () => {
+      hostComp.item = { component: 'dyn1', items: [{ component: 'dyn2' }] };
+
+      fixture.detectChanges();
+      const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
+
+      expect(comp1).toBeTruthy();
+      expect(comp1.query(By.directive(Dynamic2Component))).toBeTruthy();
     });
   });
 });
