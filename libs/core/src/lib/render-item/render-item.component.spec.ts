@@ -209,9 +209,10 @@ describe('RenderItemComponent', () => {
 
       service.addProviders([{ provide: CUSTOM_TOKEN, useValue: 'CUSTOM_VALUE' }]);
 
-      const comp2 = fixture.debugElement.query(By.directive(Dynamic2Component));
+      const itemRenderer = fixture.debugElement.query(By.directive(RenderItemComponent));
+      const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
 
-      expect(comp2.injector.get(Dynamic1Component)).toEqual(jasmine.any(Dynamic1Component));
+      expect(comp1.injector.get(RenderItemComponent)).toBe(itemRenderer.componentInstance);
     });
   });
 
