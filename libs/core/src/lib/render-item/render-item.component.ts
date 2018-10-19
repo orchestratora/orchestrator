@@ -7,10 +7,8 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  Optional,
   Output,
   SimpleChanges,
-  SkipSelf,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -51,9 +49,6 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private componentLocatorService: ComponentLocatorService,
     private componentsRegistryService: ComponentsRegistryService,
-    @SkipSelf()
-    @Optional()
-    private parentComponentsRegistryService: ComponentsRegistryService,
   ) {}
 
   ngOnInit() {
@@ -61,10 +56,7 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe(compRefs => {
         this.childComponentsCreated.emit(compRefs);
-
-        if (this.parentComponentsRegistryService) {
-          this.parentComponentsRegistryService.addSubChildren(compRefs);
-        }
+        this.componentsRegistryService.addChildren(compRefs);
       });
 
     this.updateComponent();
@@ -82,14 +74,7 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
 
   onComponentCreated(compRef: ComponentRef<any>) {
     this.componentCreated.emit(compRef);
-
-    if (this.parentComponentsRegistryService) {
-      this.parentComponentsRegistryService.addChild(compRef);
-
-      if (this.itemsLength === 0) {
-        this.parentComponentsRegistryService.addSubChildren([]);
-      }
-    }
+    this.componentsRegistryService.add(compRef);
   }
 
   private updateComponent() {
