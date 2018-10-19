@@ -1,4 +1,4 @@
-import { Component, ComponentRef, Input } from '@angular/core';
+import { Component, ComponentRef, InjectionToken, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -6,6 +6,7 @@ import { DynamicModule } from 'ng-dynamic-component';
 import { COMPONENT_MAP, ComponentMap } from '../component-map';
 import { OrchestratorConfigItem, OrchestratorDynamicComponent } from '../types';
 import { RenderItemComponent } from './render-item.component';
+import { InjectorRegistryService } from './injector-registry.service';
 
 @Component({
   selector: 'orc-host-comp',
@@ -163,6 +164,54 @@ describe('RenderItemComponent', () => {
         jasmine.objectContaining({ instance: jasmine.any(Dynamic1Component) }),
         jasmine.objectContaining({ instance: jasmine.any(Dynamic2Component) }),
       ]);
+    });
+
+    it('should allow customization of injector via InjectorRegistryService.addProviders', () => {
+      hostComp.item = {
+        component: Dynamic1Component,
+        items: [{ component: Dynamic2Component }],
+      };
+
+      fixture.detectChanges();
+
+      const service = fixture.debugElement
+        .query(By.directive(RenderItemComponent))
+        .injector.get(InjectorRegistryService);
+
+      expect(service).toBeTruthy();
+
+      const CUSTOM_TOKEN = new InjectionToken('CUSTOM_TOKEN');
+
+      service.addProviders([{ provide: CUSTOM_TOKEN, useValue: 'CUSTOM_VALUE' }]);
+
+      const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
+      const comp2 = fixture.debugElement.query(By.directive(Dynamic2Component));
+
+      expect(comp1.injector.get(CUSTOM_TOKEN)).toBe('CUSTOM_VALUE');
+      expect(comp2.injector.get(CUSTOM_TOKEN)).toBe('CUSTOM_VALUE');
+    });
+
+    it('should allow access to parent tokens', () => {
+      hostComp.item = {
+        component: Dynamic1Component,
+        items: [{ component: Dynamic2Component }],
+      };
+
+      fixture.detectChanges();
+
+      const service = fixture.debugElement
+        .query(By.directive(RenderItemComponent))
+        .injector.get(InjectorRegistryService);
+
+      expect(service).toBeTruthy();
+
+      const CUSTOM_TOKEN = new InjectionToken('CUSTOM_TOKEN');
+
+      service.addProviders([{ provide: CUSTOM_TOKEN, useValue: 'CUSTOM_VALUE' }]);
+
+      const comp2 = fixture.debugElement.query(By.directive(Dynamic2Component));
+
+      expect(comp2.injector.get(Dynamic1Component)).toEqual(jasmine.any(Dynamic1Component));
     });
   });
 

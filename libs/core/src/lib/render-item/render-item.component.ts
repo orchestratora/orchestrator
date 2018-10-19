@@ -20,12 +20,13 @@ import {
   OrchestratorDynamicComponentType,
 } from '../types';
 import { ComponentsRegistryService } from './components-registry.service';
+import { InjectorRegistryService } from './injector-registry.service';
 
 @Component({
   selector: 'orc-render-item',
   templateUrl: './render-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ComponentsRegistryService],
+  providers: [ComponentsRegistryService, InjectorRegistryService],
 })
 export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
   @Input() item: OrchestratorConfigItem<any> | undefined;
@@ -49,6 +50,7 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private componentLocatorService: ComponentLocatorService,
     private componentsRegistryService: ComponentsRegistryService,
+    public injectorRegistryService: InjectorRegistryService,
   ) {}
 
   ngOnInit() {
