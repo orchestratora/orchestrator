@@ -35,6 +35,7 @@
     "build:core": "ng-packagr -p libs/core/package.json",
     "release-ci": "npm-run-all -s build-libs release",
     "release": "npm-run-all -s release:*",
+    "prerelease:core": "ncp .git dist/@orchestrator/core",
     "release:core": "cd dist/@orchestrator/core && npx semantic-release -e semantic-release-monorepo"
   },
   "private": true,
@@ -74,6 +75,7 @@
     "husky": "^1.1.2",
     "jest": "^23.6.0",
     "lint-staged": "^7.3.0",
+    "ncp": "^2.0.0",
     "ng-packagr": "^4.3.1",
     "ngrx-store-freeze": "0.2.4",
     "npm-run-all": "^4.1.3",
