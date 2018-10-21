@@ -214,6 +214,24 @@ describe('RenderItemComponent', () => {
 
       expect(comp1.injector.get(RenderItemComponent)).toBe(itemRenderer.componentInstance);
     });
+
+    it('should re-render items on change', () => {
+      hostComp.item = {
+        component: Dynamic1Component,
+        items: [],
+      };
+
+      const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
+
+      hostComp.item = { ...hostComp.item, items: [{ component: Dynamic2Component }] };
+
+      fixture.detectChanges();
+
+      const comp2 = comp1.query(By.directive(Dynamic2Component));
+
+      expect(comp2).toBeTruthy();
+      expect(comp2.componentInstance).toEqual(jasmine.any(Dynamic2Component));
+    });
   });
 
   describe('with component strings', () => {
@@ -243,6 +261,55 @@ describe('RenderItemComponent', () => {
 
       expect(comp1).toBeTruthy();
       expect(comp1.query(By.directive(Dynamic2Component))).toBeTruthy();
+    });
+  });
+
+  describe('addItem() method', () => {
+    beforeEach(init);
+
+    it('should add new item and render it', () => {
+      hostComp.item = {
+        component: Dynamic1Component,
+        items: [],
+      };
+
+      fixture.detectChanges();
+
+      const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
+      const renderItem = fixture.debugElement.query(By.directive(RenderItemComponent));
+
+      renderItem.componentInstance.addItem({ component: Dynamic2Component });
+
+      fixture.detectChanges();
+
+      const comp2 = comp1.query(By.directive(Dynamic2Component));
+
+      expect(comp2).toBeTruthy();
+      expect(comp2.componentInstance).toEqual(jasmine.any(Dynamic2Component));
+    });
+  });
+
+  describe('removeItem() method', () => {
+    beforeEach(init);
+
+    it('should remove item and render it', () => {
+      hostComp.item = {
+        component: Dynamic1Component,
+        items: [{ component: Dynamic2Component }],
+      };
+
+      fixture.detectChanges();
+
+      const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
+      const renderItem = fixture.debugElement.query(By.directive(RenderItemComponent));
+
+      renderItem.componentInstance.removeItem(hostComp.item.items[0]);
+
+      fixture.detectChanges();
+
+      const comp2 = comp1.query(By.directive(Dynamic2Component));
+
+      expect(comp2).toBeNull();
     });
   });
 });

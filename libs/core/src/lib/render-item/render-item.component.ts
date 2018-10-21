@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ComponentRef,
   EventEmitter,
@@ -48,6 +49,7 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private componentLocatorService: ComponentLocatorService,
     private componentsRegistryService: ComponentsRegistryService,
     public injectorRegistryService: InjectorRegistryService,
@@ -77,6 +79,26 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
   onComponentCreated(compRef: ComponentRef<any>) {
     this.componentCreated.emit(compRef);
     this.componentsRegistryService.add(compRef);
+  }
+
+  addItem(item: OrchestratorConfigItem<any>) {
+    if (this.inputs.items) {
+      this.inputs.items.push(item);
+    } else {
+      this.inputs.items = [item];
+    }
+    this.cdr.markForCheck();
+  }
+
+  removeItem(item: OrchestratorConfigItem<any>) {
+    const idx = this.inputs.items ? this.inputs.items.indexOf(item) : -1;
+
+    if (idx === -1) {
+      return;
+    }
+
+    this.inputs.items.splice(idx, 1);
+    this.cdr.markForCheck();
   }
 
   private updateComponent() {
