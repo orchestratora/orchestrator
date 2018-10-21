@@ -9,8 +9,8 @@ describe('OrchestratorCoreModule', () => {
 
       const res = OrchestratorCoreModule.withComponents(comps);
 
-      expect(res.providers).toContain(
-        jasmine.objectContaining({
+      expect(res.providers).toContainEqual(
+        expect.objectContaining({
           provide: ANALYZE_FOR_ENTRY_COMPONENTS,
           useValue: comps,
           multi: true,
@@ -23,8 +23,8 @@ describe('OrchestratorCoreModule', () => {
 
       const res = OrchestratorCoreModule.withComponents(comps);
 
-      expect(res.providers).toContain(
-        jasmine.objectContaining({
+      expect(res.providers).toContainEqual(
+        expect.objectContaining({
           provide: COMPONENTS,
           useValue: comps,
         }),
@@ -36,8 +36,8 @@ describe('OrchestratorCoreModule', () => {
 
       const res = OrchestratorCoreModule.withComponents(null, compMap);
 
-      expect(res.providers).toContain(
-        jasmine.objectContaining({
+      expect(res.providers).toContainEqual(
+        expect.objectContaining({
           provide: COMPONENT_MAP,
           useValue: compMap,
         }),

@@ -221,6 +221,8 @@ describe('RenderItemComponent', () => {
         items: [],
       };
 
+      fixture.detectChanges();
+
       const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
 
       hostComp.item = { ...hostComp.item, items: [{ component: Dynamic2Component }] };
