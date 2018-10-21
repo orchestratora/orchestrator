@@ -1,12 +1,13 @@
-import { Component, ComponentRef, InjectionToken, Input } from '@angular/core';
+import { Component, ComponentRef, InjectionToken } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DynamicModule } from 'ng-dynamic-component';
 
+import { Dynamic1Component, Dynamic2Component } from '../../__test__/dynamic-components';
 import { COMPONENT_MAP, ComponentMap } from '../component-map';
-import { OrchestratorConfigItem, OrchestratorDynamicComponent } from '../types';
-import { RenderItemComponent } from './render-item.component';
+import { OrchestratorConfigItem } from '../types';
 import { InjectorRegistryService } from './injector-registry.service';
+import { RenderItemComponent } from './render-item.component';
 
 @Component({
   selector: 'orc-host-comp',
@@ -20,21 +21,6 @@ class HostComponent {
   onComponentCreated() {}
   onChildComponentsCreated() {}
 }
-
-@Component({ selector: 'orc-dyn-base', template: `` })
-class DynamicBaseComponent implements OrchestratorDynamicComponent {
-  @Input() items;
-  @Input() config;
-}
-
-@Component({
-  selector: 'orc-dyn1-comp',
-  template: `<orc-render-item *ngFor="let item of items" [item]="item"></orc-render-item>`,
-})
-class Dynamic1Component extends DynamicBaseComponent {}
-
-@Component({ selector: 'orc-dyn2-comp', template: `` })
-class Dynamic2Component extends DynamicBaseComponent {}
 
 describe('RenderItemComponent', () => {
   let fixture: ComponentFixture<HostComponent>;
