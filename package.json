@@ -29,6 +29,7 @@
     "help": "./node_modules/.bin/nx help",
     "build-libs": "npm-run-all -p build:*",
     "build:core": "ng-packagr -p libs/core/package.json",
+    "release-ci": "npm-run-all -s build-libs release",
     "release": "npm-run-all -s release:*",
     "release:core": "cd dist/@orchestrator/core && npx semantic-release -e semantic-release-monorepo"
   },
