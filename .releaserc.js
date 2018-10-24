@@ -11,7 +11,5 @@ module.exports = {
   prepare: ['@semantic-release/changelog', '@semantic-release/npm', '@semantic-release/git'],
   publish: publish,
   verifyConditions: ['@semantic-release/npm', '@semantic-release/github'],
-  // verifyRelease: ['@semantic-release/npm', '@semantic-release/github']
-  //   .map(require)
-  //   .map(x => x.verifyConditions),
+  cwd: process.cwd(),
 };
