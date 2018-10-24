@@ -31,13 +31,14 @@
     "workspace-schematic": "./node_modules/.bin/nx workspace-schematic",
     "dep-graph": "./node_modules/.bin/nx dep-graph",
     "help": "./node_modules/.bin/nx help",
+    "prebuild-libs": "rimraf dist",
     "build-libs": "npm-run-all -p build:*",
     "build:core": "ng-packagr -p libs/core/package.json",
     "release-ci": "npm-run-all -s build-libs release",
     "release": "npm-run-all -s release:*",
     "postrelease": "node -e \"require('semantic-release-monorepo-hooks').hookAfterAll()\"",
     "_prerelease:core": "ncp .git dist/@orchestrator/core",
-    "release:core": "cd dist/@orchestrator/core && npx semantic-release -e semantic-release-monorepo"
+    "release:core": "cd dist/@orchestrator/core && npx semantic-release"
   },
   "private": true,
   "dependencies": {
@@ -86,6 +87,7 @@
     "npm-run-all": "^4.1.3",
     "prettier": "1.13.7",
     "protractor": "~5.4.0",
+    "rimraf": "^2.6.2",
     "semantic-release": "15.6.3",
     "semantic-release-monorepo": "^6.1.1",
     "semantic-release-monorepo-hooks": "^2.6.1",
