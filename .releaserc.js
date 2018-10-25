@@ -15,5 +15,4 @@ module.exports = {
   ],
   publish: publish,
   verifyConditions: ['@semantic-release/npm', '@semantic-release/github'],
-  cwd,
 };
