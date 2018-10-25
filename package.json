@@ -38,7 +38,7 @@
     "release": "npm-run-all -s release:*",
     "postrelease": "node -e \"require('semantic-release-monorepo-hooks').hookAfterAll()\"",
     "_prerelease:core": "ncp .git dist/@orchestrator/core",
-    "release:core": "cd dist/@orchestrator/core && npx semantic-release"
+    "release:core": "cd dist/@orchestrator/core && npx semantic-release -e @orchestrator/semantic-release-monorepo --fixedMode true"
   },
   "private": true,
   "dependencies": {
@@ -89,7 +89,7 @@
     "protractor": "~5.4.0",
     "rimraf": "^2.6.2",
     "semantic-release": "15.6.3",
-    "semantic-release-monorepo": "^6.1.1",
+    "@orchestrator/semantic-release-monorepo": "^6.2.0",
     "semantic-release-monorepo-hooks": "^2.6.1",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
