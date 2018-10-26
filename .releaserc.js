@@ -9,7 +9,6 @@ module.exports = {
   branch: 'master',
   tagFormat: 'v${version}',
   prepare: [
-    '@semantic-release/changelog',
     '@semantic-release/npm',
     '@semantic-release/git',
   ],
