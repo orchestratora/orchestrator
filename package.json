@@ -38,7 +38,7 @@
     "release": "npm-run-all -s release:*",
     "postrelease": "node -e \"require('semantic-release-monorepo-hooks').hookAfterAll()\"",
     "_prerelease:core": "ncp .git dist/@orchestrator/core",
-    "release:core": "cd dist/@orchestrator/core && npx semantic-release -e \"@orchestrator/semantic-release-monorepo\" --fixedMode true"
+    "release:core": "cd dist/@orchestrator/core && npx semantic-release -e semantic-release-monorepo --fixedMode true"
   },
   "private": true,
   "dependencies": {
@@ -70,6 +70,7 @@
     "@ngrx/store-devtools": "6.1.0",
     "@nrwl/schematics": "6.4.0",
     "@orchestrator/semantic-release-monorepo": "^6.2.3",
+    "semantic-release-monorepo": "https://registry.npmjs.org/@orchestrator/semantic-release-monorepo/-/semantic-release-monorepo-6.2.3.tgz",
     "@semantic-release/changelog": "^3.0.1",
     "@semantic-release/git": "^7.0.5",
     "@semantic-release/github": "^5.2.0",
