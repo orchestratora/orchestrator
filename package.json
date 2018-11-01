@@ -69,7 +69,6 @@
     "@commitlint/config-conventional": "^7.1.2",
     "@ngrx/store-devtools": "6.1.0",
     "@nrwl/schematics": "6.4.0",
-    "@orchestrator/semantic-release-monorepo": "^6.2.3",
     "semantic-release-monorepo": "https://registry.npmjs.org/@orchestrator/semantic-release-monorepo/-/semantic-release-monorepo-6.2.3.tgz",
     "@semantic-release/changelog": "^3.0.1",
     "@semantic-release/git": "^7.0.5",
