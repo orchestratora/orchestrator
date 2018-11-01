@@ -38,7 +38,7 @@
     "release": "npm-run-all -s release:*",
     "postrelease": "node -e \"require('semantic-release-monorepo-hooks').hookAfterAll()\"",
     "_prerelease:core": "ncp .git dist/@orchestrator/core",
-    "release:core": "cd dist/@orchestrator/core && npx semantic-release"
+    "release:core": "cd dist/@orchestrator/core && npx semantic-release -e semantic-release-monorepo"
   },
   "private": true,
   "dependencies": {
