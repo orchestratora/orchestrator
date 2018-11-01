@@ -14,8 +14,6 @@ stages:
   - test
   - name: deploy
     if: branch = master and type != pull_request
-before_install:
-  - rm -rf package-lock.json
 jobs:
   include:
     - stage: test
