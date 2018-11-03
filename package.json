@@ -43,9 +43,11 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^6.1.0",
+    "@angular/cdk": "^6.1.0",
     "@angular/common": "^6.1.0",
     "@angular/compiler": "^6.1.0",
     "@angular/core": "^6.1.0",
+    "@angular/flex-layout": "^6.0.0-beta.18",
     "@angular/forms": "^6.1.0",
     "@angular/platform-browser": "^6.1.0",
     "@angular/platform-browser-dynamic": "^6.1.0",
@@ -62,6 +64,7 @@
   "devDependencies": {
     "@angular-builders/jest": "^1.2.5",
     "@angular-devkit/build-angular": "~0.8.0",
+    "@angular-devkit/build-ng-packagr": "~0.8.0",
     "@angular/cli": "6.2.4",
     "@angular/compiler-cli": "^6.1.0",
     "@angular/language-service": "^6.1.0",
@@ -93,6 +96,8 @@
     "semantic-release-monorepo": "https://registry.npmjs.org/@orchestrator/semantic-release-monorepo/-/semantic-release-monorepo-6.2.3.tgz",
     "semantic-release-monorepo-hooks": "^2.6.1",
     "ts-node": "~7.0.0",
+    "tsickle": ">=0.29.0",
+    "tslib": "^1.9.0",
     "tslint": "~5.11.0",
     "typescript": "~2.9.2"
   },
@@ -126,5 +131,12 @@
       "prettyhtml",
       "git add"
     ]
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "@orchestrator/core": "<rootDir>/libs/core/src/public_api.ts",
+      "@orchestrator/layout": "<rootDir>/libs/layout/src/public_api.ts",
+      "@orchestrator/test-utils": "<rootDir>/test.ts"
+    }
   }
 }
