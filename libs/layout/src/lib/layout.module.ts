@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { OrchestratorCoreModule } from '@orchestrator/core';
 
 import { LayoutFlatComponent } from './layout-flat/layout-flat.component';
-import { FlexWrapDirective, FlexDirective, FlexDirectionDirective } from './flex';
+import { FlexWrapDirective, FlexDirectionDirective } from './flex';
 
 @NgModule({
-  imports: [CommonModule, FlexLayoutModule, OrchestratorCoreModule],
-  declarations: [LayoutFlatComponent, FlexWrapDirective, FlexDirective, FlexDirectionDirective],
-  exports: [LayoutFlatComponent],
+  imports: [CommonModule, OrchestratorCoreModule],
+  declarations: [LayoutFlatComponent, FlexWrapDirective, FlexDirectionDirective],
+  exports: [LayoutFlatComponent, FlexWrapDirective, FlexDirectionDirective],
 })
 export class LayoutModule {}
