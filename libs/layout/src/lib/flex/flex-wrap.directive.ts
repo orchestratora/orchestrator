@@ -5,10 +5,7 @@ import { Directive, HostBinding, Input } from '@angular/core';
   exportAs: 'orcFlexWrap',
 })
 export class FlexWrapDirective {
-  @HostBinding('style.flex-wrap') _flexWrap: string;
-
-  @Input('orcFlexWrap')
-  set flexWrap(val: string) {
-    this._flexWrap = val;
-  }
+  @Input()
+  @HostBinding('style.flex-wrap')
+  orcFlexWrap: string;
 }
