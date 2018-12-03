@@ -1,15 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 
-import { COMPONENT_MAP } from '../component-map';
+import { COMPONENTS } from '../component-map';
 import { ComponentLocatorService } from './component-locator.service';
 
 describe('ComponentLocatorService', () => {
   let service: ComponentLocatorService;
-  let compMapMock: any;
+  let compMapMock: any = [];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ComponentLocatorService, { provide: COMPONENT_MAP, useValue: compMapMock }],
+      providers: [
+        ComponentLocatorService,
+        { provide: COMPONENTS, useValue: compMapMock, multi: true },
+      ],
     });
     service = TestBed.get(ComponentLocatorService);
   });

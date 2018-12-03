@@ -1,13 +1,18 @@
 import { Injectable, Injector } from '@angular/core';
 
-import { COMPONENT_MAP } from '../component-map';
+import { ComponentMap, COMPONENTS, ComponentRegistry } from '../component-map';
 import { GetOrchestratorDynamicComponentConfig, OrchestratorDynamicComponentType } from '../types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ComponentLocatorService {
-  private compMap = this.injector.get(COMPONENT_MAP);
+  private componentRegistry = this.injector.get(COMPONENTS);
+  private componentMaps = this.componentRegistry.filter(isComponentMap);
+  private componentMap = this.componentMaps.reduce(
+    (obj, map) => ({ ...obj, ...map }),
+    Object.create(null) as ComponentMap,
+  );
 
   constructor(private injector: Injector) {}
 
@@ -18,6 +23,10 @@ export class ComponentLocatorService {
       return component;
     }
 
-    return this.compMap ? this.compMap[component] : undefined;
+    return this.componentMap[component];
   }
+}
+
+function isComponentMap(reg: ComponentRegistry): reg is ComponentMap {
+  return !!reg && !Array.isArray(reg);
 }
