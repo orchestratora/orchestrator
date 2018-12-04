@@ -2,7 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DynamicModule } from 'ng-dynamic-component';
 
-import { COMPONENT_MAP } from '../component-map';
+
+import { COMPONENTS } from '../component-map';
 import { RenderItemComponent } from '../render-item/render-item.component';
 import { OrchestratorComponent } from './orchestrator.component';
 import { Dynamic1Component, Dynamic2Component } from './../test';
@@ -20,7 +21,7 @@ describe('OrchestratorComponent', () => {
         Dynamic1Component,
         Dynamic2Component,
       ],
-      providers: [{ provide: COMPONENT_MAP, useValue: null }],
+      providers: [{ provide: COMPONENTS, useValue: null, multi: true }],
     }).compileComponents();
   }));
 

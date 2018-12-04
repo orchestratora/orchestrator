@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DynamicModule } from 'ng-dynamic-component';
 
-import { COMPONENT_MAP, ComponentMap } from '../component-map';
+import { COMPONENTS, ComponentMap } from '../component-map';
 import { OrchestratorConfigItem } from '../types';
 import { InjectorRegistryService } from './injector-registry.service';
 import { RenderItemComponent } from './render-item.component';
@@ -30,14 +30,16 @@ describe('RenderItemComponent', () => {
     TestBed.configureTestingModule({
       imports: [DynamicModule.withComponents([Dynamic1Component, Dynamic2Component])],
       declarations: [RenderItemComponent, HostComponent, Dynamic1Component, Dynamic2Component],
-      providers: [{ provide: COMPONENT_MAP, useValue: null }],
-    }).compileComponents();
+      providers: [{ provide: COMPONENTS, useValue: null, multi: true }],
+    });
   }));
 
-  const init = () => {
-    fixture = TestBed.createComponent(HostComponent);
-    hostComp = fixture.componentInstance;
-  };
+  const init = async(() => {
+    TestBed.compileComponents().then(() => {
+      fixture = TestBed.createComponent(HostComponent);
+      hostComp = fixture.componentInstance;
+    });
+  });
 
   describe('with component types', () => {
     beforeEach(init);
@@ -228,9 +230,11 @@ describe('RenderItemComponent', () => {
       dyn2: Dynamic2Component,
     };
 
-    beforeEach(() => {
-      TestBed.overrideProvider(COMPONENT_MAP, { useValue: componentMap });
-      init();
+    beforeEach(done => {
+      TestBed.configureTestingModule({
+        providers: [{ provide: COMPONENTS, useValue: componentMap, multi: true }],
+      });
+      init(done);
     });
 
     it('should render mapped component', () => {
