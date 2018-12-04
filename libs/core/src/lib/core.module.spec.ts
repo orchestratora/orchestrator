@@ -1,6 +1,6 @@
 import { OrchestratorCoreModule } from './core.module';
 import { ANALYZE_FOR_ENTRY_COMPONENTS } from '@angular/core';
-import { COMPONENT_MAP, COMPONENTS } from './component-map';
+import { COMPONENTS } from './component-map';
 
 describe('OrchestratorCoreModule', () => {
   describe('withComponents() static method', () => {
@@ -18,7 +18,7 @@ describe('OrchestratorCoreModule', () => {
       );
     });
 
-    it('should provide `COMPONENTS` token with `components` array', () => {
+    it('should provide `COMPONENTS` multi token with `components` array', () => {
       const comps = ['comp1', 'comp2'] as any;
 
       const res = OrchestratorCoreModule.withComponents(comps);
@@ -27,19 +27,21 @@ describe('OrchestratorCoreModule', () => {
         expect.objectContaining({
           provide: COMPONENTS,
           useValue: comps,
+          multi: true,
         }),
       );
     });
 
-    it('should provide `COMPONENT_MAP` token with `compMap`', () => {
-      const compMap = 'map' as any;
+    it('should provide `COMPONENTS` multi token with `components` map', () => {
+      const comps = { comp1: 'real-comp1', comp2: 'real-comp2' } as any;
 
-      const res = OrchestratorCoreModule.withComponents(null, compMap);
+      const res = OrchestratorCoreModule.withComponents(comps);
 
       expect(res.providers).toContainEqual(
         expect.objectContaining({
-          provide: COMPONENT_MAP,
-          useValue: compMap,
+          provide: COMPONENTS,
+          useValue: comps,
+          multi: true,
         }),
       );
     });
