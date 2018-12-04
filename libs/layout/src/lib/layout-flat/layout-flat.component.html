@@ -1,15 +1,6 @@
-<section
-  class="orc-layout-flat"
-  [orcFlexWrap]="wrap"
-  [orcFlexDirection]="direction"
-  [orcFlexJustifyContent]="justify"
-  [orcFlexAlignItems]="alignItems"
-  [orcFlexAlignContent]="alignContent"
->
-  <orc-render-item
-    *ngFor="let item of items"
-    class="orc-layout-flat-item"
-    [item]="item"
-    (componentCreated)="onComponentCreated($event)"
-  ></orc-render-item>
-</section>
+<orc-render-item
+  *ngFor="let item of items"
+  class="orc-layout-flat-item"
+  [item]="item"
+  (componentCreated)="onComponentCreated($event)"
+></orc-render-item>
