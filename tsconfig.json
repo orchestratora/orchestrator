@@ -16,5 +16,5 @@
       "@orchestrator/layout": ["libs/layout/src/public_api.ts"]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp", "dist"]
 }
