@@ -1,21 +1,14 @@
 import {
+  ChangeDetectionStrategy,
   Component,
+  ComponentRef,
+  EventEmitter,
   Input,
   Output,
-  EventEmitter,
-  ComponentRef,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { OrchestratorConfigItem } from '@orchestrator/core';
 
-import { OrchestratorFlatLayoutConfig } from './layout-flat-config';
-import {
-  LayoutFlatDirectionOptions,
-  LayoutFlatWrapOptions,
-  LayoutFlatAlignItemsOptions,
-  LayoutFlatAlignContentOptions,
-  LayoutFlatJustifyOptions,
-} from '../types';
+import { OrchestratorLayoutFlatConfig } from './layout-flat-config';
 
 @Component({
   selector: 'orc-layout-flat',
@@ -24,44 +17,34 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutFlatComponent {
-  @Input() items: ReadonlyArray<OrchestratorConfigItem<any>>;
-
-  /**
-   * Direction to flex the layout
-   * Used for flex-direction
-   * {@see LayoutFlatDirectionOptions}
-   */
-  @Input() direction: LayoutFlatDirectionOptions;
+  @Input() items: ReadonlyArray<OrchestratorConfigItem>;
 
   /**
    * Option to wrap the layout
    * Used for flex-wrap
-   * {@see LayoutFlatWrapOptions}
    */
-  @Input() wrap: LayoutFlatWrapOptions;
+  @Input() wrap = this.defaultConfig.wrap;
+
+  /**
+   * Direction to flex the layout
+   * Used for flex-direction
+   */
+  @Input() direction = this.defaultConfig.direction;
 
   /**
    * Option to se `justify-content`
-   * {@see LayoutFlatJustifyOptions}
    */
-  @Input() justify: LayoutFlatJustifyOptions;
+  @Input() justify = this.defaultConfig.justify;
 
   /**
    * Option to se `align-items`
-   * {@see LayoutFlatAlignItemsOptions}
    */
-  @Input() alignItems: LayoutFlatAlignItemsOptions;
+  @Input() alignItems = this.defaultConfig.alignItems;
 
   /**
    * Option to se `align-content`
-   * {@see LayoutFlatAlignContentOptions}
    */
-  @Input() alignContent: LayoutFlatAlignContentOptions;
-
-  /**
-   * Number of columns to be displayed in each row
-   */
-  @Input() columns: number;
+  @Input() alignContent = this.defaultConfig.alignContent;
 
   /**
    * Emitted after all, and if, all the `items` have been rendered
@@ -74,33 +57,13 @@ export class LayoutFlatComponent {
    */
   private _itemsRendered: Array<ComponentRef<any>> = [];
 
-  /**
-   * Used by the component to get the classes to be set in the wrapper
-   */
-  get wrapperClasses() {
-    return {
-      [`layout-flex__${this.wrap}`]: true,
-      [`layout-flex__${this.direction}`]: true,
-      [`layout-flex__justify-content-${this.justify}`]: true,
-      [`layout-flex__align-items-${this.alignItems}`]: true,
-      [`layout-flex__align-items-${this.alignItems}`]: true,
-    };
-  }
-
-  constructor(public defaultConfig: OrchestratorFlatLayoutConfig) {
-    this.columns = defaultConfig.columns;
-    this.wrap = defaultConfig.wrap;
-    this.direction = defaultConfig.direction;
-    this.alignItems = defaultConfig.alignItems;
-    this.justify = defaultConfig.justify;
-  }
+  constructor(private defaultConfig: OrchestratorLayoutFlatConfig) {}
 
   onComponentCreated(component: ComponentRef<any>) {
     this._itemsRendered.push(component);
 
     if (this._itemsRendered.length === this.items.length) {
       this.afterItemsRendered.emit(this._itemsRendered);
-      return;
     }
   }
 }

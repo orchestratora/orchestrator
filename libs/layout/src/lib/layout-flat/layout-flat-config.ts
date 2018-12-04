@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
+
 import {
-  LayoutFlatWrapOptions,
-  LayoutFlatDirectionOptions,
+  LayoutFlatAlignContentOptions,
   LayoutFlatAlignItemsOptions,
+  LayoutFlatDirectionOptions,
   LayoutFlatJustifyOptions,
+  LayoutFlatWrapOptions,
 } from '../types';
 
 /**
  * Default configuration for FlatLayoutConfig
  */
-
 @Injectable({ providedIn: 'root' })
-export class OrchestratorFlatLayoutConfig {
-  direction: LayoutFlatDirectionOptions = 'row';
-  wrap: LayoutFlatWrapOptions = 'wrap';
-  justify: LayoutFlatJustifyOptions = 'space-between';
-  alignItems: LayoutFlatAlignItemsOptions = 'center';
-  columns = 3;
+export class OrchestratorLayoutFlatConfig {
+  direction: LayoutFlatDirectionOptions | undefined;
+  wrap: LayoutFlatWrapOptions | undefined;
+  justify: LayoutFlatJustifyOptions | undefined;
+  alignItems: LayoutFlatAlignItemsOptions | undefined;
+  alignContent: LayoutFlatAlignContentOptions | undefined;
 }

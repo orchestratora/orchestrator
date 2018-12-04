@@ -1,14 +1,15 @@
 <section
-  class="layout-flat orc-layout"
-  #orcLayoutFlat
+  class="orc-layout-flat"
   [orcFlexWrap]="wrap"
-  [ngClass]="wrapperClasses"
+  [orcFlexDirection]="direction"
+  [orcFlexJustifyContent]="justify"
+  [orcFlexAlignItems]="alignItems"
+  [orcFlexAlignContent]="alignContent"
 >
   <orc-render-item
-    *ngFor="let item of items; let i = index"
-    class="layout-flat-item orc-layout-item"
+    *ngFor="let item of items"
+    class="orc-layout-flat-item"
     [item]="item"
     (componentCreated)="onComponentCreated($event)"
-    [ngStyle]="{ 'width': 100 / columns + '%' }"
   ></orc-render-item>
 </section>

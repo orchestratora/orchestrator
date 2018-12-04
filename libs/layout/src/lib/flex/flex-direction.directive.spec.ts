@@ -10,7 +10,7 @@ import { FlexDirectionDirective } from './flex-direction.directive';
     <div [orcFlexDirection]="direction">Host Component</div>
   `,
 })
-export class HostFlexDirectionComponent {
+class HostFlexDirectionComponent {
   direction = 'column';
 }
 

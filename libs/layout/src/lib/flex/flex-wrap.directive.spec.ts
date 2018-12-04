@@ -10,7 +10,7 @@ import { FlexWrapDirective } from './flex-wrap.directive';
     <div [orcFlexWrap]="wrap">Host Component</div>
   `,
 })
-export class HostFlexWrapComponent {
+class HostFlexWrapComponent {
   wrap = 'wrap';
 }
 
