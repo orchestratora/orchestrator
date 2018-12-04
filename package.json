@@ -42,6 +42,25 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^6.1.0",
+    "@angular/cdk": "^6.1.0",
+    "@angular/common": "^6.1.0",
+    "@angular/compiler": "^6.1.0",
+    "@angular/core": "^6.1.0",
+    "@angular/forms": "^6.1.0",
+    "@angular/platform-browser": "^6.1.0",
+    "@angular/platform-browser-dynamic": "^6.1.0",
+    "@angular/router": "^6.1.0",
+    "@ngrx/effects": "6.1.0",
+    "@ngrx/router-store": "6.1.0",
+    "@ngrx/store": "6.1.0",
+    "@nrwl/nx": "6.4.0",
+    "core-js": "^2.5.4",
+    "ng-dynamic-component": "^3.1.2",
+    "rxjs": "^6.0.0",
+    "zone.js": "^0.8.26"
+  },
+  "devDependencies": {
     "@angular/animations": "^7.0.0",
     "@angular/common": "^7.0.0",
     "@angular/compiler": "^7.0.0",
@@ -54,9 +73,7 @@
     "core-js": "^2.5.7",
     "ng-dynamic-component": "^4.0.0",
     "rxjs": "^6.3.3",
-    "zone.js": "^0.8.26"
-  },
-  "devDependencies": {
+    "zone.js": "^0.8.26",
     "@angular-builders/jest": "^7.0.0",
     "@angular-devkit/build-angular": "^0.11.1",
     "@angular/cli": "^7.0.0",
@@ -87,6 +104,7 @@
     "semantic-release": "15.6.3",
     "semantic-release-monorepo": "https://registry.npmjs.org/@orchestrator/semantic-release-monorepo/-/semantic-release-monorepo-6.2.3.tgz",
     "semantic-release-monorepo-hooks": "^2.6.1",
+    "tslib": "^1.9.0",
     "ts-node": "~7.0.1",
     "tsickle": "^0.34.0",
     "tslint": "~5.11.0",
@@ -122,5 +140,12 @@
       "prettyhtml",
       "git add"
     ]
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "@orchestrator/core": "<rootDir>/libs/core/src/public_api.ts",
+      "@orchestrator/layout": "<rootDir>/libs/layout/src/public_api.ts",
+      "@orchestrator/test-utils": "<rootDir>/test.ts"
+    }
   }
 }
