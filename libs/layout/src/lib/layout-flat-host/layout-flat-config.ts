@@ -8,6 +8,13 @@ import {
   LayoutFlatWrapOptions,
 } from '../types';
 
+export function mergeLayoutFlatConfigs(
+  finalConfig: LayoutFlatConfig,
+  config: LayoutFlatConfig,
+): LayoutFlatConfig {
+  return { ...finalConfig, ...config };
+}
+
 /**
  * Default configuration for {@link LayoutFlatHostComponent}
  */
@@ -20,6 +27,6 @@ export class LayoutFlatConfig {
   alignContent?: LayoutFlatAlignContentOptions;
 
   static merge(...configs: LayoutFlatConfig[]): LayoutFlatConfig {
-    return configs.reduce((finalConfig, config) => ({ ...finalConfig, ...config }));
+    return configs.reduce(mergeLayoutFlatConfigs);
   }
 }
