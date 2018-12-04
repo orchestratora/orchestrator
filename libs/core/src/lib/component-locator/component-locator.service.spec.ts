@@ -1,7 +1,17 @@
+import { Component, NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { COMPONENTS } from '../component-map';
 import { ComponentLocatorService } from './component-locator.service';
+
+@Component({ selector: 'orc-test-comp', template: '' })
+class TestComponent {}
+
+@NgModule({
+  declarations: [TestComponent],
+  entryComponents: [TestComponent],
+})
+class TestModule {}
 
 describe('ComponentLocatorService', () => {
   let service: ComponentLocatorService;
@@ -9,6 +19,7 @@ describe('ComponentLocatorService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [TestModule],
       providers: [
         ComponentLocatorService,
         { provide: COMPONENTS, useValue: compMapMock, multi: true },
@@ -24,6 +35,14 @@ describe('ComponentLocatorService', () => {
 
   it('should return `undefined` if string does not match', () => {
     expect(service.resolve('comp')).toBeUndefined();
+  });
+
+  describe('when components as array', () => {
+    beforeAll(() => (compMapMock = [TestComponent]));
+
+    it('should return component by it`s selector', () => {
+      expect(service.resolve('orc-test-comp')).toEqual(TestComponent);
+    });
   });
 
   describe('when map has component', () => {
