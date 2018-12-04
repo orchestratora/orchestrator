@@ -57,6 +57,18 @@ describe('LayoutFlatComponent', () => {
     expect(compElem.children.length).toBe(2);
   });
 
+  it('should set `.layout-flat-orc-item` class on every item component', () => {
+    setItemsToHost();
+    fixture.detectChanges();
+
+    const compElem = fixture.debugElement.query(By.directive(LayoutFlatComponent));
+
+    expect(compElem.children.length).toBe(2);
+    compElem.children.forEach(child =>
+      expect(child.attributes['class']).toBe('layout-flat-orc-item'),
+    );
+  });
+
   it('should emit an event after all items are rendered', () => {
     setItemsToHost();
     fixture.detectChanges();
