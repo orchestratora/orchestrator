@@ -1,13 +1,13 @@
 import { Component, ComponentRef, InjectionToken } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Dynamic1Component, Dynamic2Component } from '@orchestrator/core/testing';
 import { DynamicModule } from 'ng-dynamic-component';
 
-import { COMPONENTS, ComponentMap } from '../component-map';
+import { ComponentMap, COMPONENTS } from '../component-map';
 import { OrchestratorConfigItem } from '../types';
 import { InjectorRegistryService } from './injector-registry.service';
 import { RenderItemComponent } from './render-item.component';
-import { Dynamic1Component, Dynamic2Component } from './../test';
 
 @Component({
   selector: 'orc-host-comp',

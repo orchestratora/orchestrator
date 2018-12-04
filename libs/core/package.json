@@ -5,15 +5,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "ngPackage": {
-    "lib": {
-      "entryFile": "./src/public_api.ts"
-    },
-    "dest": "./../../dist/@orchestrator/core",
-    "whitelistedNonPeerDependencies": [
-      "ng-dynamic-component"
-    ]
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/orchestratora/orchestrator.git"
