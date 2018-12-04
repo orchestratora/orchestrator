@@ -22,9 +22,9 @@
   "author": "",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/core": "^6.0.0"
+    "@angular/core": "^7.0.0"
   },
   "dependencies": {
-    "ng-dynamic-component": "^3.1.2"
+    "ng-dynamic-component": "^4.0.0"
   }
 }
