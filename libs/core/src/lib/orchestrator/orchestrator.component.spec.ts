@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Dynamic1Component, Dynamic2Component } from '@orchestrator/core/testing';
 import { DynamicModule } from 'ng-dynamic-component';
 
-import { Dynamic1Component, Dynamic2Component } from '../../__test__/dynamic-components';
 import { COMPONENTS } from '../component-map';
 import { RenderItemComponent } from '../render-item/render-item.component';
 import { OrchestratorComponent } from './orchestrator.component';

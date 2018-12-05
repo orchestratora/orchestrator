@@ -5,15 +5,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "ngPackage": {
-    "lib": {
-      "entryFile": "./src/public_api.ts"
-    },
-    "dest": "./../../dist/@orchestrator/core",
-    "whitelistedNonPeerDependencies": [
-      "ng-dynamic-component"
-    ]
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/orchestratora/orchestrator.git"
@@ -22,7 +13,9 @@
   "author": "",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/core": "^7.0.0"
+    "@angular/core": "^7.0.0",
+    "@angular/common": "^7.0.0",
+    "tslib": "^1.0.0"
   },
   "dependencies": {
     "ng-dynamic-component": "^4.0.0"

@@ -1,0 +1,12 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/libs/core",
+  "lib": {
+    "entryFile": "src/public_api.ts",
+    "umdId": "orchestrator.core",
+    "umdModuleIds": {
+      "ng-dynamic-component": "ngDynamicComponent"
+    }
+  },
+  "whitelistedNonPeerDependencies": ["ng-dynamic-component"]
+}

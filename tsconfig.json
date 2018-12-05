@@ -11,8 +11,10 @@
     "lib": ["es2017", "dom"],
     "baseUrl": ".",
     "paths": {
-      "@orchestrator/core": ["libs/core/src/public_api.ts"]
+      "@orchestrator/core": ["libs/core/src/public_api.ts"],
+      "@orchestrator/core/*": ["libs/core/*/src/public_api.ts"],
+      "@orchestrator/layout": ["libs/layout/src/public_api.ts"]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp", "dist"]
 }
