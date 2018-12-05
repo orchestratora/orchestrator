@@ -27,10 +27,6 @@ export class LayoutFlatComponent {
 
   @HostBinding('class.layout-flat-orc') readonly classLayoutFlat = true;
 
-  /**
-   * Array of rendered items
-   * @private
-   */
   private _itemsRendered: Array<ComponentRef<any>> = [];
 
   onComponentCreated(component: ComponentRef<any>) {
