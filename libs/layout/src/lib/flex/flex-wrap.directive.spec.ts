@@ -7,7 +7,7 @@ import { FlexWrapDirective } from './flex-wrap.directive';
 @Component({
   selector: 'orc-host-wrap-cmp',
   template: `
-    <div [orcFlexWrap]="wrap">Host Component</div>
+    <div [orcFxWrap]="wrap">Host Component</div>
   `,
 })
 class HostFlexWrapComponent {

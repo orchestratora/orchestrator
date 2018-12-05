@@ -3,10 +3,10 @@ import { Directive, HostBinding, Input } from '@angular/core';
 import { LayoutFlatWrapOptions } from '../types';
 
 @Directive({
-  selector: '[orcFlexWrap]',
+  selector: '[orcFxWrap]',
 })
 export class FlexWrapDirective {
   @Input()
   @HostBinding('style.flex-wrap')
-  orcFlexWrap: LayoutFlatWrapOptions;
+  orcFxWrap: LayoutFlatWrapOptions;
 }

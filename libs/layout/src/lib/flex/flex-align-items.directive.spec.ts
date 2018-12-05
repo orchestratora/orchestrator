@@ -7,7 +7,7 @@ import { FlexAlignItemsDirective } from './flex-align-items.directive';
 
 @Component({
   selector: 'orc-host-comp',
-  template: `<div [orcFlexAlignItems]="alignItems">`,
+  template: `<div [orcFxAlignItems]="alignItems">`,
 })
 class HostComponent {
   alignItems: LayoutFlatAlignItemsOptions;
