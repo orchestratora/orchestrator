@@ -3,10 +3,10 @@ import { Directive, HostBinding, Input } from '@angular/core';
 import { LayoutFlatAlignItemsOptions } from '../types';
 
 @Directive({
-  selector: '[orcFlexAlignItems]',
+  selector: '[orcFxAlignItems]',
 })
 export class FlexAlignItemsDirective {
   @Input()
   @HostBinding('style.align-items')
-  orcFlexAlignItems: LayoutFlatAlignItemsOptions;
+  orcFxAlignItems: LayoutFlatAlignItemsOptions;
 }

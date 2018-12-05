@@ -7,7 +7,7 @@ import { FlexAlignContentDirective } from './flex-align-content.directive';
 
 @Component({
   selector: 'orc-host-comp',
-  template: `<div [orcFlexAlignContent]="alignContent">`,
+  template: `<div [orcFxAlignContent]="alignContent">`,
 })
 class HostComponent {
   alignContent: LayoutFlatAlignContentOptions;

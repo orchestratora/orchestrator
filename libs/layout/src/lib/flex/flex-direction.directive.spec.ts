@@ -7,7 +7,7 @@ import { FlexDirectionDirective } from './flex-direction.directive';
 @Component({
   selector: 'orc-host-direction-cmp',
   template: `
-    <div [orcFlexDirection]="direction">Host Component</div>
+    <div [orcFxDirection]="direction">Host Component</div>
   `,
 })
 class HostFlexDirectionComponent {

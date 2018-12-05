@@ -7,7 +7,7 @@ import { FlexJustifyContentDirective } from './flex-justify-content.directive';
 
 @Component({
   selector: 'orc-host-comp',
-  template: `<div [orcFlexJustifyContent]="justifyContent">`,
+  template: `<div [orcFxJustifyContent]="justifyContent">`,
 })
 class HostComponent {
   justifyContent: LayoutFlatJustifyOptions;
