@@ -3,6 +3,7 @@
   "dest": "../../dist/libs/core",
   "lib": {
     "entryFile": "src/public_api.ts",
+    "umdId": "orchestrator.core",
     "umdModuleIds": {
       "ng-dynamic-component": "ngDynamicComponent"
     }
