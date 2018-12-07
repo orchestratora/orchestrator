@@ -9,11 +9,7 @@ import {
 
 @Injectable()
 export class InjectorRegistryService implements Injector {
-  private injector: Injector;
-
-  constructor(injector: Injector) {
-    this.injector = injector;
-  }
+  constructor(private injector: Injector) {}
 
   get<T>(token: Type<T> | InjectionToken<T>, notFoundValue?: T, flags?: InjectFlags): T;
   get(token: any, notFoundValue?: any): any;
