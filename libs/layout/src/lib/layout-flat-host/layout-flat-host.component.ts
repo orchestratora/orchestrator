@@ -1,14 +1,9 @@
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  Optional,
-  SimpleChanges,
-  ViewEncapsulation,
-} from '@angular/core';
-import { OrchestratorConfigItem, OrchestratorDynamicComponent } from '@orchestrator/core';
+  DynamicComponent,
+  OrchestratorConfigItem,
+  OrchestratorDynamicComponent,
+} from '@orchestrator/core';
 
 import { LayoutFlatConfig } from './layout-flat-config';
 
@@ -19,26 +14,8 @@ import { LayoutFlatConfig } from './layout-flat-config';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class LayoutFlatHostComponent
-  implements OnInit, OnChanges, OrchestratorDynamicComponent<LayoutFlatConfig> {
+@DynamicComponent({ config: LayoutFlatConfig })
+export class LayoutFlatHostComponent implements OrchestratorDynamicComponent<LayoutFlatConfig> {
   @Input() items: OrchestratorConfigItem[];
   @Input() config: LayoutFlatConfig;
-
-  mergedConfig: LayoutFlatConfig;
-
-  constructor(@Optional() private defaultConfig: LayoutFlatConfig) {}
-
-  ngOnInit(): void {
-    this.mergeConfigs();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if ('config' in changes) {
-      this.mergeConfigs();
-    }
-  }
-
-  private mergeConfigs() {
-    this.mergedConfig = LayoutFlatConfig.merge(this.defaultConfig, this.config);
-  }
 }

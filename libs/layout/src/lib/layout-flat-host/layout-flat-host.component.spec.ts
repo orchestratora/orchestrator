@@ -1,6 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { OrchestratorCoreModule } from '@orchestrator/core';
 
 import { LayoutFlexModule } from '../flex';
 import { LayoutFlatConfig } from './layout-flat-config';
@@ -106,14 +107,23 @@ describe('LayoutFlatHostComponent', () => {
       };
 
       TestBed.configureTestingModule({
+        imports: [OrchestratorCoreModule.withComponents([LayoutFlatHostComponent])],
         providers: [{ provide: LayoutFlatConfig, useValue: defaultConfig }],
-      });
+      }).overrideTemplate(HostComponent, `<orc-orchestrator [config]="items"></orc-orchestrator>`);
 
       init(done);
     });
 
-    it('should be applied', () => {
+    function updateCompElem() {
       fixture.detectChanges();
+      compElem = fixture.debugElement.query(By.directive(LayoutFlatHostComponent));
+      fixture.detectChanges();
+    }
+
+    it('should be applied', () => {
+      hostComp.items = { component: LayoutFlatHostComponent };
+
+      updateCompElem();
 
       const layoutElem = getLayoutElem();
 
@@ -125,11 +135,15 @@ describe('LayoutFlatHostComponent', () => {
     });
 
     it('should be overridden by `config` input', () => {
-      hostComp.config = {
-        direction: 'column',
-        wrap: 'inherit',
+      hostComp.items = {
+        component: LayoutFlatHostComponent,
+        config: {
+          direction: 'column',
+          wrap: 'inherit',
+        },
       };
-      fixture.detectChanges();
+
+      updateCompElem();
 
       const layoutElem = getLayoutElem();
 
