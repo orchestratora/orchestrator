@@ -83,10 +83,11 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
 
   addItem(item: OrchestratorConfigItem<any>) {
     if (this.inputs.items) {
-      this.inputs.items.push(item);
+      this.inputs.items = [...this.inputs.items, item];
     } else {
       this.inputs.items = [item];
     }
+
     this.cdr.markForCheck();
   }
 
@@ -97,7 +98,8 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
       return;
     }
 
-    this.inputs.items.splice(idx, 1);
+    this.inputs.items = this.inputs.items.filter((_, i) => i !== idx);
+
     this.cdr.markForCheck();
   }
 
@@ -105,7 +107,10 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
     if (this.item) {
       this.component = this.componentLocatorService.resolve(this.item.component);
       this.inputs.items = this.item.items;
-      this.inputs.config = this.item.config;
+      this.inputs.config = {
+        ...this.componentLocatorService.getDefaultConfig(this.component),
+        ...this.item.config,
+      };
 
       this.componentsRegistryService.waitFor(this.itemsLength);
     } else {

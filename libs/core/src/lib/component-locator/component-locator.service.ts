@@ -1,11 +1,12 @@
-import { Injectable, Injector, ComponentFactoryResolver } from '@angular/core';
+import { ComponentFactoryResolver, Injectable, Injector } from '@angular/core';
 
 import {
   ComponentMap,
-  COMPONENTS,
   ComponentRegistry,
+  COMPONENTS,
   DefaultDynamicComponent,
 } from '../component-map';
+import { getDynamicComponentMeta } from '../metadata/dynamic-component';
 import { GetOrchestratorDynamicComponentConfig, OrchestratorDynamicComponentType } from '../types';
 
 @Injectable({
@@ -39,6 +40,20 @@ export class ComponentLocatorService {
     }
 
     return this.componentMap[component];
+  }
+
+  getDefaultConfig<C>(component: OrchestratorDynamicComponentType<C>): C | null {
+    if (!component) {
+      return null;
+    }
+
+    const meta = getDynamicComponentMeta(component);
+
+    if (!meta) {
+      return null;
+    }
+
+    return this.injector.get(meta.config, null);
   }
 }
 

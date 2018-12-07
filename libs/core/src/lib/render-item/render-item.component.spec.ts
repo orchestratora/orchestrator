@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Dynamic1Component, Dynamic2Component } from '@orchestrator/core/testing';
 import { DynamicModule } from 'ng-dynamic-component';
 
+import { ComponentLocatorService } from '../component-locator/component-locator.service';
 import { ComponentMap, COMPONENTS } from '../component-map';
 import { OrchestratorConfigItem } from '../types';
 import { InjectorRegistryService } from './injector-registry.service';
@@ -80,13 +81,30 @@ describe('RenderItemComponent', () => {
     });
 
     it('should set `item.config` to dynamic component instance `config` input', () => {
-      hostComp.item = { component: Dynamic1Component, config: 'custom-config' };
+      const config = { myConfig: true };
+      hostComp.item = { component: Dynamic1Component, config: config };
 
       fixture.detectChanges();
       const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
 
       expect(comp1).toBeTruthy();
-      expect(comp1.componentInstance.config).toBe('custom-config');
+      expect(comp1.componentInstance.config).toEqual(config);
+    });
+
+    it('should merge `item.config` with `ComponentLocatorService.getDefaultConfig`', () => {
+      const configDefault = { default: true, myConfig: false };
+      const config = { myConfig: true };
+      const finalConfig = { default: true, myConfig: true };
+
+      const cls = TestBed.get(ComponentLocatorService) as ComponentLocatorService;
+      spyOn(cls, 'getDefaultConfig').and.returnValue(configDefault);
+      hostComp.item = { component: Dynamic1Component, config: config };
+
+      fixture.detectChanges();
+      const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
+
+      expect(comp1).toBeTruthy();
+      expect(comp1.componentInstance.config).toEqual(finalConfig);
     });
 
     it('should update `items` input on dynamic component instance when `item` changes', () => {
@@ -104,17 +122,19 @@ describe('RenderItemComponent', () => {
     });
 
     it('should update `config` input on dynamic component instance when `item` changes', () => {
-      hostComp.item = { component: Dynamic1Component, config: 'custom-config' };
+      const config1 = { myConfig: true };
+      hostComp.item = { component: Dynamic1Component, config: config1 };
 
       fixture.detectChanges();
 
       const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
       expect(comp1).toBeTruthy();
 
-      hostComp.item = { ...hostComp.item, config: 'new-config' };
+      const config2 = { myNewConfig: true };
+      hostComp.item = { ...hostComp.item, config: config2 };
       fixture.detectChanges();
 
-      expect(comp1.componentInstance.config).toEqual('new-config');
+      expect(comp1.componentInstance.config).toEqual(config2);
     });
 
     it('should emit `componentCreated` with `ComponentRef` when component instantiated', () => {
