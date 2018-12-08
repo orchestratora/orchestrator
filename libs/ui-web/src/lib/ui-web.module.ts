@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { OrchestratorCoreModule } from '@orchestrator/core';
 
-import { COMPONENTS, HOST_COMPONENTS } from './components';
+import { COMPONENTS, HOST_COMPONENTS } from './components/components';
 
 @NgModule({
   imports: [CommonModule, OrchestratorCoreModule.withComponents(HOST_COMPONENTS)],
