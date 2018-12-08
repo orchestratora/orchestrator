@@ -1,0 +1,11 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/libs/ui-web",
+  "lib": {
+    "entryFile": "src/public_api.ts",
+    "umdId": "orchestrator.ui-web",
+    "umdModuleIds": {
+      "@orchestrator/core": "orchestrator.core"
+    }
+  }
+}

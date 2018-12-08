@@ -37,6 +37,7 @@
     "build-libs:p1": "npm-run-all -p build:p1:*",
     "build:p0:core": "ng build core",
     "build:p1:layout": "ng build layout",
+    "build:p1:ui-web": "ng build ui-web",
     "release-ci": "npm-run-all -s build-libs release",
     "release": "npm-run-all -s release:*",
     "postrelease": "node -e \"require('semantic-release-monorepo-hooks').hookAfterAll()\"",
