@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OrchestratorConfigItem, OrchestratorCoreModule } from '@orchestrator/core';
 
-import { UiWebButtonHostComponent } from './components';
+import { UiWebButtonHostComponent, UiWebLabelHostComponent } from './components';
 import { UiWebModule } from './ui-web.module';
 
 @Component({
@@ -43,6 +43,20 @@ describe('UiWebModule', () => {
       const buttonElem = fixture.debugElement.query(By.directive(UiWebButtonHostComponent));
 
       expect(buttonElem).toBeTruthy();
+    });
+  });
+
+  describe('UiWebLabelHostComponent', () => {
+    beforeEach(init);
+
+    it('should be rendered from config', () => {
+      hostComp.config = { component: UiWebLabelHostComponent };
+
+      fixture.detectChanges();
+
+      const labelElem = fixture.debugElement.query(By.directive(UiWebLabelHostComponent));
+
+      expect(labelElem).toBeTruthy();
     });
   });
 });
