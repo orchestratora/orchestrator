@@ -3,7 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OrchestratorConfigItem, OrchestratorCoreModule } from '@orchestrator/core';
 
-import { UiWebButtonHostComponent, UiWebLabelHostComponent } from './components';
+import {
+  UiWebButtonHostComponent,
+  UiWebImageHostComponent,
+  UiWebLabelHostComponent,
+} from './components';
 import { UiWebModule } from './ui-web.module';
 
 @Component({
@@ -57,6 +61,20 @@ describe('UiWebModule', () => {
       const labelElem = fixture.debugElement.query(By.directive(UiWebLabelHostComponent));
 
       expect(labelElem).toBeTruthy();
+    });
+  });
+
+  describe('UiWebImageHostComponent', () => {
+    beforeEach(init);
+
+    it('should be rendered from config', () => {
+      hostComp.config = { component: UiWebImageHostComponent };
+
+      fixture.detectChanges();
+
+      const imageElem = fixture.debugElement.query(By.directive(UiWebImageHostComponent));
+
+      expect(imageElem).toBeTruthy();
     });
   });
 });
