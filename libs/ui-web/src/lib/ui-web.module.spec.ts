@@ -7,6 +7,7 @@ import {
   UiWebButtonHostComponent,
   UiWebImageHostComponent,
   UiWebLabelHostComponent,
+  UiWebHeadingHostComponent,
 } from './components';
 import { UiWebModule } from './ui-web.module';
 
@@ -26,19 +27,15 @@ describe('UiWebModule', () => {
     TestBed.configureTestingModule({
       imports: [UiWebModule, OrchestratorCoreModule],
       declarations: [HostComponent],
-    });
+    }).compileComponents();
   }));
 
-  const init = async(() => {
-    TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(HostComponent);
-      hostComp = fixture.componentInstance;
-    });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(HostComponent);
+    hostComp = fixture.componentInstance;
   });
 
   describe('UiWebButtonHostComponent', () => {
-    beforeEach(init);
-
     it('should be rendered from config', () => {
       hostComp.config = { component: UiWebButtonHostComponent };
 
@@ -51,8 +48,6 @@ describe('UiWebModule', () => {
   });
 
   describe('UiWebLabelHostComponent', () => {
-    beforeEach(init);
-
     it('should be rendered from config', () => {
       hostComp.config = { component: UiWebLabelHostComponent };
 
@@ -65,8 +60,6 @@ describe('UiWebModule', () => {
   });
 
   describe('UiWebImageHostComponent', () => {
-    beforeEach(init);
-
     it('should be rendered from config', () => {
       hostComp.config = { component: UiWebImageHostComponent };
 
@@ -75,6 +68,18 @@ describe('UiWebModule', () => {
       const imageElem = fixture.debugElement.query(By.directive(UiWebImageHostComponent));
 
       expect(imageElem).toBeTruthy();
+    });
+  });
+
+  describe('UiWebHeadingHostComponent', () => {
+    it('should be rendered from config', () => {
+      hostComp.config = { component: UiWebHeadingHostComponent };
+
+      fixture.detectChanges();
+
+      const headingElem = fixture.debugElement.query(By.directive(UiWebHeadingHostComponent));
+
+      expect(headingElem).toBeTruthy();
     });
   });
 });
