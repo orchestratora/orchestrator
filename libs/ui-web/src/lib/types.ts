@@ -21,3 +21,12 @@ export type InputType =
   | 'time'
   | 'url'
   | 'week';
+
+export class GenericFormAttributesConfig {
+  name?: string;
+  tabindex?: number;
+  disabled?: boolean;
+  required?: boolean;
+  autofocus?: boolean;
+  autocomplete?: string;
+}

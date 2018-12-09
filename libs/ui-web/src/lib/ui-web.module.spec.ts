@@ -5,10 +5,11 @@ import { OrchestratorConfigItem, OrchestratorCoreModule } from '@orchestrator/co
 
 import {
   UiWebButtonHostComponent,
-  UiWebImageHostComponent,
-  UiWebLabelHostComponent,
   UiWebHeadingHostComponent,
+  UiWebImageHostComponent,
   UiWebInputHostComponent,
+  UiWebLabelHostComponent,
+  UiWebSelectHostComponent,
 } from './components';
 import { UiWebModule } from './ui-web.module';
 
@@ -93,6 +94,18 @@ describe('UiWebModule', () => {
       const labelElem = fixture.debugElement.query(By.directive(UiWebInputHostComponent));
 
       expect(labelElem).toBeTruthy();
+    });
+  });
+
+  describe('UiWebSelectHostComponent', () => {
+    it('should be rendered from config', () => {
+      hostComp.config = { component: UiWebSelectHostComponent };
+
+      fixture.detectChanges();
+
+      const selectElem = fixture.debugElement.query(By.directive(UiWebSelectHostComponent));
+
+      expect(selectElem).toBeTruthy();
     });
   });
 });
