@@ -1,0 +1,42 @@
+<select
+  [name]="name"
+  [multiple]="multiple"
+  [size]="size"
+  [required]="required"
+  [disabled]="disabled"
+  [tabIndex]="tabIndex"
+  [autofocus]="autofocus"
+>
+  <ng-container
+    *ngFor="let option of options"
+    [ngTemplateOutlet]="renderGroupOrOption"
+    [ngTemplateOutletContext]="{ $implicit: option }"
+  ></ng-container>
+</select>
+<ng-template #renderGroupOrOption let-groupOrOption>
+  <optgroup
+    *ngIf="isOptionGroup(groupOrOption); else: renderOpt"
+    [label]="groupOrOption.label"
+    [disabled]="groupOrOption.disabled"
+  >
+    <ng-container
+      *ngFor="let option of groupOrOption.children"
+      [ngTemplateOutlet]="renderOption"
+      [ngTemplateOutletContext]="{ $implicit: option }"
+    ></ng-container>
+  </optgroup>
+  <ng-template #renderOpt>
+    <ng-container *ngTemplateOutlet="renderOption; context: { $implicit: groupOrOption }"></ng-container>
+  </ng-template>
+</ng-template>
+<ng-template #renderOption let-option>
+  <option
+    *ngIf="isOptionPair(option); else: optionString"
+    [value]="option.value"
+    [disabled]="option.disabled"
+    [selected]="option.selected"
+  >{{ option.label }}</option>
+  <ng-template #optionString>
+    <option [value]="option">{{ option }}</option>
+  </ng-template>
+</ng-template>
