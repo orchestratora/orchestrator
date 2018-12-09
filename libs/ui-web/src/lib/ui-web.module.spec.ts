@@ -91,9 +91,9 @@ describe('UiWebModule', () => {
 
       fixture.detectChanges();
 
-      const labelElem = fixture.debugElement.query(By.directive(UiWebInputHostComponent));
+      const inputElem = fixture.debugElement.query(By.directive(UiWebInputHostComponent));
 
-      expect(labelElem).toBeTruthy();
+      expect(inputElem).toBeTruthy();
     });
   });
 
