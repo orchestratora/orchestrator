@@ -10,6 +10,7 @@ import {
   UiWebInputHostComponent,
   UiWebLabelHostComponent,
   UiWebSelectHostComponent,
+  UiWebTextareaHostComponent,
 } from './components';
 import { UiWebModule } from './ui-web.module';
 
@@ -106,6 +107,18 @@ describe('UiWebModule', () => {
       const selectElem = fixture.debugElement.query(By.directive(UiWebSelectHostComponent));
 
       expect(selectElem).toBeTruthy();
+    });
+  });
+
+  describe('UiWebTextareaHostComponent', () => {
+    it('should be rendered from config', () => {
+      hostComp.config = { component: UiWebTextareaHostComponent };
+
+      fixture.detectChanges();
+
+      const textareaElem = fixture.debugElement.query(By.directive(UiWebTextareaHostComponent));
+
+      expect(textareaElem).toBeTruthy();
     });
   });
 });

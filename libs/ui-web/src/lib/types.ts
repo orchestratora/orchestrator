@@ -24,6 +24,7 @@ export type InputType =
 
 export class GenericFormAttributesConfig {
   name?: string;
+  value?: any;
   tabindex?: number;
   disabled?: boolean;
   required?: boolean;
