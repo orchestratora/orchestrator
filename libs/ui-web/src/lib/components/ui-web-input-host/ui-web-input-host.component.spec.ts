@@ -90,6 +90,10 @@ describe.only('UiWebInputHostComponent', () => {
     testBooleanAttribute('autofocus');
   });
 
+  describe('autocomplete option', () => {
+    testTextAttribute('autocomplete', 'off');
+  });
+
   describe('tabindex option', () => {
     it('should render input with tabindex attribute', () => {
       component.config = { name: 'myInput', tabindex: 2 };

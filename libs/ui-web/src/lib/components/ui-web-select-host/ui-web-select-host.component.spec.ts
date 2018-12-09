@@ -77,14 +77,6 @@ describe('UiWebSelectHostComponent', () => {
     expect(getSelectElem().properties['autofocus']).toBe(true);
   });
 
-  it('should render select with autocomplete attribute from `config.autocomplete`', () => {
-    component.config = { autocomplete: 'off', options: [] };
-
-    fixture.detectChanges();
-
-    expect(getSelectElem().attributes['autocomplete']).toBe('off');
-  });
-
   describe('options as strings', () => {
     it('should be rendered with value and text', () => {
       component.config = { options: ['opt1', 'opt2', 'opt3'] };

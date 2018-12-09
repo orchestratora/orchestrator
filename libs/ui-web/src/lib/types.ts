@@ -28,5 +28,4 @@ export class GenericFormAttributesConfig {
   disabled?: boolean;
   required?: boolean;
   autofocus?: boolean;
-  autocomplete?: string;
 }
