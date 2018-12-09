@@ -12,6 +12,7 @@ export class UiWebSelectComponent {
   @Input() options: UiWebSelectOption[];
 
   @Input() name: string;
+  @Input() value: any;
   @Input() size: number;
   @Input() tabIndex: number;
   @Input() multiple: boolean;

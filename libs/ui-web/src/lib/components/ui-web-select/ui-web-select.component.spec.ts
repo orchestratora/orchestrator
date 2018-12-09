@@ -29,6 +29,14 @@ describe('UiWebSelectComponent', () => {
     expect(selectElem.properties['name']).toBe('my-name');
   });
 
+  it('should render select with value prop from `config.value`', () => {
+    component.value = 'my value';
+
+    fixture.detectChanges();
+
+    expect(getSelectElem().properties['value']).toBe('my value');
+  });
+
   it('should render select with multiple prop from `config.multiple`', () => {
     component.multiple = true;
 

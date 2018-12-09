@@ -31,6 +31,14 @@ describe('UiWebSelectHostComponent', () => {
     expect(selectElem.properties['options']).toEqual(['op1', 'op2']);
   });
 
+  it('should render `orc-ui-web-select` with `value` prop from `config.value`', () => {
+    component.config = { value: 'my-value', options: [] };
+
+    fixture.detectChanges();
+
+    expect(getSelectElem().properties['value']).toBe('my-value');
+  });
+
   it('should render `orc-ui-web-select` with `name` prop from `config.name`', () => {
     component.config = { name: 'my-name', options: [] };
 
