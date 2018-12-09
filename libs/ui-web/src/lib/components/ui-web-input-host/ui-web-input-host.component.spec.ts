@@ -43,15 +43,7 @@ describe.only('UiWebInputHostComponent', () => {
   });
 
   describe('id option', () => {
-    it('should render input with id', () => {
-      component.config = { name: 'myInput', id: 'myInput' };
-
-      fixture.detectChanges();
-
-      const inputElem = fixture.debugElement.query(By.css('input#myInput'));
-
-      expect(inputElem).toBeTruthy();
-    });
+    testTextAttribute('id', 'myInput');
 
     it('should render input with label if label option is supplied', () => {
       component.config = { name: 'myInput', id: 'myInput', label: 'My Label' };
@@ -63,4 +55,79 @@ describe.only('UiWebInputHostComponent', () => {
       expect(labelElem).toBeTruthy();
     });
   });
+
+  describe('type option', () => {
+    it('should render input type text by default', () => {
+      component.config = { name: 'myInput', id: 'myInput' };
+
+      fixture.detectChanges();
+
+      const inputElem = fixture.debugElement.query(By.css('input[type=text]'));
+
+      expect(inputElem).toBeTruthy();
+    });
+
+    testTextAttribute('type', 'button');
+  });
+
+  describe('placeholder option', () => {
+    testTextAttribute('placeholder', 'My Input');
+  });
+
+  describe('required option', () => {
+    testBooleanAttribute('required');
+  });
+
+  describe('readonly option', () => {
+    testBooleanAttribute('readonly', 'readOnly');
+  });
+
+  describe('disabled option', () => {
+    testBooleanAttribute('disabled');
+  });
+
+  describe('autofocus option', () => {
+    testBooleanAttribute('autofocus');
+  });
+
+  describe('tabindex option', () => {
+    it('should render input with tabindex attribute', () => {
+      component.config = { name: 'myInput', tabindex: 2 };
+
+      fixture.detectChanges();
+
+      const inputElem = fixture.debugElement.query(By.css('input'));
+
+      expect(inputElem).toBeTruthy();
+      expect(inputElem.nativeElement.tabIndex).toEqual(2);
+    });
+
+    testTextAttribute('type', 'button');
+  });
+
+  function testTextAttribute(name: string, value: string) {
+    it(`should render input with ${name} attribute`, () => {
+      component.config = { name: 'myInput', id: 'myInput', [name]: value };
+
+      fixture.detectChanges();
+
+      const inputElem = fixture.debugElement.query(By.css('input'));
+
+      expect(inputElem).toBeTruthy();
+      expect(inputElem.nativeElement[name]).toMatch(value);
+    });
+  }
+
+  function testBooleanAttribute(name: string, htmlName: string = name) {
+    it(`should render input with ${name} attribute`, () => {
+      component.config = { name: 'myInput', id: 'myInput', [name]: true };
+
+      fixture.detectChanges();
+
+      const inputElem = fixture.debugElement.query(By.css('input'));
+
+      expect(inputElem).toBeTruthy();
+      expect(inputElem.nativeElement[htmlName]).toEqual(true);
+    });
+  }
 });

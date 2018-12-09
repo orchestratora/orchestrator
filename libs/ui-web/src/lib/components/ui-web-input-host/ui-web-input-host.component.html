@@ -1,2 +1,12 @@
 <label *ngIf="config?.label" [for]="config?.id">{{ config.label }}</label>
-<input [id]="config?.id" [name]="config?.name">
+<input
+  [id]="config?.id"
+  [name]="config?.name"
+  [type]="config?.type || 'text'"
+  [placeholder]="config?.placeholder"
+  [autofocus]="config?.autofocus"
+  [required]="config?.required"
+  [readonly]="config?.readonly"
+  [disabled]="config?.disabled"
+  [tabindex]="config?.tabindex"
+>
