@@ -8,6 +8,7 @@ import {
   UiWebImageHostComponent,
   UiWebLabelHostComponent,
   UiWebHeadingHostComponent,
+  UiWebInputHostComponent,
 } from './components';
 import { UiWebModule } from './ui-web.module';
 
@@ -80,6 +81,18 @@ describe('UiWebModule', () => {
       const headingElem = fixture.debugElement.query(By.directive(UiWebHeadingHostComponent));
 
       expect(headingElem).toBeTruthy();
+    });
+  });
+
+  describe('UiWebInputHostComponent', () => {
+    it('should be rendered from config', () => {
+      hostComp.config = { component: UiWebInputHostComponent };
+
+      fixture.detectChanges();
+
+      const labelElem = fixture.debugElement.query(By.directive(UiWebInputHostComponent));
+
+      expect(labelElem).toBeTruthy();
     });
   });
 });
