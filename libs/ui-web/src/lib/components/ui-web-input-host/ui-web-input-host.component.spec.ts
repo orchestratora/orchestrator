@@ -70,6 +70,10 @@ describe.only('UiWebInputHostComponent', () => {
     testTextAttribute('type', 'button');
   });
 
+  describe('value option', () => {
+    testTextAttribute('value', 'some value');
+  });
+
   describe('placeholder option', () => {
     testTextAttribute('placeholder', 'My Input');
   });
