@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 
 export interface OrchestratorConfigItem<C = any> {
   component: OrchestratorDynamicComponentType<C> | string;
-  items?: OrchestratorConfigItem<OrchestratorDynamicComponent<any>>[];
+  items?: OrchestratorConfigItem<any>[];
   config?: C;
 }
 
