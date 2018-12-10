@@ -12,7 +12,7 @@ import { LayoutFlatComponent } from './layout-flat/layout-flat.component';
     OrchestratorCoreModule.withComponents([LayoutFlatHostComponent]),
     LayoutFlexModule,
   ],
+  exports: [OrchestratorCoreModule, LayoutFlexModule, LayoutFlatComponent, LayoutFlatHostComponent],
   declarations: [LayoutFlatComponent, LayoutFlatHostComponent],
-  exports: [LayoutFlexModule, LayoutFlatComponent, LayoutFlatHostComponent],
 })
 export class LayoutModule {}
