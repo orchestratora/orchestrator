@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { UiWebLabelHostComponent } from './ui-web-label-host.component';
+import { UiWebTextHostComponent } from './ui-web-text-host.component';
 
-describe('UiWebLabelHostComponent', () => {
-  let component: UiWebLabelHostComponent;
-  let fixture: ComponentFixture<UiWebLabelHostComponent>;
+describe('UiWebTextHostComponent', () => {
+  let component: UiWebTextHostComponent;
+  let fixture: ComponentFixture<UiWebTextHostComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UiWebLabelHostComponent],
+      declarations: [UiWebTextHostComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UiWebLabelHostComponent);
+    fixture = TestBed.createComponent(UiWebTextHostComponent);
     component = fixture.componentInstance;
   });
 

@@ -7,7 +7,7 @@ import {
   UiWebHeadingConfig,
   UiWebImageConfig,
   UiWebInputConfig,
-  UiWebLabelConfig,
+  UiWebTextConfig,
   UiWebSelectConfig,
   UiWebTextAreaConfig,
 } from './components';
@@ -27,7 +27,7 @@ export class UiWebModule {
         UiWebHeadingConfig,
         UiWebImageConfig,
         UiWebInputConfig,
-        UiWebLabelConfig,
+        UiWebTextConfig,
         UiWebSelectConfig,
         UiWebTextAreaConfig,
       ],

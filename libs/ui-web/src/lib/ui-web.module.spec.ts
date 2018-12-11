@@ -8,7 +8,7 @@ import {
   UiWebHeadingHostComponent,
   UiWebImageHostComponent,
   UiWebInputHostComponent,
-  UiWebLabelHostComponent,
+  UiWebTextHostComponent,
   UiWebSelectHostComponent,
   UiWebTextareaHostComponent,
 } from './components';
@@ -50,13 +50,13 @@ describe('UiWebModule', () => {
     });
   });
 
-  describe('UiWebLabelHostComponent', () => {
+  describe('UiWebTextHostComponent', () => {
     it('should be rendered from config', () => {
-      hostComp.config = { component: UiWebLabelHostComponent };
+      hostComp.config = { component: UiWebTextHostComponent };
 
       fixture.detectChanges();
 
-      const labelElem = fixture.debugElement.query(By.directive(UiWebLabelHostComponent));
+      const labelElem = fixture.debugElement.query(By.directive(UiWebTextHostComponent));
 
       expect(labelElem).toBeTruthy();
     });

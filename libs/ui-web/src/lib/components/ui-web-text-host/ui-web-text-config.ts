@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class UiWebLabelConfig {
+export class UiWebTextConfig {
   text: string;
   preserveFormatting?: boolean;
 }
