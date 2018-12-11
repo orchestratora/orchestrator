@@ -4,6 +4,6 @@ import { Injectable } from '@angular/core';
 export class UiWebImageConfig {
   src: string;
   width?: number;
-  heigh?: number;
+  height?: number;
   alt?: string;
 }

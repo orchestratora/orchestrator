@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
 import { UiWebImageHostComponent } from './ui-web-image-host.component';
 
@@ -41,7 +40,7 @@ describe('UiWebImageHostComponent', () => {
   });
 
   it('should set height of img from `config.height`', () => {
-    component.config = { src: 'my-src', heigh: 45 };
+    component.config = { src: 'my-src', height: 45 };
 
     fixture.detectChanges();
 
