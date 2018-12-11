@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 
 import { UiWebInputHostComponent } from './ui-web-input-host.component';
 
-describe.only('UiWebInputHostComponent', () => {
+describe('UiWebInputHostComponent', () => {
   let component: UiWebInputHostComponent;
   let fixture: ComponentFixture<UiWebInputHostComponent>;
 
