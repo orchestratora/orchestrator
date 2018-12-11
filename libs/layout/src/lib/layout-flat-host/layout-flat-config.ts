@@ -11,7 +11,7 @@ import {
 /**
  * Default configuration for {@link LayoutFlatHostComponent}
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class LayoutFlatConfig {
   wrap?: LayoutFlatWrapOptions;
   direction?: LayoutFlatDirectionOptions;

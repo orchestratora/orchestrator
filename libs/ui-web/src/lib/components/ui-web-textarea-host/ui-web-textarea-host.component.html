@@ -1,0 +1,17 @@
+<textarea
+  [name]="config?.name"
+  [placeholder]="config?.placeholder"
+  [cols]="config?.cols"
+  [rows]="config?.rows"
+  [maxLength]="config?.maxlength"
+  [minLength]="config?.minlength"
+  [spellcheck]="config?.spellcheck"
+  [wrap]="config?.wrap"
+  [readOnly]="config?.readonly"
+  [disabled]="config?.disabled"
+  [required]="config?.required"
+  [autofocus]="config?.autofocus"
+  [tabIndex]="config?.tabindex"
+>
+  {{ config?.value }}
+  </textarea>

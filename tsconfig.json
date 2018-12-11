@@ -7,14 +7,32 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2017", "dom"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "baseUrl": ".",
     "paths": {
-      "@orchestrator/core": ["libs/core/src/public_api.ts"],
-      "@orchestrator/core/*": ["libs/core/*/src/public_api.ts"],
-      "@orchestrator/layout": ["libs/layout/src/public_api.ts"]
+      "@orchestrator/core": [
+        "libs/core/src/public_api.ts"
+      ],
+      "@orchestrator/core/*": [
+        "libs/core/*/src/public_api.ts"
+      ],
+      "@orchestrator/layout": [
+        "libs/layout/src/public_api.ts"
+      ],
+      "@orchestrator/ui-web": [
+        "libs/ui-web/src/public_api.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp", "dist"]
+  "exclude": [
+    "node_modules",
+    "tmp",
+    "dist"
+  ]
 }

@@ -13,6 +13,18 @@
     },
     "layout": {
       "tags": []
+    },
+    "ui-web": {
+      "tags": []
+    },
+    "ui-web-example": {
+      "tags": [
+        "example",
+        "ui-web"
+      ]
+    },
+    "ui-web-example-e2e": {
+      "tags": []
     }
   }
 }

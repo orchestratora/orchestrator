@@ -9,9 +9,7 @@ import {
 import { getDynamicComponentMeta } from '../metadata/dynamic-component';
 import { GetOrchestratorDynamicComponentConfig, OrchestratorDynamicComponentType } from '../types';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ComponentLocatorService {
   private componentRegistry = this.injector.get(COMPONENTS);
 
