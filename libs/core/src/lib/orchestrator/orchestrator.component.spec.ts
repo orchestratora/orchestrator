@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 import { Dynamic1Component, Dynamic2Component } from '@orchestrator/core/testing';
 import { DynamicModule } from 'ng-dynamic-component';
 
+import { ComponentLocatorService } from '../component-locator/component-locator.service';
 import { COMPONENTS } from '../component-map';
 import { RenderItemComponent } from '../render-item/render-item.component';
 import { OrchestratorComponent } from './orchestrator.component';
@@ -20,7 +21,7 @@ describe('OrchestratorComponent', () => {
         Dynamic1Component,
         Dynamic2Component,
       ],
-      providers: [{ provide: COMPONENTS, useValue: null, multi: true }],
+      providers: [{ provide: COMPONENTS, useValue: null, multi: true }, ComponentLocatorService],
     }).compileComponents();
   }));
 

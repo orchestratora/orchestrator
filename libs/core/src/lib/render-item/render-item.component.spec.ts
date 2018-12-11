@@ -31,7 +31,7 @@ describe('RenderItemComponent', () => {
     TestBed.configureTestingModule({
       imports: [DynamicModule.withComponents([Dynamic1Component, Dynamic2Component])],
       declarations: [RenderItemComponent, HostComponent, Dynamic1Component, Dynamic2Component],
-      providers: [{ provide: COMPONENTS, useValue: null, multi: true }],
+      providers: [{ provide: COMPONENTS, useValue: null, multi: true }, ComponentLocatorService],
     });
   }));
 
