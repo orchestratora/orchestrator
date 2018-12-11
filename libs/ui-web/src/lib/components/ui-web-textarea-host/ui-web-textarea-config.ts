@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { GenericFormAttributesConfig } from '../../types';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class UiWebTextAreaConfig extends GenericFormAttributesConfig {
   placeholder?: string;
   readonly?: boolean;

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class UiWebLabelConfig {
   text: string;
   preserveFormatting?: boolean;

@@ -1,7 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { OrchestratorCoreModule } from '@orchestrator/core';
 
+import {
+  UiWebButtonConfig,
+  UiWebHeadingConfig,
+  UiWebImageConfig,
+  UiWebInputConfig,
+  UiWebLabelConfig,
+  UiWebSelectConfig,
+  UiWebTextAreaConfig,
+} from './components';
 import { COMPONENTS, HOST_COMPONENTS } from './components/components';
 
 @NgModule({
@@ -9,4 +18,19 @@ import { COMPONENTS, HOST_COMPONENTS } from './components/components';
   exports: [OrchestratorCoreModule, ...HOST_COMPONENTS, ...COMPONENTS],
   declarations: [...HOST_COMPONENTS, ...COMPONENTS],
 })
-export class UiWebModule {}
+export class UiWebModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: UiWebModule,
+      providers: [
+        UiWebButtonConfig,
+        UiWebHeadingConfig,
+        UiWebImageConfig,
+        UiWebInputConfig,
+        UiWebLabelConfig,
+        UiWebSelectConfig,
+        UiWebTextAreaConfig,
+      ],
+    };
+  }
+}

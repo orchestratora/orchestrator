@@ -25,7 +25,7 @@ describe('LayoutModule', () => {
     TestBed.configureTestingModule({
       imports: [
         OrchestratorCoreModule.withComponents([Dynamic1Component, Dynamic2Component]),
-        LayoutModule,
+        LayoutModule.forRoot(),
       ],
       declarations: [HostComponent, Dynamic1Component, Dynamic2Component],
     }).compileComponents();

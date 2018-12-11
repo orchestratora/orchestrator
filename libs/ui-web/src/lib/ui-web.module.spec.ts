@@ -28,7 +28,7 @@ describe('UiWebModule', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [UiWebModule, OrchestratorCoreModule],
+      imports: [UiWebModule.forRoot(), OrchestratorCoreModule],
       declarations: [HostComponent],
     }).compileComponents();
   }));

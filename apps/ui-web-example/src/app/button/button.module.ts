@@ -16,8 +16,8 @@ import { SimpleButtonComponent } from './simple-button/simple-button.component';
       { path: 'simple', component: SimpleButtonComponent },
       { path: 'layout', component: LayoutButtonComponent },
     ]),
-    LayoutModule,
-    UiWebModule,
+    LayoutModule.forRoot(),
+    UiWebModule.forRoot(),
   ],
   declarations: [ButtonComponent, SimpleButtonComponent, LayoutButtonComponent],
 })

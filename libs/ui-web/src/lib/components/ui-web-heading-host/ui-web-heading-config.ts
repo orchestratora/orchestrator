@@ -9,7 +9,7 @@ export enum UiWebHeadingLevel {
   Six,
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class UiWebHeadingConfig {
   text: string;
   level?: UiWebHeadingLevel;
