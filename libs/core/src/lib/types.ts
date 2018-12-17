@@ -4,6 +4,9 @@ export interface OrchestratorConfigItem<C = any> {
   component: OrchestratorDynamicComponentType<C> | string;
   items?: OrchestratorConfigItem<any>[];
   config?: C;
+  id?: string;
+  classes?: string | string[] | { [name: string]: boolean };
+  attributes?: { [attr: string]: string };
 }
 
 export interface OrchestratorDynamicComponentInputs<C = any> {

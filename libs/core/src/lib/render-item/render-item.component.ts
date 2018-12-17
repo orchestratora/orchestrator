@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -11,6 +12,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { AttributesMap, DynamicDirectiveDef, dynamicDirectiveDef } from 'ng-dynamic-component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -44,6 +46,9 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
     config: undefined,
   };
 
+  directives: DynamicDirectiveDef<any>[] = [];
+  attributes: AttributesMap | null = null;
+
   get itemsLength() {
     return this.item && this.item.items ? this.item.items.length : 0;
   }
@@ -63,12 +68,12 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
         this.componentsRegistryService.addChildren(compRefs);
       });
 
-    this.updateComponent();
+    this.update();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('item' in changes) {
-      this.updateComponent();
+      this.update();
     }
   }
 
@@ -103,20 +108,50 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
     this.cdr.markForCheck();
   }
 
+  private update() {
+    this.updateComponent();
+    this.updateInputs();
+    this.updateAttributes();
+    this.updateDirectives();
+  }
+
   private updateComponent() {
     if (this.item) {
       this.component = this.componentLocatorService.resolve(this.item.component);
+      this.componentsRegistryService.waitFor(this.itemsLength);
+    } else {
+      this.component = null;
+      this.componentsRegistryService.waitFor(0);
+    }
+  }
+
+  private updateInputs() {
+    if (this.component) {
       this.inputs.items = this.item.items;
       this.inputs.config = {
         ...this.componentLocatorService.getDefaultConfig(this.component),
         ...this.item.config,
       };
-
-      this.componentsRegistryService.waitFor(this.itemsLength);
     } else {
-      this.component = this.inputs.items = this.inputs.config = null;
+      this.inputs.items = this.inputs.config = null;
+    }
+  }
 
-      this.componentsRegistryService.waitFor(0);
+  private updateAttributes() {
+    if (this.component) {
+      this.attributes = this.item.attributes || null;
+
+      if (this.item.id) {
+        this.attributes = { ...this.attributes, id: this.item.id };
+      }
+    }
+  }
+
+  private updateDirectives() {
+    if (this.component && this.item.classes) {
+      this.directives = [dynamicDirectiveDef(NgClass, { ngClass: this.item.classes })];
+    } else {
+      this.directives = [];
     }
   }
 }

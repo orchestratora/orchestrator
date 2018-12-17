@@ -91,6 +91,20 @@ describe('RenderItemComponent', () => {
       expect(comp1.componentInstance.config).toEqual(config);
     });
 
+    it('should set attributes on dynamic component from `item.attributes`', () => {
+      hostComp.item = {
+        component: Dynamic1Component,
+        attributes: { 'my-attr': 'val', class: 'my-class' },
+      };
+
+      fixture.detectChanges();
+      const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
+
+      expect(comp1).toBeTruthy();
+      expect(comp1.nativeElement.getAttribute('my-attr')).toBe('val');
+      expect(comp1.nativeElement.getAttribute('class')).toBe('my-class');
+    });
+
     it('should merge `item.config` with `ComponentLocatorService.getDefaultConfig`', () => {
       const configDefault = { default: true, myConfig: false };
       const config = { myConfig: true };
@@ -241,6 +255,92 @@ describe('RenderItemComponent', () => {
 
       expect(comp2).toBeTruthy();
       expect(comp2.componentInstance).toEqual(jasmine.any(Dynamic2Component));
+    });
+  });
+
+  describe('item.id', () => {
+    beforeEach(init);
+
+    it('should set `id` attribute on dynamic component', () => {
+      hostComp.item = { component: Dynamic1Component, id: 'my-id' };
+
+      fixture.detectChanges();
+      const comp = fixture.debugElement.query(By.directive(Dynamic1Component));
+
+      expect(comp).toBeTruthy();
+      expect(comp.nativeElement.getAttribute('id')).toBe('my-id');
+    });
+
+    it('should merge `id` with `config.attributes` and set on dynamic component', () => {
+      hostComp.item = {
+        component: Dynamic1Component,
+        id: 'my-id',
+        attributes: { 'my-attr': 'val' },
+      };
+
+      fixture.detectChanges();
+      const comp = fixture.debugElement.query(By.directive(Dynamic1Component));
+
+      expect(comp).toBeTruthy();
+      expect(comp.nativeElement.getAttribute('id')).toBe('my-id');
+      expect(comp.nativeElement.getAttribute('my-attr')).toBe('val');
+    });
+
+    it('should override id from `config.attributes`', () => {
+      hostComp.item = {
+        component: Dynamic1Component,
+        id: 'from-id',
+        attributes: { id: 'from-attrs' },
+      };
+
+      fixture.detectChanges();
+      const comp = fixture.debugElement.query(By.directive(Dynamic1Component));
+
+      expect(comp).toBeTruthy();
+      expect(comp.nativeElement.getAttribute('id')).toBe('from-id');
+    });
+  });
+
+  describe('item.classes', () => {
+    beforeEach(init);
+
+    describe('when string', () => {
+      it('should set class on dynamic component', () => {
+        hostComp.item = { component: Dynamic1Component, classes: 'class1 class2' };
+
+        fixture.detectChanges();
+        const comp = fixture.debugElement.query(By.directive(Dynamic1Component));
+
+        expect(comp).toBeTruthy();
+        expect(comp.nativeElement.getAttribute('class')).toBe('class1 class2');
+      });
+    });
+
+    describe('when array of strings', () => {
+      it('should set classes on dynamic component', () => {
+        hostComp.item = { component: Dynamic1Component, classes: ['class1', 'class2'] };
+
+        fixture.detectChanges();
+        const comp = fixture.debugElement.query(By.directive(Dynamic1Component));
+
+        expect(comp).toBeTruthy();
+        expect(comp.nativeElement.getAttribute('class')).toBe('class1 class2');
+      });
+    });
+
+    describe('when map of booleans', () => {
+      it('should set classes with `true` on dynamic component', () => {
+        hostComp.item = {
+          component: Dynamic1Component,
+          classes: { class1: false, class2: true },
+        };
+
+        fixture.detectChanges();
+        const comp = fixture.debugElement.query(By.directive(Dynamic1Component));
+
+        expect(comp).toBeTruthy();
+        expect(comp.nativeElement.getAttribute('class')).toBe('class2');
+      });
     });
   });
 
