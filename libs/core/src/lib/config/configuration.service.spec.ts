@@ -3,12 +3,13 @@ import { Property } from '@orchestrator/gen-io-ts';
 import { left, right } from 'fp-ts/lib/Either';
 import { failure, string, success, Type } from 'io-ts';
 
+import { ErrorStrategy } from '../error-strategy/error-strategy';
 import * as configuration from '../metadata/configuration';
-import { ConfigurationErrorStrategy } from './configuration-error-strategy';
 import { ConfigurationService } from './configuration.service';
+import { InvalidConfigurationError } from './invalid-configuration-error';
 import { Option, OptionInteger, OptionRequired } from './option';
 
-class MockConfigurationErrorStrategy extends ConfigurationErrorStrategy {
+class MockConfigurationErrorStrategy extends ErrorStrategy {
   handle = jest.fn();
 }
 
@@ -18,7 +19,7 @@ describe('Service: Configuration', () => {
       providers: [
         ConfigurationService,
         {
-          provide: ConfigurationErrorStrategy,
+          provide: ErrorStrategy,
           useClass: MockConfigurationErrorStrategy,
         },
       ],
@@ -69,7 +70,7 @@ describe('Service: Configuration', () => {
       expect(res).toEqual(left(expect.any(Array)));
     });
 
-    it('should call `ConfigurationErrorStrategy.handle(Validation, type, config)` when incorrect config', () => {
+    it('should call `ConfigurationErrorStrategy.handle(new InvalidConfigurationError(Validation, type, config))` when incorrect config', () => {
       const errorStrategy = getErrorStrategy();
       class Test {
         @Option() prop1: string;
@@ -79,7 +80,13 @@ describe('Service: Configuration', () => {
       const config = { prop1: 'ok', prop2: 'not ok!' };
       const res = getService().validate(Test, config as any);
 
-      expect(errorStrategy.handle).toHaveBeenCalledWith(res, Test, config);
+      const expectedError = new InvalidConfigurationError(
+        Test,
+        res,
+        config as any,
+      );
+
+      expect(errorStrategy.handle).toHaveBeenCalledWith(expectedError);
     });
   });
 
@@ -171,5 +178,5 @@ function getService(): ConfigurationService {
 }
 
 function getErrorStrategy(): MockConfigurationErrorStrategy {
-  return TestBed.get(ConfigurationErrorStrategy);
+  return TestBed.get(ErrorStrategy);
 }

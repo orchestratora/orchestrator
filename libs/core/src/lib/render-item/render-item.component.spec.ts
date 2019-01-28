@@ -6,9 +6,9 @@ import { DynamicModule } from 'ng-dynamic-component';
 
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
 import { ComponentMap, COMPONENTS } from '../component-map';
-import { ConfigurationErrorStrategy } from '../config/configuration-error-strategy';
 import { ConfigurationService } from '../config/configuration.service';
-import { SuppressConfigurationErrorStrategy } from '../config/suppress-configuration-error-strategy';
+import { ErrorStrategy } from '../error-strategy/error-strategy';
+import { SuppressErrorStrategy } from '../error-strategy/suppress-error-strategy';
 import { OrchestratorConfigItem } from '../types';
 import { InjectorRegistryService } from './injector-registry.service';
 import { RenderItemComponent } from './render-item.component';
@@ -45,10 +45,7 @@ describe('RenderItemComponent', () => {
         { provide: COMPONENTS, useValue: null, multi: true },
         ComponentLocatorService,
         ConfigurationService,
-        {
-          provide: ConfigurationErrorStrategy,
-          useClass: SuppressConfigurationErrorStrategy,
-        },
+        { provide: ErrorStrategy, useClass: SuppressErrorStrategy },
       ],
     });
   }));

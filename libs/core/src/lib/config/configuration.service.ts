@@ -4,14 +4,15 @@ import { left } from 'fp-ts/lib/Either';
 import { none, Option, some } from 'fp-ts/lib/Option';
 import { Errors, Type as IoCodec, Validation } from 'io-ts';
 
+import { ErrorStrategy } from '../error-strategy/error-strategy';
 import { ConfigurationMeta, getConfigs } from '../metadata/configuration';
-import { ConfigurationErrorStrategy } from './configuration-error-strategy';
+import { InvalidConfigurationError } from './invalid-configuration-error';
 
 @Injectable()
 export class ConfigurationService {
   private codecMap = new Map<Type<any>, IoCodec<any>>();
 
-  constructor(private configurationErrorStrategy: ConfigurationErrorStrategy) {}
+  constructor(private errorStrategy: ErrorStrategy) {}
 
   decode<T, C extends T>(type: Type<T>, config: C): T | C {
     return this.validate(type, config).fold(
@@ -27,7 +28,9 @@ export class ConfigurationService {
     );
 
     if (validation.isLeft() && type) {
-      this.configurationErrorStrategy.handle(validation, type, config);
+      this.errorStrategy.handle(
+        new InvalidConfigurationError(type, validation, config),
+      );
     }
 
     return validation;
