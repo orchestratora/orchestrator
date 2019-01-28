@@ -26,7 +26,7 @@ export class ConfigurationService {
       codec => codec.decode(config),
     );
 
-    if (validation.isLeft()) {
+    if (validation.isLeft() && type) {
       this.configurationErrorStrategy.handle(validation, type, config);
     }
 
