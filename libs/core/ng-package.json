@@ -5,7 +5,13 @@
     "entryFile": "src/public_api.ts",
     "umdId": "orchestrator.core",
     "umdModuleIds": {
-      "ng-dynamic-component": "ngDynamicComponent"
+      "ng-dynamic-component": "ngDynamicComponent",
+      "@orchestrator/gen-io-ts": "orchestrator.genIoTs",
+      "fp-ts": "fpTs",
+      "fp-ts/lib/Either": "fpTs.Either",
+      "fp-ts/lib/Option": "fpTs.Option",
+      "io-ts": "ioTs",
+      "io-ts/lib/PathReporter": "ioTs.PathReporter"
     }
   },
   "whitelistedNonPeerDependencies": [
