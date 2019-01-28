@@ -424,4 +424,29 @@ describe('RenderItemComponent', () => {
       expect(comp2).toBeNull();
     });
   });
+
+  describe('clearItems() method', () => {
+    beforeEach(init);
+
+    it('should remove all items and render none', () => {
+      hostComp.item = {
+        component: Dynamic1Component,
+        items: [{ component: Dynamic2Component }],
+      };
+
+      fixture.detectChanges();
+
+      const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
+      const renderItem = fixture.debugElement.query(By.directive(RenderItemComponent))
+        .componentInstance as RenderItemComponent;
+
+      expect(comp1.query(By.directive(Dynamic2Component))).toBeTruthy();
+
+      renderItem.clearItems();
+      fixture.detectChanges();
+
+      expect(comp1.query(By.directive(Dynamic2Component))).toBeFalsy();
+      expect(comp1.children.length).toBe(0);
+    });
+  });
 });
