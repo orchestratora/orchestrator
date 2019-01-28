@@ -3,3 +3,7 @@ export * from './lib/types';
 export * from './lib/render-item/render-item.component';
 export * from './lib/metadata';
 export * from './lib/config';
+export * from './lib/config/configuration.service';
+export * from './lib/config/configuration-error-strategy';
+export * from './lib/config/throw-configuration-error-strategy';
+export * from './lib/config/suppress-configuration-error-strategy';

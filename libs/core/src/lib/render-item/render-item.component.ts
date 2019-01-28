@@ -21,7 +21,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
-import { ConfigurationService } from '../config';
+import { ConfigurationService } from '../config/configuration.service';
 import {
   OrchestratorConfigItem,
   OrchestratorDynamicComponentInputs,

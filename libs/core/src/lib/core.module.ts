@@ -8,11 +8,9 @@ import { DynamicModule } from 'ng-dynamic-component';
 
 import { ComponentLocatorService } from './component-locator/component-locator.service';
 import { ComponentRegistry, COMPONENTS } from './component-map';
-import {
-  ConfigurationErrorStrategy,
-  ConfigurationService,
-  ThrowConfigurationErrorStrategy,
-} from './config';
+import { ConfigurationErrorStrategy } from './config/configuration-error-strategy';
+import { ConfigurationService } from './config/configuration.service';
+import { ThrowConfigurationErrorStrategy } from './config/throw-configuration-error-strategy';
 import { OrchestratorComponent } from './orchestrator/orchestrator.component';
 import { RenderItemComponent } from './render-item/render-item.component';
 import { OrchestratorDynamicComponentType } from './types';
