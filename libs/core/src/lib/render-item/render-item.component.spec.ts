@@ -6,11 +6,9 @@ import { DynamicModule } from 'ng-dynamic-component';
 
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
 import { ComponentMap, COMPONENTS } from '../component-map';
-import {
-  ConfigurationErrorStrategy,
-  ConfigurationService,
-  SuppressConfigurationErrorStrategy,
-} from '../config';
+import { ConfigurationErrorStrategy } from '../config/configuration-error-strategy';
+import { ConfigurationService } from '../config/configuration.service';
+import { SuppressConfigurationErrorStrategy } from '../config/suppress-configuration-error-strategy';
 import { OrchestratorConfigItem } from '../types';
 import { InjectorRegistryService } from './injector-registry.service';
 import { RenderItemComponent } from './render-item.component';
