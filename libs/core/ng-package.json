@@ -8,5 +8,10 @@
       "ng-dynamic-component": "ngDynamicComponent"
     }
   },
-  "whitelistedNonPeerDependencies": ["ng-dynamic-component"]
+  "whitelistedNonPeerDependencies": [
+    "ng-dynamic-component",
+    "@orchestrator/gen-io-ts",
+    "fp-ts",
+    "io-ts"
+  ]
 }

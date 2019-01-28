@@ -56,7 +56,10 @@
     "@angular/platform-browser-dynamic": "^7.0.0",
     "@angular/router": "^7.0.0",
     "@nrwl/nx": "^7.0.0",
+    "@orchestrator/gen-io-ts": "^2.0.0",
     "core-js": "^2.5.7",
+    "fp-ts": "^1.13.0",
+    "io-ts": "^1.7.0",
     "ng-dynamic-component": "^4.0.2",
     "rxjs": "^6.3.3",
     "zone.js": "^0.8.26"
