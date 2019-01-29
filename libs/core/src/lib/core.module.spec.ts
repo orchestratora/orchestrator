@@ -1,6 +1,9 @@
-import { OrchestratorCoreModule } from './core.module';
 import { ANALYZE_FOR_ENTRY_COMPONENTS } from '@angular/core';
+
 import { COMPONENTS } from './component-map';
+import { OrchestratorCoreModule } from './core.module';
+import { ErrorStrategy } from './error-strategy/error-strategy';
+import { ThrowErrorStrategy } from './error-strategy/throw-error-strategy';
 
 describe('OrchestratorCoreModule', () => {
   describe('withComponents() static method', () => {
@@ -42,6 +45,17 @@ describe('OrchestratorCoreModule', () => {
           provide: COMPONENTS,
           useValue: comps,
           multi: true,
+        }),
+      );
+    });
+
+    it('should provide `ErrorStrategy` token via useClass `ThrowErrorStrategy`', () => {
+      const res = OrchestratorCoreModule.withComponents([]);
+
+      expect(res.providers).toContainEqual(
+        expect.objectContaining({
+          provide: ErrorStrategy,
+          useClass: ThrowErrorStrategy,
         }),
       );
     });

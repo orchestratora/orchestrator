@@ -12,11 +12,16 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { AttributesMap, DynamicDirectiveDef, dynamicDirectiveDef } from 'ng-dynamic-component';
+import {
+  AttributesMap,
+  DynamicDirectiveDef,
+  dynamicDirectiveDef,
+} from 'ng-dynamic-component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
+import { ConfigurationService } from '../config/configuration.service';
 import {
   OrchestratorConfigItem,
   OrchestratorDynamicComponentInputs,
@@ -57,6 +62,7 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
     private cdr: ChangeDetectorRef,
     private componentLocatorService: ComponentLocatorService,
     private componentsRegistryService: ComponentsRegistryService,
+    private configurationService: ConfigurationService,
     public injectorRegistryService: InjectorRegistryService,
   ) {}
 
@@ -122,7 +128,9 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
 
   private updateComponent() {
     if (this.item) {
-      this.component = this.componentLocatorService.resolve(this.item.component);
+      this.component = this.componentLocatorService.resolve(
+        this.item.component,
+      );
       this.componentsRegistryService.waitFor(this.itemsLength);
     } else {
       this.component = null;
@@ -133,10 +141,13 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
   private updateInputs() {
     if (this.component) {
       this.inputs.items = this.item.items;
-      this.inputs.config = {
-        ...this.componentLocatorService.getDefaultConfig(this.component),
-        ...this.item.config,
-      };
+      this.inputs.config = this.configurationService.decode(
+        this.componentLocatorService.getConfigType(this.component),
+        {
+          ...this.componentLocatorService.getDefaultConfig(this.component),
+          ...this.item.config,
+        },
+      );
     } else {
       this.inputs.items = this.inputs.config = null;
     }
@@ -154,7 +165,9 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
 
   private updateDirectives() {
     if (this.component && this.item.classes) {
-      this.directives = [dynamicDirectiveDef(NgClass, { ngClass: this.item.classes })];
+      this.directives = [
+        dynamicDirectiveDef(NgClass, { ngClass: this.item.classes }),
+      ];
     } else {
       this.directives = [];
     }

@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { OrchestratorConfigItem, OrchestratorCoreModule } from '@orchestrator/core';
-import { Dynamic1Component, Dynamic2Component } from '@orchestrator/core/testing';
+import {
+  OrchestratorConfigItem,
+  OrchestratorCoreModule,
+} from '@orchestrator/core';
+import { Dynamic1Component, Dynamic2Component } from '@testing';
 
 import { LayoutFlatConfig } from './layout-flat-host/layout-flat-config';
 import { LayoutFlatHostComponent } from './layout-flat-host/layout-flat-host.component';
@@ -24,7 +27,10 @@ describe('LayoutModule', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        OrchestratorCoreModule.withComponents([Dynamic1Component, Dynamic2Component]),
+        OrchestratorCoreModule.withComponents([
+          Dynamic1Component,
+          Dynamic2Component,
+        ]),
         LayoutModule.forRoot(),
       ],
       declarations: [HostComponent, Dynamic1Component, Dynamic2Component],
@@ -69,7 +75,9 @@ describe('LayoutModule', () => {
   });
 
   function validateDynamicComponents() {
-    const layoutHostElem = fixture.debugElement.query(By.directive(LayoutFlatHostComponent));
+    const layoutHostElem = fixture.debugElement.query(
+      By.directive(LayoutFlatHostComponent),
+    );
 
     expect(layoutHostElem).toBeTruthy();
 
@@ -78,8 +86,12 @@ describe('LayoutModule', () => {
     expect(layoutElem).toBeTruthy();
     expect(layoutElem.styles['flex-direction']).toBe('column');
 
-    const dynamic1Components = layoutElem.queryAll(By.directive(Dynamic1Component));
-    const dynamic2Components = layoutElem.queryAll(By.directive(Dynamic2Component));
+    const dynamic1Components = layoutElem.queryAll(
+      By.directive(Dynamic1Component),
+    );
+    const dynamic2Components = layoutElem.queryAll(
+      By.directive(Dynamic2Component),
+    );
 
     expect(dynamic1Components.length).toBe(2);
     expect(dynamic2Components.length).toBe(1);
