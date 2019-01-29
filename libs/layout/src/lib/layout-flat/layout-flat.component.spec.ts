@@ -1,8 +1,11 @@
 import { Component, ComponentRef } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { OrchestratorConfigItem, OrchestratorCoreModule } from '@orchestrator/core';
-import { Dynamic1Component, Dynamic2Component } from '@orchestrator/core/testing';
+import {
+  OrchestratorConfigItem,
+  OrchestratorCoreModule,
+} from '@orchestrator/core';
+import { Dynamic1Component, Dynamic2Component } from '@testing';
 
 import { LayoutFlexModule } from '../flex';
 import { LayoutFlatComponent } from './layout-flat.component';
@@ -28,10 +31,18 @@ describe('LayoutFlatComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        OrchestratorCoreModule.withComponents([Dynamic1Component, Dynamic2Component]),
+        OrchestratorCoreModule.withComponents([
+          Dynamic1Component,
+          Dynamic2Component,
+        ]),
         LayoutFlexModule,
       ],
-      declarations: [LayoutFlatComponent, HostComponent, Dynamic1Component, Dynamic2Component],
+      declarations: [
+        LayoutFlatComponent,
+        HostComponent,
+        Dynamic1Component,
+        Dynamic2Component,
+      ],
     }).compileComponents();
   }));
 
@@ -43,7 +54,9 @@ describe('LayoutFlatComponent', () => {
   it('should have `.layout-flat-orc` class on host', () => {
     fixture.detectChanges();
 
-    const compElem = fixture.debugElement.query(By.directive(LayoutFlatComponent));
+    const compElem = fixture.debugElement.query(
+      By.directive(LayoutFlatComponent),
+    );
 
     expect(compElem.classes['layout-flat-orc']).toBeTruthy();
   });
@@ -52,7 +65,9 @@ describe('LayoutFlatComponent', () => {
     setItemsToHost();
     fixture.detectChanges();
 
-    const compElem = fixture.debugElement.query(By.directive(LayoutFlatComponent));
+    const compElem = fixture.debugElement.query(
+      By.directive(LayoutFlatComponent),
+    );
 
     expect(compElem.children.length).toBe(2);
   });
@@ -61,7 +76,9 @@ describe('LayoutFlatComponent', () => {
     setItemsToHost();
     fixture.detectChanges();
 
-    const compElem = fixture.debugElement.query(By.directive(LayoutFlatComponent));
+    const compElem = fixture.debugElement.query(
+      By.directive(LayoutFlatComponent),
+    );
 
     expect(compElem.children.length).toBe(2);
     compElem.children.forEach(child =>
@@ -87,7 +104,10 @@ describe('LayoutFlatComponent', () => {
   function setItemsToHost() {
     hostComp.items = [
       { component: Dynamic1Component },
-      { component: Dynamic2Component, items: [{ component: Dynamic1Component }] },
+      {
+        component: Dynamic2Component,
+        items: [{ component: Dynamic1Component }],
+      },
     ];
   }
 });

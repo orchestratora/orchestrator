@@ -1,4 +1,9 @@
-import { ComponentFactoryResolver, Injectable, Injector } from '@angular/core';
+import {
+  ComponentFactoryResolver,
+  Injectable,
+  Injector,
+  Type,
+} from '@angular/core';
 
 import {
   ComponentMap,
@@ -7,7 +12,10 @@ import {
   DefaultDynamicComponent,
 } from '../component-map';
 import { getDynamicComponentMeta } from '../metadata/dynamic-component';
-import { GetOrchestratorDynamicComponentConfig, OrchestratorDynamicComponentType } from '../types';
+import {
+  GetOrchestratorDynamicComponentConfig,
+  OrchestratorDynamicComponentType,
+} from '../types';
 
 @Injectable()
 export class ComponentLocatorService {
@@ -20,15 +28,23 @@ export class ComponentLocatorService {
   private componentArrayMap = this.componentArray
     .map(type => this.cfr.resolveComponentFactory(type))
     .reduce(
-      (map, compFactory) => ({ ...map, [compFactory.selector]: compFactory.componentType }),
+      (map, compFactory) => ({
+        ...map,
+        [compFactory.selector]: compFactory.componentType,
+      }),
       Object.create(null) as ComponentMap,
     );
 
   private componentMaps = this.componentRegistry.filter(isComponentMap);
-  private componentMap = this.componentMaps.reduce((obj, map) => ({ ...obj, ...map }), this
-    .componentArrayMap as ComponentMap);
+  private componentMap = this.componentMaps.reduce(
+    (obj, map) => ({ ...obj, ...map }),
+    this.componentArrayMap as ComponentMap,
+  );
 
-  constructor(private injector: Injector, private cfr: ComponentFactoryResolver) {}
+  constructor(
+    private injector: Injector,
+    private cfr: ComponentFactoryResolver,
+  ) {}
 
   resolve<T, C = GetOrchestratorDynamicComponentConfig<T>>(
     component: string | OrchestratorDynamicComponentType<C>,
@@ -40,7 +56,21 @@ export class ComponentLocatorService {
     return this.componentMap[component];
   }
 
-  getDefaultConfig<C>(component: OrchestratorDynamicComponentType<C>): C | null {
+  getDefaultConfig<C>(
+    component: OrchestratorDynamicComponentType<C>,
+  ): C | null {
+    const configType = this.getConfigType(component);
+
+    if (!configType) {
+      return null;
+    }
+
+    return this.injector.get(configType, null);
+  }
+
+  getConfigType<C>(
+    component: OrchestratorDynamicComponentType<C>,
+  ): Type<C> | null {
     if (!component) {
       return null;
     }
@@ -51,11 +81,13 @@ export class ComponentLocatorService {
       return null;
     }
 
-    return this.injector.get(meta.config, null);
+    return meta.config;
   }
 }
 
-function isComponentArray(reg: ComponentRegistry): reg is DefaultDynamicComponent[] {
+function isComponentArray(
+  reg: ComponentRegistry,
+): reg is DefaultDynamicComponent[] {
   return Array.isArray(reg);
 }
 

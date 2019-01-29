@@ -2,3 +2,8 @@ export * from './lib/core.module';
 export * from './lib/types';
 export * from './lib/render-item/render-item.component';
 export * from './lib/metadata';
+export * from './lib/error-strategy/error-strategy';
+export * from './lib/error-strategy/throw-error-strategy';
+export * from './lib/error-strategy/suppress-error-strategy';
+export * from './lib/config';
+export * from './lib/config/configuration.service';
