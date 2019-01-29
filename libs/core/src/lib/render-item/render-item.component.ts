@@ -114,6 +114,11 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
     this.cdr.markForCheck();
   }
 
+  clearItems() {
+    this.inputs.items = [];
+    this.cdr.markForCheck();
+  }
+
   private update() {
     this.updateComponent();
     this.updateInputs();

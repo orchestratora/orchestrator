@@ -12,8 +12,8 @@ export class InjectorRegistryService implements Injector {
   constructor(private injector: Injector) {}
 
   get<T>(token: Type<T> | InjectionToken<T>, notFoundValue?: T, flags?: InjectFlags): T;
-  get(token: any, notFoundValue?: any): any;
-  get(token, notFoundValue?, flags?: InjectFlags): any {
+  get(token: any, notFoundValue?: any, flags?: InjectFlags): any;
+  get(token: any, notFoundValue?: any, flags?: InjectFlags): any {
     return this.injector.get(token, notFoundValue, flags);
   }
 
