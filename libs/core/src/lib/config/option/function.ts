@@ -12,14 +12,14 @@ export interface FunctionMeta {
   body: string;
 }
 
-export interface FunctionWithArgs extends Function {
+export interface FunctionWithMeta extends Function {
   args: string[];
   body: string;
 }
 
-export const FunctionFromMeta = new t.Type<FunctionWithArgs, FunctionMeta>(
+export const FunctionFromMeta = new t.Type<FunctionWithMeta, FunctionMeta>(
   'FunctionFromMeta',
-  (fn): fn is FunctionWithArgs => typeof fn === 'function',
+  (fn): fn is FunctionWithMeta => typeof fn === 'function',
   (m, c) =>
     t.object.validate(m, c).chain((obj: FunctionMeta) => {
       if (
@@ -30,7 +30,7 @@ export const FunctionFromMeta = new t.Type<FunctionWithArgs, FunctionMeta>(
         return t.failure(m, c);
       }
 
-      const fn = new Function(...obj.args, obj.body) as FunctionWithArgs;
+      const fn = new Function(...obj.args, obj.body) as FunctionWithMeta;
       fn.args = obj.args;
       fn.body = obj.body;
 
@@ -39,9 +39,9 @@ export const FunctionFromMeta = new t.Type<FunctionWithArgs, FunctionMeta>(
   fn => ({ args: fn.args, body: fn.body }),
 );
 
-export const FunctionFromString = new t.Type<FunctionWithArgs, string>(
+export const FunctionFromString = new t.Type<FunctionWithMeta, string>(
   'FunctionFromString',
-  (fn): fn is FunctionWithArgs => typeof fn === 'function',
+  (fn): fn is FunctionWithMeta => typeof fn === 'function',
   (m, c) =>
     t.string.validate(m, c).chain(s => {
       try {

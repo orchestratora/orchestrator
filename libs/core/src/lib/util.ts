@@ -52,3 +52,17 @@ export function parseFunction(fnStr: string) {
 
   return { args, body };
 }
+
+/**
+ * @internal
+ */
+export function isArgOptional(argExpr: string): boolean {
+  return /^[^=]+\s*=.+/.test(argExpr);
+}
+
+/**
+ * @internal
+ */
+export function getArgName(argExpr: string): string {
+  return argExpr.match(/^([^=\s]+)(?:\s*=.+)?/)[1];
+}

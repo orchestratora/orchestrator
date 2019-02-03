@@ -11,6 +11,7 @@ import { ErrorStrategy } from '../error-strategy/error-strategy';
 import { SuppressErrorStrategy } from '../error-strategy/suppress-error-strategy';
 import { OrchestratorConfigItem } from '../types';
 import { InjectorRegistryService } from './injector-registry.service';
+import { INJECTOR_MAP } from './local-injector';
 import { RenderItemComponent } from './render-item.component';
 
 @Component({
@@ -46,6 +47,7 @@ describe('RenderItemComponent', () => {
         ComponentLocatorService,
         ConfigurationService,
         { provide: ErrorStrategy, useClass: SuppressErrorStrategy },
+        { provide: INJECTOR_MAP, useValue: {} },
       ],
     });
   }));
@@ -503,8 +505,9 @@ describe('RenderItemComponent', () => {
       fixture.detectChanges();
 
       const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
-      const renderItem = fixture.debugElement.query(By.directive(RenderItemComponent))
-        .componentInstance as RenderItemComponent;
+      const renderItem = fixture.debugElement.query(
+        By.directive(RenderItemComponent),
+      ).componentInstance as RenderItemComponent;
 
       expect(comp1.query(By.directive(Dynamic2Component))).toBeTruthy();
 

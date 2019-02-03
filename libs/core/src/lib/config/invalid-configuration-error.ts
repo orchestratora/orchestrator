@@ -7,7 +7,7 @@ export class InvalidConfigurationError<C> extends Error {
   validation: Validation<C>;
   config?: C;
 
-  constructor(component: Type<C>, validation: Validation<any>, config?: C) {
+  constructor(component: Type<C>, validation: Validation<any>, config?: any) {
     const paths = PathReporter.report(validation).join('\n');
 
     super(

@@ -5,6 +5,7 @@ import {
   Component,
   ComponentRef,
   EventEmitter,
+  Injector,
   Input,
   OnChanges,
   OnDestroy,
@@ -29,12 +30,17 @@ import {
 } from '../types';
 import { ComponentsRegistryService } from './components-registry.service';
 import { InjectorRegistryService } from './injector-registry.service';
+import { LocalInjectorFactory } from './local-injector';
 
 @Component({
   selector: 'orc-render-item',
   templateUrl: './render-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ComponentsRegistryService, InjectorRegistryService],
+  providers: [
+    ComponentsRegistryService,
+    InjectorRegistryService,
+    LocalInjectorFactory,
+  ],
 })
 export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
   @Input() item: OrchestratorConfigItem<any> | undefined;
@@ -54,16 +60,22 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
   directives: DynamicDirectiveDef<any>[] = [];
   attributes: AttributesMap | null = null;
 
+  injector: Injector;
+
   get itemsLength() {
     return this.item && this.item.items ? this.item.items.length : 0;
   }
+
+  private compInstance: any;
+  private config: any;
 
   constructor(
     private cdr: ChangeDetectorRef,
     private componentLocatorService: ComponentLocatorService,
     private componentsRegistryService: ComponentsRegistryService,
     private configurationService: ConfigurationService,
-    public injectorRegistryService: InjectorRegistryService,
+    private localInjectorFactory: LocalInjectorFactory,
+    private injectorRegistryService: InjectorRegistryService,
   ) {}
 
   ngOnInit() {
@@ -88,6 +100,7 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onComponentCreated(compRef: ComponentRef<any>) {
+    this.compInstance = compRef.instance;
     this.componentCreated.emit(compRef);
     this.componentsRegistryService.add(compRef);
   }
@@ -121,6 +134,8 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
 
   private update() {
     this.updateComponent();
+    this.updateConfig();
+    this.updateInjector();
     this.updateInputs();
     this.updateAttributes();
     this.updateDirectives();
@@ -133,21 +148,34 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
       );
       this.componentsRegistryService.waitFor(this.itemsLength);
     } else {
-      this.component = null;
+      this.component = this.compInstance = null;
       this.componentsRegistryService.waitFor(0);
+    }
+  }
+
+  private updateInjector() {
+    if (this.item) {
+      this.injector = this.createLocalInjector();
+    } else {
+      this.injector = this.injectorRegistryService;
+    }
+  }
+
+  private updateConfig() {
+    if (this.item) {
+      this.config = {
+        ...this.componentLocatorService.getDefaultConfig(this.component),
+        ...this.item.config,
+      };
+    } else {
+      this.config = null;
     }
   }
 
   private updateInputs() {
     if (this.component) {
       this.inputs.items = this.item.items;
-      this.inputs.config = this.configurationService.decode(
-        this.componentLocatorService.getConfigType(this.component),
-        {
-          ...this.componentLocatorService.getDefaultConfig(this.component),
-          ...this.item.config,
-        },
-      );
+      this.inputs.config = this.getConfig();
     } else {
       this.inputs.items = this.inputs.config = null;
     }
@@ -171,5 +199,29 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.directives = [];
     }
+  }
+
+  private getConfig() {
+    return this.configurationService.decode(
+      this.componentLocatorService.getConfigType(this.component),
+      this.config,
+      this.injector,
+    );
+  }
+
+  private createLocalInjector() {
+    return this.localInjectorFactory.create({
+      parentInjector: this.injectorRegistryService,
+      getComponent: () => this.compInstance,
+      getConfig: () => this.inputs.config,
+      isConfigValid: () =>
+        this.configurationService
+          .validate(
+            this.componentLocatorService.getConfigType(this.component),
+            this.config,
+          )
+          .isRight(),
+      getRenderItem: () => this,
+    });
   }
 }

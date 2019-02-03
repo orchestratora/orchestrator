@@ -1,4 +1,4 @@
-import { Type } from '@angular/core';
+import { InjectionToken, Type } from '@angular/core';
 
 export interface OrchestratorConfigItem<C = any> {
   component: OrchestratorDynamicComponentType<C> | string;
@@ -25,3 +25,7 @@ export type GetOrchestratorDynamicComponentConfig<T> = T extends Type<
 >
   ? C
   : any;
+
+export interface InjectorMap {
+  [token: string]: Type<any> | InjectionToken<any>;
+}
