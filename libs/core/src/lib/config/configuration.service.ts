@@ -7,6 +7,7 @@ import { Errors, Type as IoCodec, Validation } from 'io-ts';
 import { ErrorStrategy } from '../error-strategy/error-strategy';
 import { ConfigurationMeta, getConfigs } from '../metadata/configuration';
 import { getArgName, isArgOptional } from '../util';
+import { FunctionError } from './funtion-error';
 import { InvalidConfigurationError } from './invalid-configuration-error';
 import {
   CustomInjectorFactory,
@@ -26,10 +27,9 @@ export class ConfigurationService {
   decode<T>(type: Type<T>, config: T, injector?: Injector): T;
   decode<T, C>(type: Type<T>, config: C, injector?: Injector): T | C;
   decode<T, C>(type: Type<T>, config: C, injector?: Injector): T | C {
-    return this.validate(type, config).fold<T | C>(
-      () => config,
-      decodedConfig => this.bindFunctions(type, decodedConfig, injector),
-    );
+    return this.validate(type, config)
+      .map(c => this.processFunctions(type, c, config, injector))
+      .fold<T | C>(() => config, decodedConfig => decodedConfig);
   }
 
   validate<T, C>(type: Type<T>, config: C): Validation<T> {
@@ -65,9 +65,10 @@ export class ConfigurationService {
     }
   }
 
-  private bindFunctions<T>(
+  private processFunctions<T>(
     type: Type<T>,
     config: T,
+    originalConfig: any,
     injector = this.injector,
   ): T {
     const meta = this.getMetaOf(type);
@@ -77,7 +78,17 @@ export class ConfigurationService {
       const customInjector = customInjectorFactory
         ? customInjectorFactory(injector)
         : injector;
-      config[m.prop] = this.bindFunction(config[m.prop], customInjector);
+
+      const { args, fn } = this.bindFunction(config[m.prop], customInjector);
+
+      config[m.prop] = fn;
+      config[m.prop] = this.guardFunction(
+        config[m.prop],
+        type,
+        String(m.prop),
+        originalConfig[m.prop],
+        args,
+      );
     });
 
     return config;
@@ -86,7 +97,7 @@ export class ConfigurationService {
   private bindFunction(
     fn: FunctionWithMeta,
     injector: Injector,
-  ): FunctionWithMeta {
+  ): { fn: FunctionWithMeta; args: any[] } {
     const { args, body } = fn;
 
     const resolvedArgs = args.map(arg => this.resolveArg(arg, injector));
@@ -95,7 +106,33 @@ export class ConfigurationService {
     boundFn.args = args;
     boundFn.body = body;
 
-    return boundFn;
+    return { fn: boundFn, args: resolvedArgs };
+  }
+
+  private guardFunction(
+    fn: FunctionWithMeta,
+    configType: Type<any>,
+    fnName: string,
+    fnBody: string,
+    boundArgs: any[],
+  ): FunctionWithMeta {
+    const guardedFn = (((...args) => {
+      try {
+        return fn(...args);
+      } catch (e) {
+        this.errorStrategy.handle(
+          new FunctionError(configType, e, fnName, fnBody, [
+            ...boundArgs,
+            ...args,
+          ]),
+        );
+      }
+    }) as unknown) as FunctionWithMeta;
+
+    guardedFn.args = fn.args;
+    guardedFn.body = fn.body;
+
+    return guardedFn;
   }
 
   private resolveArg(argExpr: string, injector: Injector): any {

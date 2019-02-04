@@ -7,6 +7,7 @@ import { failure, string, success, Type } from 'io-ts';
 import { ErrorStrategy } from '../error-strategy/error-strategy';
 import * as configuration from '../metadata/configuration';
 import { ConfigurationService } from './configuration.service';
+import { FunctionError } from './funtion-error';
 import { InvalidConfigurationError } from './invalid-configuration-error';
 import {
   Option,
@@ -221,6 +222,42 @@ describe('Service: Configuration', () => {
       expect(injector.get).toHaveBeenCalledWith('arg2', null);
       expect(res.prop1).toEqual(expect.any(Function));
       expect(res.prop1()).toEqual(['resolved', 'resolved']);
+    });
+
+    it('should not throw any errors from `OptionFunction`', () => {
+      class Test {
+        @OptionFunction() prop1: Function;
+      }
+
+      const config = { prop1: '() => {throw Error("reason")}' };
+      const res = getService().decode(Test, config as any);
+
+      expect(res.prop1).toEqual(expect.any(Function));
+      expect(() => res.prop1()).not.toThrowError();
+    });
+
+    it('should wrap errors in `FunctionError` and pass to `ErrorStrategy`', () => {
+      const injector = { get: jest.fn().mockReturnValue('resolved') };
+
+      class Test {
+        @OptionFunction() prop1: Function;
+      }
+
+      const config = { prop1: '(arg) => {throw Error("reason")}' };
+      const res = getService().decode(Test, config as any, injector);
+
+      expect(() => res.prop1()).not.toThrowError();
+      expect(getErrorStrategy().handle).toHaveBeenCalled();
+
+      const error = getErrorStrategy().handle.mock.calls[0][0] as FunctionError<
+        any
+      >;
+
+      expect(error.config).toBe(Test);
+      expect(error.error).toEqual(new Error('reason'));
+      expect(error.fnName).toBe('prop1');
+      expect(error.fnBody).toBe('(arg) => {throw Error("reason")}');
+      expect(error.args).toEqual(['resolved']);
     });
   });
 
