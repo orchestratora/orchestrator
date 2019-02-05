@@ -1,0 +1,4 @@
+::ng-deep input,
+::ng-deep textarea {
+  width: 100%;
+}

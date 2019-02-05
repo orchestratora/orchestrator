@@ -1,0 +1,15 @@
+<ng-container *ngIf="isEditing; else renderTpl">
+  <textarea
+    #inputElem
+    *ngIf="isMultiline; else singleLine"
+    cols="50"
+    [rows]="rows"
+    (blur)="toggle(false)"
+  >{{ value }}</textarea>
+  <ng-template #singleLine>
+    <input #inputElem type="text" [value]="value" (blur)="isEditing = false">
+  </ng-template>
+</ng-container>
+<ng-template #renderTpl>
+  <span (click)="toggle(true)">{{ value }}</span>
+</ng-template>

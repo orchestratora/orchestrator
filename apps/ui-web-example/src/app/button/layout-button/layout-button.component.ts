@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OrchestratorConfigItem } from '@orchestrator/core';
 import { UiWebButtonConfig } from '@orchestrator/ui-web';
 
@@ -6,6 +6,7 @@ import { UiWebButtonConfig } from '@orchestrator/ui-web';
   selector: 'orc-layout-button',
   templateUrl: './layout-button.component.html',
   styleUrls: ['./layout-button.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutButtonComponent {
   config: OrchestratorConfigItem = {
@@ -13,7 +14,10 @@ export class LayoutButtonComponent {
     items: [
       {
         component: 'orc-ui-web-button-host',
-        config: { text: 'Button #1' } as UiWebButtonConfig,
+        config: {
+          text: 'Button #1',
+          click: () => alert('Button1 clicked!'),
+        } as UiWebButtonConfig,
       },
       {
         component: 'orc-ui-web-button-host',
@@ -21,7 +25,10 @@ export class LayoutButtonComponent {
       },
       {
         component: 'orc-ui-web-button-host',
-        config: { text: 'Button #3' } as UiWebButtonConfig,
+        config: {
+          text: 'Button #3',
+          click: () => alert('Button3 clicked!'),
+        } as UiWebButtonConfig,
       },
     ],
   };
