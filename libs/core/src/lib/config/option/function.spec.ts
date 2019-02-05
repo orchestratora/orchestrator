@@ -36,8 +36,7 @@ describe('@OptionFunction', () => {
         expect(fn(1, 2)).toEqual([1, 2]);
       });
 
-      // TODO(alex): This hangs test runner, however works elsewhere...
-      xit('should apply default values for arguments', () => {
+      it('should apply default values for arguments', () => {
         const fn = decodeFn('function (a = 1, b = 2) {return [a, b]}');
         expect(fn()).toEqual([1, 2]);
         expect(fn(3)).toEqual([3, 2]);

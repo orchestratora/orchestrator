@@ -20,9 +20,9 @@ export function execRegex(regex: RegExp, val: string): string[] {
  * @internal
  */
 export function parseFunction(fnStr: string) {
-  const fnRegex = /^function\s*(?:[A-z0-9]+)?\s*\(([^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)\s*\{([\w\W]*)\}$/gm;
-  const arrowFnRegex = /^\(?([^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)?\s*=>\s*\{([\w\W]*)\}$/gm;
-  const returnArrowFnRegex = /^\(?([^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)?\s*=>\s*([^}{]*)$/gm;
+  const fnRegex = /^function\s*(?:[A-z0-9]+)?\s*\(([\w\W]*?)\)\s*\{([\w\W]*)\}$/gm;
+  const arrowFnRegex = /^\(?([\w\W]*?)\)?\s*=>\s*\{([\w\W]*)\}$/gm;
+  const returnArrowFnRegex = /^\(?([\w\W]*?)\)?\s*=>\s*([^}{]*)$/gm;
 
   fnStr = fnStr.trim();
 
