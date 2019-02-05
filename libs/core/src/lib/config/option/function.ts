@@ -17,18 +17,33 @@ export interface FunctionWithMeta extends Function {
   body: string;
 }
 
+export function isFunctionWithMeta(fn: Function): fn is FunctionWithMeta {
+  return typeof fn === 'function' && 'args' in fn && 'body' in fn;
+}
+
 export const FunctionFromMeta = new t.Type<FunctionWithMeta, FunctionMeta>(
   'FunctionFromMeta',
-  (fn): fn is FunctionWithMeta => typeof fn === 'function',
+  isFunctionWithMeta,
   (m, c) =>
     t.object.validate(m, c).chain((obj: FunctionMeta) => {
       if (
+        obj === null ||
         !Array.isArray(obj.args) ||
-        typeof obj.body === 'object' ||
-        !obj.body
+        typeof obj.body !== 'string'
       ) {
         return t.failure(m, c);
       }
+
+      obj.args.sort((arg1, arg2) => {
+        const is1Custom = arg1.startsWith('$');
+        const is2Custom = arg2.startsWith('$');
+
+        if (is1Custom === is2Custom) {
+          return 0;
+        }
+
+        return is1Custom ? 1 : -1;
+      });
 
       const fn = new Function(...obj.args, obj.body) as FunctionWithMeta;
       fn.args = obj.args;
@@ -41,7 +56,7 @@ export const FunctionFromMeta = new t.Type<FunctionWithMeta, FunctionMeta>(
 
 export const FunctionFromString = new t.Type<FunctionWithMeta, string>(
   'FunctionFromString',
-  (fn): fn is FunctionWithMeta => typeof fn === 'function',
+  isFunctionWithMeta,
   (m, c) =>
     t.string.validate(m, c).chain(s => {
       try {
@@ -53,12 +68,26 @@ export const FunctionFromString = new t.Type<FunctionWithMeta, string>(
   fn => fn.toString(),
 );
 
+export const FunctionWithMeta = new t.Type<FunctionWithMeta, Function>(
+  'FunctionWithMeta',
+  isFunctionWithMeta,
+  (m, c) =>
+    t.Function.validate(m, c).chain(f => {
+      try {
+        return FunctionFromMeta.validate(parseFunction(f.toString()), c);
+      } catch {
+        return t.failure(f, c);
+      }
+    }),
+  fn => fn,
+);
+
 export function OptionFunction(
   customInjector?: CustomInjectorFactory,
 ): PropertyDecorator {
   const decorator = Property({
     typeFactory: () =>
-      t.union([FunctionFromString, FunctionFromMeta, t.Function]),
+      t.union([FunctionFromString, FunctionFromMeta, FunctionWithMeta]),
   });
   return (target, prop) => {
     decorator(target, prop);

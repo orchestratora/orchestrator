@@ -73,23 +73,25 @@ export class ConfigurationService {
   ): T {
     const meta = this.getMetaOf(type);
 
-    meta.filter(m => m.decorator === OptionFunction).forEach(m => {
-      const customInjectorFactory = m.args[0] as CustomInjectorFactory;
-      const customInjector = customInjectorFactory
-        ? customInjectorFactory(injector)
-        : injector;
+    meta
+      .filter(m => m.decorator === OptionFunction && config[m.prop])
+      .forEach(m => {
+        const customInjectorFactory = m.args[0] as CustomInjectorFactory;
+        const customInjector = customInjectorFactory
+          ? customInjectorFactory(injector)
+          : injector;
 
-      const { args, fn } = this.bindFunction(config[m.prop], customInjector);
+        const { args, fn } = this.bindFunction(config[m.prop], customInjector);
 
-      config[m.prop] = fn;
-      config[m.prop] = this.guardFunction(
-        config[m.prop],
-        type,
-        String(m.prop),
-        originalConfig[m.prop],
-        args,
-      );
-    });
+        config[m.prop] = fn;
+        config[m.prop] = this.guardFunction(
+          config[m.prop],
+          type,
+          String(m.prop),
+          originalConfig[m.prop],
+          args,
+        );
+      });
 
     return config;
   }
@@ -100,7 +102,9 @@ export class ConfigurationService {
   ): { fn: FunctionWithMeta; args: any[] } {
     const { args, body } = fn;
 
-    const resolvedArgs = args.map(arg => this.resolveArg(arg, injector));
+    const resolvedArgs = args
+      .filter(arg => !arg.startsWith('$'))
+      .map(arg => this.resolveArg(arg, injector));
 
     const boundFn = fn.bind(null, ...resolvedArgs) as FunctionWithMeta;
     boundFn.args = args;
@@ -116,7 +120,7 @@ export class ConfigurationService {
     fnBody: string,
     boundArgs: any[],
   ): FunctionWithMeta {
-    const guardedFn = (((...args) => {
+    const guardedFn = (((...args: any[]) => {
       try {
         return fn(...args);
       } catch (e) {
