@@ -12,8 +12,6 @@ import { ConfigurationService } from './config/configuration.service';
 import { ErrorStrategy } from './error-strategy/error-strategy';
 import { ThrowErrorStrategy } from './error-strategy/throw-error-strategy';
 import { OrchestratorComponent } from './orchestrator/orchestrator.component';
-import { INJECTOR_MAP } from './render-item/local-injector';
-import { LOCAL_INJECTOR_MAP } from './render-item/local-injector-map';
 import { RenderItemComponent } from './render-item/render-item.component';
 import { OrchestratorDynamicComponentType } from './types';
 
@@ -36,7 +34,6 @@ export class OrchestratorCoreModule {
         },
         { provide: COMPONENTS, useValue: components, multi: true },
         { provide: ErrorStrategy, useClass: ThrowErrorStrategy },
-        { provide: INJECTOR_MAP, useValue: LOCAL_INJECTOR_MAP, multi: true },
         ComponentLocatorService,
         ConfigurationService,
       ],

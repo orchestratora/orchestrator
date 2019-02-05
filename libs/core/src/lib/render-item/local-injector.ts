@@ -8,12 +8,14 @@ import {
 } from '@angular/core';
 
 import { InjectorMap } from '../types';
-import { getLocalProviders } from './local-injector-map';
+import { getLocalProviders, LOCAL_INJECTOR_MAP } from './local-injector-map';
 
 /**
  * Multi-provider of {@link InjectorMap}
  */
-export const INJECTOR_MAP = new InjectionToken<InjectorMap[]>('INJECTOR_MAP');
+export const INJECTOR_MAP = new InjectionToken<InjectorMap[]>('INJECTOR_MAP', {
+  factory: () => [LOCAL_INJECTOR_MAP],
+});
 
 export interface LocalInjectorParams {
   parentInjector: Injector;
