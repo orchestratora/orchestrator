@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { OptionFunction } from '@orchestrator/core';
 
 @Injectable()
 export class UiWebButtonConfig {
@@ -6,4 +7,5 @@ export class UiWebButtonConfig {
   type?: string;
   disabled?: boolean;
   tabindex?: number;
+  @OptionFunction() click?: (e: Event) => void = () => {};
 }
