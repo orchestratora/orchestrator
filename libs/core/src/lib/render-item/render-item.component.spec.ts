@@ -11,7 +11,7 @@ import { ErrorStrategy } from '../error-strategy/error-strategy';
 import { SuppressErrorStrategy } from '../error-strategy/suppress-error-strategy';
 import { OrchestratorConfigItem } from '../types';
 import { InjectorRegistryService } from './injector-registry.service';
-import { INJECTOR_MAP } from './local-injector';
+import { INJECTOR_MAP_TOKEN } from './local-injector';
 import { RenderItemComponent } from './render-item.component';
 
 @Component({
@@ -47,7 +47,7 @@ describe('RenderItemComponent', () => {
         ComponentLocatorService,
         ConfigurationService,
         { provide: ErrorStrategy, useClass: SuppressErrorStrategy },
-        { provide: INJECTOR_MAP, useValue: {} },
+        { provide: INJECTOR_MAP_TOKEN, useValue: {} },
       ],
     });
   }));

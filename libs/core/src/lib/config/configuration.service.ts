@@ -7,7 +7,7 @@ import { Errors, Type as IoCodec, Validation } from 'io-ts';
 import { ErrorStrategy } from '../error-strategy/error-strategy';
 import { ConfigurationMeta, getConfigs } from '../metadata/configuration';
 import { getArgName, isArgOptional } from '../util';
-import { FunctionError } from './funtion-error';
+import { FunctionError } from './function-error';
 import { InvalidConfigurationError } from './invalid-configuration-error';
 import {
   CustomInjectorFactory,

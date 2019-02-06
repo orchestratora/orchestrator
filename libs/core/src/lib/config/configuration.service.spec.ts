@@ -7,7 +7,7 @@ import { failure, string, success, Type } from 'io-ts';
 import { ErrorStrategy } from '../error-strategy/error-strategy';
 import * as configuration from '../metadata/configuration';
 import { ConfigurationService } from './configuration.service';
-import { FunctionError } from './funtion-error';
+import { FunctionError } from './function-error';
 import { InvalidConfigurationError } from './invalid-configuration-error';
 import {
   Option,

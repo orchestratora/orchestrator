@@ -6,31 +6,37 @@ import {
 } from '@angular/core';
 
 import { InjectorMap } from '../types';
-import { RenderItemComponent } from './render-item.component';
 
-export const LOCAL_GET_INJECTOR = new InjectionToken<Injector>(
+export type LocalGetInjectorToken = () => Injector;
+export type LocalGetInjectFlagsToken = InjectFlags;
+export type LocalGetComponentToken = () => any;
+export type LocalGetConfigToken = () => any;
+export type LocalIsConfigValidToken = () => boolean;
+export type LocalGetRenderItemToken = () => any;
+
+export const LOCAL_GET_INJECTOR = new InjectionToken<LocalGetInjectorToken>(
   'LOCAL_GET_INJECTOR',
 );
 
-export const LOCAL_GET_INJECT_FLAGS = new InjectionToken<Injector>(
-  'LOCAL_GET_INJECT_FLAGS',
-);
+export const LOCAL_GET_INJECT_FLAGS = new InjectionToken<
+  LocalGetInjectFlagsToken
+>('LOCAL_GET_INJECT_FLAGS');
 
-export const LOCAL_GET_COMPONENT = new InjectionToken<any>(
+export const LOCAL_GET_COMPONENT = new InjectionToken<LocalGetComponentToken>(
   'LOCAL_GET_COMPONENT',
 );
 
-export const LOCAL_GET_CONFIGURATION = new InjectionToken<any>(
+export const LOCAL_GET_CONFIGURATION = new InjectionToken<LocalGetConfigToken>(
   'LOCAL_GET_CONFIGURATION',
 );
 
-export const LOCAL_GET_CONFIGURATION_VALID = new InjectionToken<boolean>(
-  'LOCAL_GET_CONFIGURATION_VALID',
-);
+export const LOCAL_GET_CONFIGURATION_VALID = new InjectionToken<
+  LocalIsConfigValidToken
+>('LOCAL_GET_CONFIGURATION_VALID');
 
-export const LOCAL_GET_RENDER_ITEM = new InjectionToken<boolean>(
-  'LOCAL_GET_RENDER_ITEM',
-);
+export const LOCAL_GET_RENDER_ITEM = new InjectionToken<
+  LocalGetRenderItemToken
+>('LOCAL_GET_RENDER_ITEM');
 
 export const LOCAL_INJECTOR_MAP: InjectorMap = {
   getinjector: LOCAL_GET_INJECTOR,
@@ -42,11 +48,11 @@ export const LOCAL_INJECTOR_MAP: InjectorMap = {
 };
 
 export function getLocalProviders(data: {
-  getInjector: () => Injector;
-  getComponent: () => any;
-  getConfig: () => any;
-  isConfigValid: () => boolean;
-  getRenderItem: () => RenderItemComponent;
+  getInjector: LocalGetInjectorToken;
+  getComponent: LocalGetComponentToken;
+  getConfig: LocalGetConfigToken;
+  isConfigValid: LocalIsConfigValidToken;
+  getRenderItem: LocalGetRenderItemToken;
 }): StaticProvider[] {
   return [
     {

@@ -8,21 +8,35 @@ import {
 } from '@angular/core';
 
 import { InjectorMap } from '../types';
-import { getLocalProviders, LOCAL_INJECTOR_MAP } from './local-injector-map';
+import {
+  getLocalProviders,
+  LOCAL_INJECTOR_MAP,
+  LocalGetComponentToken,
+  LocalGetConfigToken,
+  LocalGetRenderItemToken,
+  LocalIsConfigValidToken,
+} from './local-injector-map';
+
+export interface InjectorMapToken extends Array<InjectorMap> {}
+
+export function localInjectorMapFactory() {
+  return [LOCAL_INJECTOR_MAP];
+}
 
 /**
  * Multi-provider of {@link InjectorMap}
  */
-export const INJECTOR_MAP = new InjectionToken<InjectorMap[]>('INJECTOR_MAP', {
-  factory: () => [LOCAL_INJECTOR_MAP],
-});
+export const INJECTOR_MAP_TOKEN = new InjectionToken<InjectorMapToken>(
+  'INJECTOR_MAP',
+  { factory: localInjectorMapFactory },
+);
 
 export interface LocalInjectorParams {
   parentInjector: Injector;
-  getComponent: () => any;
-  getConfig: () => any;
-  isConfigValid: () => boolean;
-  getRenderItem: () => any;
+  getComponent: LocalGetComponentToken;
+  getConfig: LocalGetConfigToken;
+  isConfigValid: LocalIsConfigValidToken;
+  getRenderItem: LocalGetRenderItemToken;
 }
 
 export interface GlobalInjectorParams {
@@ -71,7 +85,9 @@ export class LocalInjector implements Injector {
 
 @Injectable()
 export class LocalInjectorFactory {
-  constructor(@Inject(INJECTOR_MAP) private injectorMap: InjectorMap[]) {}
+  constructor(
+    @Inject(INJECTOR_MAP_TOKEN) private injectorMap: InjectorMapToken,
+  ) {}
 
   create(params: LocalInjectorParams) {
     return new LocalInjector({
