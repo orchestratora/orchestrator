@@ -9,9 +9,9 @@ import { ComponentMap, COMPONENTS } from '../component-map';
 import { ConfigurationService } from '../config/configuration.service';
 import { ErrorStrategy } from '../error-strategy/error-strategy';
 import { SuppressErrorStrategy } from '../error-strategy/suppress-error-strategy';
+import { InjectorRegistryService } from '../injectors/injector-registry.service';
+import { INJECTOR_MAP_TOKEN } from '../injectors/local-injector';
 import { OrchestratorConfigItem } from '../types';
-import { InjectorRegistryService } from './injector-registry.service';
-import { INJECTOR_MAP_TOKEN } from './local-injector';
 import { RenderItemComponent } from './render-item.component';
 
 @Component({

@@ -8,7 +8,7 @@ import { COMPONENTS } from '../component-map';
 import { ConfigurationService } from '../config/configuration.service';
 import { ErrorStrategy } from '../error-strategy/error-strategy';
 import { SuppressErrorStrategy } from '../error-strategy/suppress-error-strategy';
-import { INJECTOR_MAP_TOKEN } from '../render-item/local-injector';
+import { INJECTOR_MAP_TOKEN } from '../injectors/local-injector';
 import { RenderItemComponent } from '../render-item/render-item.component';
 import { OrchestratorComponent } from './orchestrator.component';
 

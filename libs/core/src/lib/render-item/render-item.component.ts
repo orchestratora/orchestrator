@@ -23,26 +23,29 @@ import { takeUntil } from 'rxjs/operators';
 
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
 import { ConfigurationService } from '../config/configuration.service';
+import { InjectorRegistryService } from '../injectors/injector-registry.service';
+import { LocalInjectorFactory } from '../injectors/local-injector';
+import { RenderComponent } from '../render-component';
 import {
   OrchestratorConfigItem,
   OrchestratorDynamicComponentInputs,
   OrchestratorDynamicComponentType,
 } from '../types';
 import { ComponentsRegistryService } from './components-registry.service';
-import { InjectorRegistryService } from './injector-registry.service';
-import { LocalInjectorFactory } from './local-injector';
 
 @Component({
   selector: 'orc-render-item',
   templateUrl: './render-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    { provide: RenderComponent, useExisting: RenderItemComponent },
     ComponentsRegistryService,
     InjectorRegistryService,
     LocalInjectorFactory,
   ],
 })
-export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
+export class RenderItemComponent extends RenderComponent
+  implements OnInit, OnChanges, OnDestroy {
   @Input() item: OrchestratorConfigItem<any> | undefined;
 
   @Output() componentCreated = new EventEmitter<ComponentRef<any>>();
@@ -76,7 +79,9 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
     private configurationService: ConfigurationService,
     private localInjectorFactory: LocalInjectorFactory,
     private injectorRegistryService: InjectorRegistryService,
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.componentsRegistryService.componentsReady$
@@ -103,6 +108,10 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
     this.compInstance = compRef.instance;
     this.componentCreated.emit(compRef);
     this.componentsRegistryService.add(compRef);
+  }
+
+  getInjectorRegistryService() {
+    return this.injectorRegistryService;
   }
 
   addItem(item: OrchestratorConfigItem<any>) {
@@ -221,7 +230,6 @@ export class RenderItemComponent implements OnInit, OnChanges, OnDestroy {
             this.config,
           )
           .isRight(),
-      getRenderItem: () => this,
     });
   }
 }

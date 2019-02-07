@@ -13,7 +13,6 @@ import {
   LOCAL_INJECTOR_MAP,
   LocalGetComponentToken,
   LocalGetConfigToken,
-  LocalGetRenderItemToken,
   LocalIsConfigValidToken,
 } from './local-injector-map';
 
@@ -36,7 +35,6 @@ export interface LocalInjectorParams {
   getComponent: LocalGetComponentToken;
   getConfig: LocalGetConfigToken;
   isConfigValid: LocalIsConfigValidToken;
-  getRenderItem: LocalGetRenderItemToken;
 }
 
 export interface GlobalInjectorParams {
@@ -54,7 +52,6 @@ export class LocalInjector implements Injector {
       getComponent: this.params.getComponent,
       getConfig: this.params.getConfig,
       isConfigValid: this.params.isConfigValid,
-      getRenderItem: this.params.getRenderItem,
     }),
     parent: this.params.parentInjector,
   });
