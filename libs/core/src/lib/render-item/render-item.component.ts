@@ -25,6 +25,7 @@ import { ComponentLocatorService } from '../component-locator/component-locator.
 import { ConfigurationService } from '../config/configuration.service';
 import { InjectorRegistryService } from '../injectors/injector-registry.service';
 import { LocalInjectorFactory } from '../injectors/local-injector';
+import { getStaticInjector } from '../injectors/static-injector';
 import { RenderComponent } from '../render-component';
 import {
   OrchestratorConfigItem,
@@ -218,9 +219,13 @@ export class RenderItemComponent extends RenderComponent
     );
   }
 
+  private createStaticInjector() {
+    return getStaticInjector(this.injectorRegistryService);
+  }
+
   private createLocalInjector() {
     return this.localInjectorFactory.create({
-      parentInjector: this.injectorRegistryService,
+      parentInjector: this.createStaticInjector(),
       getComponent: () => this.compInstance,
       getConfig: () => this.inputs.config,
       isConfigValid: () =>
