@@ -53,7 +53,7 @@ export function getLocalProviders(data: {
     },
     {
       provide: LOCAL_GET_CONFIGURATION_VALID,
-      useValue: data.getConfig,
+      useValue: data.isConfigValid,
     },
   ];
 }

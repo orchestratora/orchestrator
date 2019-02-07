@@ -225,7 +225,7 @@ describe('RenderItemComponent', () => {
       ]);
     });
 
-    it('should allow customization of injector via InjectorRegistryService.addProviders', () => {
+    it('should allow customization of injector via getInjectorRegistryService().addProviders()', () => {
       hostComp.item = {
         component: Dynamic1Component,
         items: [{ component: Dynamic2Component }],
@@ -233,9 +233,13 @@ describe('RenderItemComponent', () => {
 
       fixture.detectChanges();
 
-      const service = fixture.debugElement
-        .query(By.directive(RenderItemComponent))
-        .injector.get(InjectorRegistryService);
+      const renderItem = fixture.debugElement.query(
+        By.directive(RenderItemComponent),
+      ).componentInstance as RenderItemComponent;
+
+      expect(renderItem).toBeTruthy();
+
+      const service = renderItem.getInjectorRegistryService();
 
       expect(service).toBeTruthy();
 
