@@ -27,8 +27,8 @@ export const LOCAL_GET_CONFIGURATION_VALID = new InjectionToken<
 export const LOCAL_INJECTOR_MAP: InjectorMap = {
   getinjector: LOCAL_GET_INJECTOR,
   getcomponent: LOCAL_GET_COMPONENT,
-  getconfiguration: LOCAL_GET_CONFIGURATION,
-  isconfigurationvalid: LOCAL_GET_CONFIGURATION_VALID,
+  getconfig: LOCAL_GET_CONFIGURATION,
+  isconfigvalid: LOCAL_GET_CONFIGURATION_VALID,
   getrendercomponent: RenderComponent as Type<RenderComponent>,
 };
 

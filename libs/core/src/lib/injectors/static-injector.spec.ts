@@ -1,5 +1,5 @@
 import { getStaticInjector, STATIC_INJECT_FLAGS } from './static-injector';
-import { Injector, InjectFlags } from '@angular/core';
+import { InjectFlags } from '@angular/core';
 
 describe('getStaticInjector()', () => {
   it('should return Injector', () => {
