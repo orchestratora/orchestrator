@@ -13,9 +13,9 @@ export class SimpleButtonComponent {
     component: 'orc-ui-web-button-host',
     config: {
       text: 'Click me to update text',
-      click: (getConfiguration, $event: Event) => {
-        getConfiguration().text =
-          getConfiguration().text === 'New Text!' ? 'Other Text!' : 'New Text!';
+      click: (getConfig, $event: Event) => {
+        getConfig().text =
+          getConfig().text === 'New Text!' ? 'Other Text!' : 'New Text!';
         console.log($event);
       },
     } as UiWebButtonConfig,
