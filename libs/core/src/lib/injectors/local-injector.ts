@@ -4,13 +4,13 @@ import {
   InjectFlags,
   InjectionToken,
   Injector,
+  Provider,
   Type,
 } from '@angular/core';
 
 import { InjectorMap } from '../types';
 import {
   getLocalProviders,
-  LOCAL_INJECTOR_MAP,
   LocalGetComponentToken,
   LocalGetConfigToken,
   LocalIsConfigValidToken,
@@ -18,17 +18,19 @@ import {
 
 export interface InjectorMapToken extends Array<InjectorMap> {}
 
-export function localInjectorMapFactory() {
-  return [LOCAL_INJECTOR_MAP];
-}
-
 /**
  * Multi-provider of {@link InjectorMap}
  */
 export const INJECTOR_MAP_TOKEN = new InjectionToken<InjectorMapToken>(
   'INJECTOR_MAP',
-  { factory: localInjectorMapFactory },
 );
+
+/**
+ * Helper to provide {@link INJECTOR_MAP_TOKEN}
+ */
+export function provideInjectorMap(map: InjectorMap): Provider {
+  return { provide: INJECTOR_MAP_TOKEN, useValue: map, multi: true };
+}
 
 export interface LocalInjectorParams {
   parentInjector: Injector;
@@ -56,6 +58,8 @@ export class LocalInjector implements Injector {
     parent: this.params.parentInjector,
   });
 
+  private injectorMaps: InjectorMap[];
+
   constructor(private params: InjectorParams) {}
 
   get<T>(
@@ -73,10 +77,27 @@ export class LocalInjector implements Injector {
       return token;
     }
 
-    token = token.toLowerCase();
+    this.maybeInitInjectorMaps();
 
-    const injectorMap = this.params.injectorMap.find(m => token in m);
+    token = this.processToken(token);
+
+    const injectorMap = this.injectorMaps.find(m => token in m);
     return injectorMap ? injectorMap[token] : token;
+  }
+
+  private maybeInitInjectorMaps() {
+    if (!this.injectorMaps) {
+      this.injectorMaps = this.params.injectorMap.map(m =>
+        Object.keys(m).reduce(
+          (obj, k) => ({ ...obj, [this.processToken(k)]: m[k] }),
+          {},
+        ),
+      );
+    }
+  }
+
+  private processToken(t: string) {
+    return t.toLowerCase();
   }
 }
 
