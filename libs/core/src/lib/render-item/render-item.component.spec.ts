@@ -11,6 +11,7 @@ import { ErrorStrategy } from '../error-strategy/error-strategy';
 import { SuppressErrorStrategy } from '../error-strategy/suppress-error-strategy';
 import { InjectorRegistryService } from '../injectors/injector-registry.service';
 import { INJECTOR_MAP_TOKEN } from '../injectors/local-injector';
+import { RenderComponent } from '../render-component';
 import { OrchestratorConfigItem } from '../types';
 import { RenderItemComponent } from './render-item.component';
 
@@ -264,9 +265,13 @@ describe('RenderItemComponent', () => {
 
       fixture.detectChanges();
 
-      const service = fixture.debugElement
-        .query(By.directive(RenderItemComponent))
-        .injector.get(InjectorRegistryService);
+      const renderItem = fixture.debugElement.query(
+        By.directive(RenderItemComponent),
+      ).componentInstance as RenderItemComponent;
+
+      expect(renderItem).toBeTruthy();
+
+      const service = renderItem.getInjectorRegistryService();
 
       expect(service).toBeTruthy();
 
@@ -276,14 +281,9 @@ describe('RenderItemComponent', () => {
         { provide: CUSTOM_TOKEN, useValue: 'CUSTOM_VALUE' },
       ]);
 
-      const itemRenderer = fixture.debugElement.query(
-        By.directive(RenderItemComponent),
-      );
       const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
 
-      expect(comp1.injector.get(RenderItemComponent)).toBe(
-        itemRenderer.componentInstance,
-      );
+      expect(comp1.injector.get(RenderItemComponent)).toBe(renderItem);
     });
 
     it('should re-render items on change', () => {
@@ -307,6 +307,20 @@ describe('RenderItemComponent', () => {
 
       expect(comp2).toBeTruthy();
       expect(comp2.componentInstance).toEqual(jasmine.any(Dynamic2Component));
+    });
+
+    it('should provide itself under `RenderComponent` token', () => {
+      hostComp.item = { component: Dynamic1Component };
+
+      fixture.detectChanges();
+
+      const renderItemElem = fixture.debugElement.query(
+        By.directive(RenderItemComponent),
+      );
+
+      const renderComp = renderItemElem.injector.get(RenderComponent);
+
+      expect(renderComp).toBe(renderItemElem.componentInstance);
     });
   });
 
