@@ -30,15 +30,19 @@ describe('LocalInjector', () => {
         injectorMap: [{ MyType }, { MyType2 }],
         getComponent: 'getComponent' as any,
         getConfig: 'getConfig' as any,
+        updateConfig: 'updateConfig' as any,
         isConfigValid: 'isConfigValid' as any,
       });
 
-      expect(getLocalProviders).toHaveBeenCalledWith({
-        getInjector: expect.any(Function),
-        getComponent: 'getComponent',
-        getConfig: 'getConfig',
-        isConfigValid: 'isConfigValid',
-      });
+      expect(getLocalProviders).toHaveBeenCalledWith(
+        expect.objectContaining({
+          getInjector: expect.any(Function),
+          getComponent: 'getComponent',
+          getConfig: 'getConfig',
+          updateConfig: 'updateConfig',
+          isConfigValid: 'isConfigValid',
+        }),
+      );
 
       const { getInjector } = getLocalProviders.calls.mostRecent().args[0];
 
@@ -92,7 +96,7 @@ describe('Service: LocalInjectorFactory', () => {
         expect(res()).toBe('component');
       });
 
-      it('should resolve `getConfiguration` as string to `getConfig` function', () => {
+      it('should resolve `getConfig` as string to `getConfig` function', () => {
         const localInjector = getLocalInjector();
 
         const res = localInjector.get('getConfig');
@@ -101,6 +105,17 @@ describe('Service: LocalInjectorFactory', () => {
         expect(res).toEqual(expect.any(Function));
         expect(res2).toBe(res);
         expect(res()).toBe('config');
+      });
+
+      it('should resolve `updateConfig` as string to `updatedConfig` function', () => {
+        const localInjector = getLocalInjector();
+
+        const res = localInjector.get('updateConfig');
+        const res2 = localInjector.get('updateConfig');
+
+        expect(res).toEqual(expect.any(Function));
+        expect(res2).toBe(res);
+        expect(res()).toBe('updatedConfig');
       });
 
       it('should resolve `isConfigValid` as string to `true` function', () => {
@@ -158,6 +173,7 @@ function getLocalInjector(parentInjector: Injector = { get: () => null }) {
     getComponent: () => 'component',
     getConfig: () => 'config',
     isConfigValid: () => true,
+    updateConfig: () => 'updatedConfig',
     parentInjector,
   });
 }
