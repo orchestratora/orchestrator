@@ -11,6 +11,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  Renderer2,
   SimpleChanges,
 } from '@angular/core';
 import {
@@ -22,6 +23,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
+import { OptionFunction } from '../config';
 import { ConfigurationService } from '../config/configuration.service';
 import { InjectorRegistryService } from '../injectors/injector-registry.service';
 import { LocalInjectorFactory } from '../injectors/local-injector';
@@ -33,6 +35,10 @@ import {
   OrchestratorDynamicComponentType,
 } from '../types';
 import { ComponentsRegistryService } from './components-registry.service';
+
+class Handler {
+  @OptionFunction() handler: Function | string;
+}
 
 @Component({
   selector: 'orc-render-item',
@@ -54,7 +60,7 @@ export class RenderItemComponent extends RenderComponent
 
   destroyed$ = new Subject<void>();
 
-  component: OrchestratorDynamicComponentType;
+  componentType: OrchestratorDynamicComponentType;
 
   inputs: OrchestratorDynamicComponentInputs = {
     items: undefined,
@@ -70,11 +76,14 @@ export class RenderItemComponent extends RenderComponent
     return this.item && this.item.items ? this.item.items.length : 0;
   }
 
-  private compInstance: any;
+  private compRef: ComponentRef<any>;
+  private compCdr: ChangeDetectorRef;
   private config: any;
+  private disposableHandlers: Function[] = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
+    private renderer: Renderer2,
     private componentLocatorService: ComponentLocatorService,
     private componentsRegistryService: ComponentsRegistryService,
     private configurationService: ConfigurationService,
@@ -103,16 +112,29 @@ export class RenderItemComponent extends RenderComponent
 
   ngOnDestroy(): void {
     this.destroyed$.next();
+    this.disposeHandlers();
+    this.compRef = this.compCdr = this.config = null;
   }
 
   onComponentCreated(compRef: ComponentRef<any>) {
-    this.compInstance = compRef.instance;
+    this.compRef = compRef;
     this.componentCreated.emit(compRef);
     this.componentsRegistryService.add(compRef);
+    this.updateHandlers();
   }
 
   getInjectorRegistryService() {
     return this.injectorRegistryService;
+  }
+
+  markForCheck() {
+    if (!this.compCdr && this.compRef) {
+      this.compCdr = this.compRef.injector.get(ChangeDetectorRef);
+    }
+
+    if (this.compCdr) {
+      this.compCdr.markForCheck();
+    }
   }
 
   addItem(item: OrchestratorConfigItem<any>) {
@@ -152,13 +174,16 @@ export class RenderItemComponent extends RenderComponent
   }
 
   private updateComponent() {
+    // Invalidate late-component-refs immediately
+    this.compRef = this.compCdr = null;
+
     if (this.item) {
-      this.component = this.componentLocatorService.resolve(
+      this.componentType = this.componentLocatorService.resolve(
         this.item.component,
       );
       this.componentsRegistryService.waitFor(this.itemsLength);
     } else {
-      this.component = this.compInstance = null;
+      this.componentType = null;
       this.componentsRegistryService.waitFor(0);
     }
   }
@@ -174,7 +199,7 @@ export class RenderItemComponent extends RenderComponent
   private updateConfig() {
     if (this.item) {
       this.config = {
-        ...this.componentLocatorService.getDefaultConfig(this.component),
+        ...this.componentLocatorService.getDefaultConfig(this.componentType),
         ...this.item.config,
       };
     } else {
@@ -183,7 +208,7 @@ export class RenderItemComponent extends RenderComponent
   }
 
   private updateInputs() {
-    if (this.component) {
+    if (this.componentType) {
       this.inputs.items = this.item.items;
       this.inputs.config = this.getConfig();
     } else {
@@ -192,7 +217,7 @@ export class RenderItemComponent extends RenderComponent
   }
 
   private updateAttributes() {
-    if (this.component) {
+    if (this.componentType) {
       this.attributes = this.item.attributes || null;
 
       if (this.item.id) {
@@ -202,7 +227,7 @@ export class RenderItemComponent extends RenderComponent
   }
 
   private updateDirectives() {
-    if (this.component && this.item.classes) {
+    if (this.componentType && this.item.classes) {
       this.directives = [
         dynamicDirectiveDef(NgClass, { ngClass: this.item.classes }),
       ];
@@ -213,7 +238,7 @@ export class RenderItemComponent extends RenderComponent
 
   private getConfig() {
     return this.configurationService.decode(
-      this.componentLocatorService.getConfigType(this.component),
+      this.componentLocatorService.getConfigType(this.componentType),
       this.config,
       this.injector,
     );
@@ -226,15 +251,54 @@ export class RenderItemComponent extends RenderComponent
   private createLocalInjector() {
     return this.localInjectorFactory.create({
       parentInjector: this.createStaticInjector(),
-      getComponent: () => this.compInstance,
+      getComponent: () => this.compRef.instance,
       getConfig: () => this.inputs.config,
+      updateConfig: config => {
+        this.markForCheck();
+        return (this.inputs.config = { ...this.inputs.config, ...config });
+      },
       isConfigValid: () =>
         this.configurationService
           .validate(
-            this.componentLocatorService.getConfigType(this.component),
+            this.componentLocatorService.getConfigType(this.componentType),
             this.config,
           )
           .isRight(),
     });
+  }
+
+  private updateHandlers() {
+    this.disposeHandlers();
+
+    if (!this.item || !this.item.handlers || !this.compRef) {
+      return;
+    }
+
+    const { nativeElement } = this.compRef.location;
+    const { handlers } = this.item;
+
+    this.disposableHandlers = Object.keys(handlers)
+      .map(event => ({
+        event,
+        handler: this.decodeHandler(handlers[event]),
+      }))
+      .filter(({ handler }) => handler)
+      .map(({ event, handler }) =>
+        this.renderer.listen(nativeElement, event, handler as any),
+      );
+  }
+
+  private decodeHandler(handler: Function | string): Function {
+    const fn = this.configurationService.decode(
+      Handler,
+      { handler },
+      this.injector,
+    ).handler;
+    return typeof fn === 'function' ? fn : null;
+  }
+
+  private disposeHandlers() {
+    this.disposableHandlers.forEach(disposeHandler => disposeHandler());
+    this.disposableHandlers = [];
   }
 }

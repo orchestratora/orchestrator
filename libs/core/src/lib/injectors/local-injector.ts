@@ -14,6 +14,7 @@ import {
   LocalGetComponentToken,
   LocalGetConfigToken,
   LocalIsConfigValidToken,
+  LocalUpdateConfigToken,
 } from './local-injector-map';
 
 export interface InjectorMapToken extends Array<InjectorMap> {}
@@ -36,6 +37,7 @@ export interface LocalInjectorParams {
   parentInjector: Injector;
   getComponent: LocalGetComponentToken;
   getConfig: LocalGetConfigToken;
+  updateConfig: LocalUpdateConfigToken;
   isConfigValid: LocalIsConfigValidToken;
 }
 
@@ -50,10 +52,8 @@ export interface InjectorParams
 export class LocalInjector implements Injector {
   private localInjector = Injector.create({
     providers: getLocalProviders({
+      ...this.params,
       getInjector: () => this,
-      getComponent: this.params.getComponent,
-      getConfig: this.params.getConfig,
-      isConfigValid: this.params.isConfigValid,
     }),
     parent: this.params.parentInjector,
   });

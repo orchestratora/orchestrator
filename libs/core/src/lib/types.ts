@@ -7,6 +7,7 @@ export interface OrchestratorConfigItem<C = any> {
   id?: string;
   classes?: string | string[] | { [name: string]: boolean };
   attributes?: { [attr: string]: string };
+  handlers?: { [event: string]: Function | string };
 }
 
 export interface OrchestratorDynamicComponentInputs<C = any> {
