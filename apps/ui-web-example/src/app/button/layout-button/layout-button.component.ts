@@ -16,8 +16,10 @@ export class LayoutButtonComponent {
         component: 'orc-ui-web-button-host',
         config: {
           text: 'Button #1',
-          click: () => alert('Button1 clicked!'),
         } as UiWebButtonConfig,
+        handlers: {
+          click: () => alert('Button1 clicked!'),
+        },
       },
       {
         component: 'orc-ui-web-button-host',
@@ -27,8 +29,10 @@ export class LayoutButtonComponent {
         component: 'orc-ui-web-button-host',
         config: {
           text: 'Button #3',
-          click: () => alert('Button3 clicked!'),
         } as UiWebButtonConfig,
+        handlers: {
+          click: () => alert('Button3 clicked!'),
+        },
       },
     ],
   };

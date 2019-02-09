@@ -13,11 +13,22 @@ export class SimpleButtonComponent {
     component: 'orc-ui-web-button-host',
     config: {
       text: 'Click me to update text',
-      click: (getConfig, $event: Event) => {
+    } as UiWebButtonConfig,
+    handlers: {
+      click: (getConfig, $event: Event, renderComponent) => {
         getConfig().text =
           getConfig().text === 'New Text!' ? 'Other Text!' : 'New Text!';
+        renderComponent.markForCheck();
         console.log($event);
       },
-    } as UiWebButtonConfig,
+      mouseover: ($event: Event, getConfig, updateConfig) => {
+        updateConfig({ text: getConfig().text + ' over' });
+        console.log('Mouseover button', $event);
+      },
+      mouseout: ($event: Event, getConfig, updateConfig) => {
+        updateConfig({ text: getConfig().text.replace(' over', '') });
+        console.log('Mouseout button', $event);
+      },
+    },
   };
 }
