@@ -16,7 +16,7 @@ const configurationMeta = createMetadataGetSet<ConfigurationMeta[]>(
  * @internal
  */
 export function addConfig(target: any, meta: ConfigurationMeta) {
-  const configs = getConfigs(target) || [];
+  const configs = getConfigs(target);
   configurationMeta.set([...configs, meta], target);
 }
 
@@ -24,5 +24,5 @@ export function addConfig(target: any, meta: ConfigurationMeta) {
  * @internal
  */
 export function getConfigs(type: Type<any>): ConfigurationMeta[] {
-  return configurationMeta.get(type);
+  return configurationMeta.get(type) || [];
 }

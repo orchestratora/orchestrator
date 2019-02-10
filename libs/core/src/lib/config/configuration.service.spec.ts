@@ -1,3 +1,4 @@
+import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Property } from '@orchestrator/gen-io-ts';
 import { left, right } from 'fp-ts/lib/Either';
@@ -6,8 +7,14 @@ import { failure, string, success, Type } from 'io-ts';
 import { ErrorStrategy } from '../error-strategy/error-strategy';
 import * as configuration from '../metadata/configuration';
 import { ConfigurationService } from './configuration.service';
+import { FunctionError } from './function-error';
 import { InvalidConfigurationError } from './invalid-configuration-error';
-import { Option, OptionInteger, OptionRequired } from './option';
+import {
+  Option,
+  OptionFunction,
+  OptionInteger,
+  OptionRequired,
+} from './option';
 
 class MockConfigurationErrorStrategy extends ErrorStrategy {
   handle = jest.fn();
@@ -98,7 +105,19 @@ describe('Service: Configuration', () => {
       expect(res).toEqual(config);
     });
 
-    it('should return `decodedConfig` when valid', () => {
+    it('should return `config` when invalid', () => {
+      class Test {
+        @Option() prop1: string;
+        @Option() prop2: boolean;
+      }
+
+      const config = { prop1: 'ok', prop2: 'not ok' };
+      const res = getService().decode(Test, config as any);
+
+      expect(res).toEqual(config);
+    });
+
+    it('should return decoded `config` when valid', () => {
       class Test {
         @Option() prop1: string;
         @Option() prop2: boolean;
@@ -140,21 +159,110 @@ describe('Service: Configuration', () => {
       expect(res.prop1()).toBe('hi from prop1');
     });
 
-    it('should return `config` when invalid', () => {
+    it('should bind `OptionFunction` functions in config via `Injector`', () => {
+      const service = getService();
+      const injector = TestBed.get(Injector) as Injector;
+      const injectorGet = spyOn(injector, 'get');
+
       class Test {
-        @Option() prop1: string;
-        @Option() prop2: boolean;
+        @OptionFunction() prop1: Function;
       }
 
-      const config = { prop1: 'ok', prop2: 'not ok' };
+      const config = { prop1: '(arg1, arg2 = 1) => [arg1, arg2]' };
+      const res = service.decode(Test, config as any);
+
+      expect(res.prop1).toEqual(expect.any(Function));
+      expect(injectorGet).toHaveBeenCalledWith(
+        'arg1',
+        Injector.THROW_IF_NOT_FOUND,
+      );
+      expect(injectorGet).toHaveBeenCalledWith('arg2', null);
+      expect(res.prop1()).toEqual([undefined, 1]);
+
+      injectorGet.and.returnValue('resolved');
+      const res2 = service.decode(Test, config as any);
+
+      expect(res2.prop1()).toEqual(['resolved', 'resolved']);
+    });
+
+    it('should bind `OptionFunction` functions in config via passed injector', () => {
+      const injector = { get: jest.fn().mockReturnValue('resolved') };
+
+      class Test {
+        @OptionFunction() prop1: Function;
+      }
+
+      const config = { prop1: '(arg1, arg2 = 1) => [arg1, arg2]' };
+      const res = getService().decode(Test, config as any, injector);
+
+      expect(injector.get).toHaveBeenCalledWith(
+        'arg1',
+        Injector.THROW_IF_NOT_FOUND,
+      );
+      expect(injector.get).toHaveBeenCalledWith('arg2', null);
+      expect(res.prop1).toEqual(expect.any(Function));
+      expect(res.prop1()).toEqual(['resolved', 'resolved']);
+    });
+
+    it('should bind `OptionFunction` functions in config via custom injector factory', () => {
+      const injector = { get: jest.fn().mockReturnValue('resolved') };
+
+      class Test {
+        @OptionFunction(() => injector)
+        prop1: Function;
+      }
+
+      const config = { prop1: '(arg1, arg2 = 1) => [arg1, arg2]' };
       const res = getService().decode(Test, config as any);
 
-      expect(res).toEqual(config);
+      expect(injector.get).toHaveBeenCalledWith(
+        'arg1',
+        Injector.THROW_IF_NOT_FOUND,
+      );
+      expect(injector.get).toHaveBeenCalledWith('arg2', null);
+      expect(res.prop1).toEqual(expect.any(Function));
+      expect(res.prop1()).toEqual(['resolved', 'resolved']);
+    });
+
+    it('should not throw any errors from `OptionFunction`', () => {
+      class Test {
+        @OptionFunction() prop1: Function;
+      }
+
+      const config = { prop1: '() => {throw Error("reason")}' };
+      const res = getService().decode(Test, config as any);
+
+      expect(res.prop1).toEqual(expect.any(Function));
+      expect(() => res.prop1()).not.toThrowError();
+    });
+
+    it('should wrap errors in `FunctionError` and pass to `ErrorStrategy`', () => {
+      const injector = { get: jest.fn().mockReturnValue('resolved') };
+
+      class Test {
+        @OptionFunction() prop1: Function;
+      }
+
+      const config = { prop1: '(arg) => {throw Error("reason")}' };
+      const res = getService().decode(Test, config as any, injector);
+
+      expect(() => res.prop1()).not.toThrowError();
+      expect(getErrorStrategy().handle).toHaveBeenCalled();
+
+      const error = getErrorStrategy().handle.mock.calls[0][0] as FunctionError<
+        any
+      >;
+
+      expect(error.config).toBe(Test);
+      expect(error.error).toEqual(new Error('reason'));
+      expect(error.fnName).toBe('prop1');
+      expect(error.fnBody).toBe('(arg) => {throw Error("reason")}');
+      expect(error.args).toEqual(['resolved']);
     });
   });
 
   describe('getMetaOf() method', () => {
-    it('should return `getConfigs(type)`', () => {
+    it('should return `getConfigs(type.prototype)`', () => {
       const getConfigs = spyOn(configuration, 'getConfigs').and.returnValue(
         'configs',
       );
@@ -167,7 +275,7 @@ describe('Service: Configuration', () => {
 
       const res = getService().getMetaOf(Test);
 
-      expect(getConfigs).toHaveBeenCalledWith(Test);
+      expect(getConfigs).toHaveBeenCalledWith(Test.prototype);
       expect(res).toBe('configs');
     });
   });

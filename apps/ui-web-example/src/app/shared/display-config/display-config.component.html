@@ -1,0 +1,33 @@
+<p>
+  <button type="button" (click)="showAsInput = !showAsInput">Toggle Code</button>
+</p>
+<p>
+  <code *ngIf="!showAsInput; else inputTpl">
+    <ng-container
+      [ngTemplateOutlet]="renderEntry"
+      [ngTemplateOutletContext]="{ $implicit: entry }"
+    ></ng-container>
+  </code>
+</p>
+<ng-template #inputTpl>
+  <textarea cols="50" rows="15">{{ configStr }}</textarea>
+</ng-template>
+<ng-template #renderEntry let-entry>
+  <li *ngIf="entry.prop || !entry.children">
+    <b>{{ entry.prop }}</b>
+    <small>
+      :
+      <i>{{ entry.kind }}</i>
+    </small>
+    <ng-container *ngIf="!entry.children">=
+      <pre><orc-editable [value]="entry.str"></orc-editable></pre>
+    </ng-container>
+  </li>
+  <ul *ngIf="entry.children">
+    <ng-container
+      *ngFor="let item of entry.children"
+      [ngTemplateOutlet]="renderEntry"
+      [ngTemplateOutletContext]="{ $implicit: item }"
+    ></ng-container>
+  </ul>
+</ng-template>

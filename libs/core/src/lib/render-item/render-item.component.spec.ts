@@ -9,8 +9,10 @@ import { ComponentMap, COMPONENTS } from '../component-map';
 import { ConfigurationService } from '../config/configuration.service';
 import { ErrorStrategy } from '../error-strategy/error-strategy';
 import { SuppressErrorStrategy } from '../error-strategy/suppress-error-strategy';
+import { ThrowErrorStrategy } from '../error-strategy/throw-error-strategy';
+import { INJECTOR_MAP_TOKEN } from '../injectors/local-injector';
+import { RenderComponent } from '../render-component';
 import { OrchestratorConfigItem } from '../types';
-import { InjectorRegistryService } from './injector-registry.service';
 import { RenderItemComponent } from './render-item.component';
 
 @Component({
@@ -46,6 +48,7 @@ describe('RenderItemComponent', () => {
         ComponentLocatorService,
         ConfigurationService,
         { provide: ErrorStrategy, useClass: SuppressErrorStrategy },
+        { provide: INJECTOR_MAP_TOKEN, useValue: {} },
       ],
     });
   }));
@@ -223,7 +226,7 @@ describe('RenderItemComponent', () => {
       ]);
     });
 
-    it('should allow customization of injector via InjectorRegistryService.addProviders', () => {
+    it('should allow customization of injector via getInjectorRegistryService().addProviders()', () => {
       hostComp.item = {
         component: Dynamic1Component,
         items: [{ component: Dynamic2Component }],
@@ -231,9 +234,13 @@ describe('RenderItemComponent', () => {
 
       fixture.detectChanges();
 
-      const service = fixture.debugElement
-        .query(By.directive(RenderItemComponent))
-        .injector.get(InjectorRegistryService);
+      const renderItem = fixture.debugElement.query(
+        By.directive(RenderItemComponent),
+      ).componentInstance as RenderItemComponent;
+
+      expect(renderItem).toBeTruthy();
+
+      const service = renderItem.getInjectorRegistryService();
 
       expect(service).toBeTruthy();
 
@@ -258,9 +265,13 @@ describe('RenderItemComponent', () => {
 
       fixture.detectChanges();
 
-      const service = fixture.debugElement
-        .query(By.directive(RenderItemComponent))
-        .injector.get(InjectorRegistryService);
+      const renderItem = fixture.debugElement.query(
+        By.directive(RenderItemComponent),
+      ).componentInstance as RenderItemComponent;
+
+      expect(renderItem).toBeTruthy();
+
+      const service = renderItem.getInjectorRegistryService();
 
       expect(service).toBeTruthy();
 
@@ -270,14 +281,9 @@ describe('RenderItemComponent', () => {
         { provide: CUSTOM_TOKEN, useValue: 'CUSTOM_VALUE' },
       ]);
 
-      const itemRenderer = fixture.debugElement.query(
-        By.directive(RenderItemComponent),
-      );
       const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
 
-      expect(comp1.injector.get(RenderItemComponent)).toBe(
-        itemRenderer.componentInstance,
-      );
+      expect(comp1.injector.get(RenderItemComponent)).toBe(renderItem);
     });
 
     it('should re-render items on change', () => {
@@ -301,6 +307,20 @@ describe('RenderItemComponent', () => {
 
       expect(comp2).toBeTruthy();
       expect(comp2.componentInstance).toEqual(jasmine.any(Dynamic2Component));
+    });
+
+    it('should provide itself under `RenderComponent` token', () => {
+      hostComp.item = { component: Dynamic1Component };
+
+      fixture.detectChanges();
+
+      const renderItemElem = fixture.debugElement.query(
+        By.directive(RenderItemComponent),
+      );
+
+      const renderComp = renderItemElem.injector.get(RenderComponent);
+
+      expect(renderComp).toBe(renderItemElem.componentInstance);
     });
   });
 
@@ -399,6 +419,63 @@ describe('RenderItemComponent', () => {
         expect(comp).toBeTruthy();
         expect(comp.nativeElement.getAttribute('class')).toBe('class2');
       });
+    });
+  });
+
+  describe('item.handlers', () => {
+    beforeEach(done => {
+      TestBed.configureTestingModule({
+        providers: [{ provide: ErrorStrategy, useClass: ThrowErrorStrategy }],
+      });
+      init(done);
+    });
+
+    it('should attach listener to host element events', () => {
+      const clickFn = (window['clickFn'] = jest.fn());
+
+      hostComp.item = {
+        component: Dynamic1Component,
+        handlers: {
+          click: $event => window['clickFn']($event),
+        },
+      };
+
+      fixture.detectChanges();
+
+      const compElem = fixture.debugElement.query(
+        By.directive(Dynamic1Component),
+      );
+
+      expect(compElem).toBeTruthy();
+
+      const clickEvt = {};
+      compElem.triggerEventHandler('click', clickEvt);
+
+      expect(clickFn).toHaveBeenCalledWith(clickEvt);
+    });
+
+    it('should attach listener to host element outputs', () => {
+      const customFn = (window['customFn'] = jest.fn());
+
+      hostComp.item = {
+        component: Dynamic1Component,
+        handlers: {
+          customEvent: $event => window['customFn']($event),
+        },
+      };
+
+      fixture.detectChanges();
+
+      const compElem = fixture.debugElement.query(
+        By.directive(Dynamic1Component),
+      );
+      expect(compElem).toBeTruthy();
+      const comp = compElem.componentInstance as Dynamic1Component;
+
+      const customEvt = {};
+      comp.customEvt.emit(customEvt);
+
+      expect(customFn).toHaveBeenCalledWith(customEvt);
     });
   });
 
@@ -503,8 +580,9 @@ describe('RenderItemComponent', () => {
       fixture.detectChanges();
 
       const comp1 = fixture.debugElement.query(By.directive(Dynamic1Component));
-      const renderItem = fixture.debugElement.query(By.directive(RenderItemComponent))
-        .componentInstance as RenderItemComponent;
+      const renderItem = fixture.debugElement.query(
+        By.directive(RenderItemComponent),
+      ).componentInstance as RenderItemComponent;
 
       expect(comp1.query(By.directive(Dynamic2Component))).toBeTruthy();
 

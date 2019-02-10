@@ -4,3 +4,4 @@ export * from './type';
 export * from './range';
 export * from './integer';
 export * from './allowed-values';
+export * from './function';
