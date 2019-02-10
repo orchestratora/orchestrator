@@ -9,7 +9,7 @@ import { ComponentMap, COMPONENTS } from '../component-map';
 import { ConfigurationService } from '../config/configuration.service';
 import { ErrorStrategy } from '../error-strategy/error-strategy';
 import { SuppressErrorStrategy } from '../error-strategy/suppress-error-strategy';
-import { InjectorRegistryService } from '../injectors/injector-registry.service';
+import { ThrowErrorStrategy } from '../error-strategy/throw-error-strategy';
 import { INJECTOR_MAP_TOKEN } from '../injectors/local-injector';
 import { RenderComponent } from '../render-component';
 import { OrchestratorConfigItem } from '../types';
@@ -419,6 +419,63 @@ describe('RenderItemComponent', () => {
         expect(comp).toBeTruthy();
         expect(comp.nativeElement.getAttribute('class')).toBe('class2');
       });
+    });
+  });
+
+  describe('item.handlers', () => {
+    beforeEach(done => {
+      TestBed.configureTestingModule({
+        providers: [{ provide: ErrorStrategy, useClass: ThrowErrorStrategy }],
+      });
+      init(done);
+    });
+
+    it('should attach listener to host element events', () => {
+      const clickFn = (window['clickFn'] = jest.fn());
+
+      hostComp.item = {
+        component: Dynamic1Component,
+        handlers: {
+          click: $event => window['clickFn']($event),
+        },
+      };
+
+      fixture.detectChanges();
+
+      const compElem = fixture.debugElement.query(
+        By.directive(Dynamic1Component),
+      );
+
+      expect(compElem).toBeTruthy();
+
+      const clickEvt = {};
+      compElem.triggerEventHandler('click', clickEvt);
+
+      expect(clickFn).toHaveBeenCalledWith(clickEvt);
+    });
+
+    it('should attach listener to host element outputs', () => {
+      const customFn = (window['customFn'] = jest.fn());
+
+      hostComp.item = {
+        component: Dynamic1Component,
+        handlers: {
+          customEvent: $event => window['customFn']($event),
+        },
+      };
+
+      fixture.detectChanges();
+
+      const compElem = fixture.debugElement.query(
+        By.directive(Dynamic1Component),
+      );
+      expect(compElem).toBeTruthy();
+      const comp = compElem.componentInstance as Dynamic1Component;
+
+      const customEvt = {};
+      comp.customEvt.emit(customEvt);
+
+      expect(customFn).toHaveBeenCalledWith(customEvt);
     });
   });
 

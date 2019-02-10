@@ -3,6 +3,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ComponentFactory,
+  ComponentFactoryResolver,
   ComponentRef,
   EventEmitter,
   Injector,
@@ -19,7 +21,7 @@ import {
   DynamicDirectiveDef,
   dynamicDirectiveDef,
 } from 'ng-dynamic-component';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
@@ -78,12 +80,14 @@ export class RenderItemComponent extends RenderComponent
 
   private compRef: ComponentRef<any>;
   private compCdr: ChangeDetectorRef;
+  private compFactory: ComponentFactory<any>;
   private config: any;
   private disposableHandlers: Function[] = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
+    private cfr: ComponentFactoryResolver,
     private componentLocatorService: ComponentLocatorService,
     private componentsRegistryService: ComponentsRegistryService,
     private configurationService: ConfigurationService,
@@ -113,11 +117,12 @@ export class RenderItemComponent extends RenderComponent
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.disposeHandlers();
-    this.compRef = this.compCdr = this.config = null;
+    this.compRef = this.compCdr = this.compFactory = this.config = null;
   }
 
   onComponentCreated(compRef: ComponentRef<any>) {
     this.compRef = compRef;
+    this.compFactory = this.cfr.resolveComponentFactory(compRef.componentType);
     this.componentCreated.emit(compRef);
     this.componentsRegistryService.add(compRef);
     this.updateHandlers();
@@ -175,7 +180,7 @@ export class RenderItemComponent extends RenderComponent
 
   private updateComponent() {
     // Invalidate late-component-refs immediately
-    this.compRef = this.compCdr = null;
+    this.compRef = this.compCdr = this.compFactory = null;
 
     if (this.item) {
       this.componentType = this.componentLocatorService.resolve(
@@ -270,11 +275,15 @@ export class RenderItemComponent extends RenderComponent
   private updateHandlers() {
     this.disposeHandlers();
 
-    if (!this.item || !this.item.handlers || !this.compRef) {
+    if (
+      !this.item ||
+      !this.item.handlers ||
+      !this.compRef ||
+      !this.compFactory
+    ) {
       return;
     }
 
-    const { nativeElement } = this.compRef.location;
     const { handlers } = this.item;
 
     this.disposableHandlers = Object.keys(handlers)
@@ -283,9 +292,7 @@ export class RenderItemComponent extends RenderComponent
         handler: this.decodeHandler(handlers[event]),
       }))
       .filter(({ handler }) => handler)
-      .map(({ event, handler }) =>
-        this.renderer.listen(nativeElement, event, handler as any),
-      );
+      .map(({ event, handler }) => this.attachHandler(event, handler));
   }
 
   private decodeHandler(handler: Function | string): Function {
@@ -295,6 +302,26 @@ export class RenderItemComponent extends RenderComponent
       this.injector,
     ).handler;
     return typeof fn === 'function' ? fn : null;
+  }
+
+  private attachHandler(event: string, handler: Function): Function {
+    const outputInfo = this.compFactory.outputs.find(
+      output => output.templateName === event,
+    );
+
+    if (outputInfo) {
+      const output = this.compRef.instance[outputInfo.propName] as Observable<
+        any
+      >;
+      const sub = output.subscribe(handler as any);
+      return () => sub.unsubscribe();
+    }
+
+    return this.renderer.listen(
+      this.compRef.location.nativeElement,
+      event,
+      handler as any,
+    );
   }
 
   private disposeHandlers() {
