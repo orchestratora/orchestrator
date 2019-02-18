@@ -29,7 +29,7 @@ import { OptionFunction } from '../config';
 import { ConfigurationService } from '../config/configuration.service';
 import { InjectorRegistryService } from '../injectors/injector-registry.service';
 import { LocalInjectorFactory } from '../injectors/local-injector';
-import { getStaticInjector } from '../injectors/static-injector';
+import { createStaticInjector } from '../injectors/static-injector';
 import { RenderComponent } from '../render-component';
 import {
   OrchestratorConfigItem,
@@ -122,7 +122,7 @@ export class RenderItemComponent extends RenderComponent
 
   onComponentCreated(compRef: ComponentRef<any>) {
     this.compRef = compRef;
-    this.compFactory = this.cfr.resolveComponentFactory(compRef.componentType);
+    this.compFactory = this.cfr.resolveComponentFactory(this.componentType);
     this.componentCreated.emit(compRef);
     this.componentsRegistryService.add(compRef);
     this.updateHandlers();
@@ -193,22 +193,22 @@ export class RenderItemComponent extends RenderComponent
     }
   }
 
-  private updateInjector() {
-    if (this.item) {
-      this.injector = this.createLocalInjector();
-    } else {
-      this.injector = this.injectorRegistryService;
-    }
-  }
-
   private updateConfig() {
-    if (this.item) {
+    if (this.componentType) {
       this.config = {
         ...this.componentLocatorService.getDefaultConfig(this.componentType),
         ...this.item.config,
       };
     } else {
       this.config = null;
+    }
+  }
+
+  private updateInjector() {
+    if (this.componentType) {
+      this.injector = this.createLocalInjector();
+    } else {
+      this.injector = null;
     }
   }
 
@@ -249,13 +249,13 @@ export class RenderItemComponent extends RenderComponent
     );
   }
 
-  private createStaticInjector() {
-    return getStaticInjector(this.injectorRegistryService);
+  private createParentInjector() {
+    return createStaticInjector(this.injectorRegistryService);
   }
 
   private createLocalInjector() {
     return this.localInjectorFactory.create({
-      parentInjector: this.createStaticInjector(),
+      parentInjector: this.createParentInjector(),
       getComponent: () => this.compRef.instance,
       getConfig: () => this.inputs.config,
       updateConfig: config => {
@@ -266,7 +266,7 @@ export class RenderItemComponent extends RenderComponent
         this.configurationService
           .validate(
             this.componentLocatorService.getConfigType(this.componentType),
-            this.config,
+            this.inputs.config,
           )
           .isRight(),
     });
@@ -275,12 +275,7 @@ export class RenderItemComponent extends RenderComponent
   private updateHandlers() {
     this.disposeHandlers();
 
-    if (
-      !this.item ||
-      !this.item.handlers ||
-      !this.compRef ||
-      !this.compFactory
-    ) {
+    if (!this.item.handlers || !this.compRef || !this.compFactory) {
       return;
     }
 
