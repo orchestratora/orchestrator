@@ -17,22 +17,26 @@ import { ErrorStrategy } from '../error-strategy/error-strategy';
 import { SuppressErrorStrategy } from '../error-strategy/suppress-error-strategy';
 import { ThrowErrorStrategy } from '../error-strategy/throw-error-strategy';
 import { InjectorRegistryService } from '../injectors/injector-registry.service';
-import {
-  INJECTOR_MAP_TOKEN,
-  LocalInjectorFactory,
-  LocalInjectorParams,
-} from '../injectors/local-injector';
-import * as staticInjector from '../injectors/static-injector';
+import * as localInjector from '../injectors/local-injector';
+import { LocalInjectorParams } from '../injectors/local-injector';
 import { RenderComponent } from '../render-component';
 import { OrchestratorConfigItem } from '../types';
 import { RenderItemComponent } from './render-item.component';
+import {
+  INJECTOR_MAP_TOKEN,
+  provideInjectorMap,
+  MappedInjectorFactory,
+} from '../injectors/mapped-injector';
 
 @Component({
   selector: 'orc-host-comp',
-  template: `<orc-render-item
-    [item]="item"
-    (componentCreated)="onComponentCreated($event)"
-    (childComponentsCreated)="onChildComponentsCreated($event)"></orc-render-item>`,
+  template: `
+    <orc-render-item
+      [item]="item"
+      (componentCreated)="onComponentCreated($event)"
+      (childComponentsCreated)="onChildComponentsCreated($event)"
+    ></orc-render-item>
+  `,
 })
 class HostComponent {
   item: OrchestratorConfigItem<any>;
@@ -60,7 +64,7 @@ describe('RenderItemComponent', () => {
         ComponentLocatorService,
         ConfigurationService,
         { provide: ErrorStrategy, useClass: SuppressErrorStrategy },
-        { provide: INJECTOR_MAP_TOKEN, useValue: {} },
+        provideInjectorMap({}),
       ],
     });
   }));
@@ -492,27 +496,38 @@ describe('RenderItemComponent', () => {
   });
 
   describe('injector', () => {
-    describe('static', () => {
+    describe('mapped', () => {
       beforeEach(init);
-      it('should be created by `createStaticInjector` with `InjectorRegistryService` parent', () => {
-        const createStaticInjector = spyOn(
-          staticInjector,
-          'createStaticInjector',
-        ).and.callThrough();
+
+      it('should use local injector as parent', () => {
+        spyOn(localInjector, 'createLocalInjector').and.returnValue(
+          'local-injector',
+        );
+
+        const compElem = fixture.debugElement.query(
+          By.directive(RenderItemComponent),
+        );
+
+        expect(compElem).toBeTruthy();
+
+        const mappedInjectorFactory = compElem.injector.get(
+          MappedInjectorFactory,
+        ) as MappedInjectorFactory;
+
+        spyOn(mappedInjectorFactory, 'create');
 
         hostComp.item = { component: Dynamic1Component };
 
         fixture.detectChanges();
 
-        expect(createStaticInjector).toHaveBeenCalledWith(
-          expect.any(InjectorRegistryService),
+        expect(mappedInjectorFactory.create).toHaveBeenCalledWith(
+          'local-injector',
         );
       });
     });
 
     describe('local', () => {
-      let localInjectorFactory: LocalInjectorFactory;
-      let localInjectorFactoryCreate: jasmine.Spy;
+      let createLocalInjector: jasmine.Spy;
 
       beforeEach(init);
 
@@ -521,27 +536,21 @@ describe('RenderItemComponent', () => {
           By.directive(RenderItemComponent),
         ).injector;
 
-        localInjectorFactory = injector.get(LocalInjectorFactory);
-
-        localInjectorFactoryCreate = spyOn(
-          localInjectorFactory,
-          'create',
+        createLocalInjector = spyOn(
+          localInjector,
+          'createLocalInjector',
         ).and.returnValue(injector);
       });
 
       describe('parentInjector prop', () => {
-        it('should be static injector', () => {
-          spyOn(staticInjector, 'createStaticInjector').and.returnValue(
-            'static-injector',
-          );
-
+        it('should be `InjectorRegistryService`', () => {
           hostComp.item = { component: Dynamic1Component };
 
           fixture.detectChanges();
 
-          expect(localInjectorFactoryCreate).toHaveBeenCalledWith(
+          expect(createLocalInjector).toHaveBeenCalledWith(
             expect.objectContaining({
-              parentInjector: 'static-injector',
+              parentInjector: expect.any(InjectorRegistryService),
             }),
           );
         });
@@ -558,9 +567,9 @@ describe('RenderItemComponent', () => {
           );
 
           expect(compElem).toBeTruthy();
-          expect(localInjectorFactoryCreate).toHaveBeenCalled();
+          expect(createLocalInjector).toHaveBeenCalled();
 
-          const { getComponent } = localInjectorFactoryCreate.calls.mostRecent()
+          const { getComponent } = createLocalInjector.calls.mostRecent()
             .args[0] as LocalInjectorParams;
 
           expect(getComponent).toEqual(expect.any(Function));
@@ -575,9 +584,9 @@ describe('RenderItemComponent', () => {
 
           fixture.detectChanges();
 
-          expect(localInjectorFactoryCreate).toHaveBeenCalled();
+          expect(createLocalInjector).toHaveBeenCalled();
 
-          const { getConfig } = localInjectorFactoryCreate.calls.mostRecent()
+          const { getConfig } = createLocalInjector.calls.mostRecent()
             .args[0] as LocalInjectorParams;
 
           expect(getConfig).toEqual(expect.any(Function));
@@ -592,9 +601,9 @@ describe('RenderItemComponent', () => {
 
           fixture.detectChanges();
 
-          expect(localInjectorFactoryCreate).toHaveBeenCalled();
+          expect(createLocalInjector).toHaveBeenCalled();
 
-          const { updateConfig } = localInjectorFactoryCreate.calls.mostRecent()
+          const { updateConfig } = createLocalInjector.calls.mostRecent()
             .args[0] as LocalInjectorParams;
 
           expect(updateConfig).toEqual(expect.any(Function));
@@ -629,9 +638,9 @@ describe('RenderItemComponent', () => {
             injector: { get: injectorGet },
           } as any);
 
-          expect(localInjectorFactoryCreate).toHaveBeenCalled();
+          expect(createLocalInjector).toHaveBeenCalled();
 
-          const { updateConfig } = localInjectorFactoryCreate.calls.mostRecent()
+          const { updateConfig } = createLocalInjector.calls.mostRecent()
             .args[0] as LocalInjectorParams;
 
           updateConfig({});
@@ -661,11 +670,9 @@ describe('RenderItemComponent', () => {
 
           fixture.detectChanges();
 
-          expect(localInjectorFactoryCreate).toHaveBeenCalled();
+          expect(createLocalInjector).toHaveBeenCalled();
 
-          const {
-            isConfigValid,
-          } = localInjectorFactoryCreate.calls.mostRecent()
+          const { isConfigValid } = createLocalInjector.calls.mostRecent()
             .args[0] as LocalInjectorParams;
 
           expect(isConfigValid).toEqual(expect.any(Function));
@@ -680,11 +687,9 @@ describe('RenderItemComponent', () => {
 
           fixture.detectChanges();
 
-          expect(localInjectorFactoryCreate).toHaveBeenCalled();
+          expect(createLocalInjector).toHaveBeenCalled();
 
-          const {
-            isConfigValid,
-          } = localInjectorFactoryCreate.calls.mostRecent()
+          const { isConfigValid } = createLocalInjector.calls.mostRecent()
             .args[0] as LocalInjectorParams;
 
           expect(isConfigValid).toEqual(expect.any(Function));

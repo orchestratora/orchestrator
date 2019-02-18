@@ -28,8 +28,8 @@ import { ComponentLocatorService } from '../component-locator/component-locator.
 import { OptionFunction } from '../config';
 import { ConfigurationService } from '../config/configuration.service';
 import { InjectorRegistryService } from '../injectors/injector-registry.service';
-import { LocalInjectorFactory } from '../injectors/local-injector';
-import { createStaticInjector } from '../injectors/static-injector';
+import { createLocalInjector } from '../injectors/local-injector';
+import { MappedInjectorFactory } from '../injectors/mapped-injector';
 import { RenderComponent } from '../render-component';
 import {
   OrchestratorConfigItem,
@@ -50,7 +50,7 @@ class Handler {
     { provide: RenderComponent, useExisting: RenderItemComponent },
     ComponentsRegistryService,
     InjectorRegistryService,
-    LocalInjectorFactory,
+    MappedInjectorFactory,
   ],
 })
 export class RenderItemComponent extends RenderComponent
@@ -91,7 +91,7 @@ export class RenderItemComponent extends RenderComponent
     private componentLocatorService: ComponentLocatorService,
     private componentsRegistryService: ComponentsRegistryService,
     private configurationService: ConfigurationService,
-    private localInjectorFactory: LocalInjectorFactory,
+    private mappedInjectorFactory: MappedInjectorFactory,
     private injectorRegistryService: InjectorRegistryService,
   ) {
     super();
@@ -206,7 +206,7 @@ export class RenderItemComponent extends RenderComponent
 
   private updateInjector() {
     if (this.componentType) {
-      this.injector = this.createLocalInjector();
+      this.injector = this.createInjector();
     } else {
       this.injector = null;
     }
@@ -249,13 +249,13 @@ export class RenderItemComponent extends RenderComponent
     );
   }
 
-  private createParentInjector() {
-    return createStaticInjector(this.injectorRegistryService);
+  private createInjector() {
+    return this.mappedInjectorFactory.create(this.createLocalInjector());
   }
 
   private createLocalInjector() {
-    return this.localInjectorFactory.create({
-      parentInjector: this.createParentInjector(),
+    return createLocalInjector({
+      parentInjector: this.injectorRegistryService,
       getComponent: () => this.compRef.instance,
       getConfig: () => this.inputs.config,
       updateConfig: config => {
