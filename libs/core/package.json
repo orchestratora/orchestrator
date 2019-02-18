@@ -19,7 +19,7 @@
   "dependencies": {
     "@orchestrator/gen-io-ts": "^2.0.2",
     "fp-ts": "^1.13.0",
-    "io-ts": "^1.7.0",
+    "io-ts": "^1.8.2",
     "ng-dynamic-component": "^4.0.2"
   }
 }
