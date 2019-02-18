@@ -11,7 +11,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "npm run build-libs",
-    "test": "run-p \"test:p:* --runInBand\"",
+    "test": "run-p \"test:p:* -- --runInBand\"",
     "test:p:core": "ng test core",
     "test:p:layout": "ng test layout",
     "test:p:ui-web": "ng test ui-web",
