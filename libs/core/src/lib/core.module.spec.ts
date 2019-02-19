@@ -4,8 +4,9 @@ import { COMPONENTS } from './component-map';
 import { OrchestratorCoreModule } from './core.module';
 import { ErrorStrategy } from './error-strategy/error-strategy';
 import { ThrowErrorStrategy } from './error-strategy/throw-error-strategy';
-import { INJECTOR_MAP_TOKEN } from './injectors/local-injector';
 import { LOCAL_INJECTOR_MAP } from './injectors/local-injector-map';
+import { INJECTOR_MAP_TOKEN } from './injectors/mapped-injector';
+import { STATIC_INJECTOR_MAP } from './injectors/static-injector-map';
 
 describe('OrchestratorCoreModule', () => {
   describe('withComponents() static method', () => {
@@ -62,15 +63,31 @@ describe('OrchestratorCoreModule', () => {
       );
     });
 
+    it('should provide `INJECTOR_MAP_TOKEN` multi token via useValue `STATIC_INJECTOR_MAP`', () => {
+      const res = OrchestratorCoreModule.withComponents([]);
+
+      expect(res.providers).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            provide: INJECTOR_MAP_TOKEN,
+            useValue: STATIC_INJECTOR_MAP,
+            multi: true,
+          }),
+        ]),
+      );
+    });
+
     it('should provide `INJECTOR_MAP_TOKEN` multi token via useValue `LOCAL_INJECTOR_MAP`', () => {
       const res = OrchestratorCoreModule.withComponents([]);
 
-      expect(res.providers).toContainEqual(
-        expect.objectContaining({
-          provide: INJECTOR_MAP_TOKEN,
-          useValue: LOCAL_INJECTOR_MAP,
-          multi: true,
-        }),
+      expect(res.providers).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            provide: INJECTOR_MAP_TOKEN,
+            useValue: LOCAL_INJECTOR_MAP,
+            multi: true,
+          }),
+        ]),
       );
     });
   });

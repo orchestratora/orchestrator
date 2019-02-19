@@ -1,4 +1,9 @@
-import { Component, ComponentRef, InjectionToken } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ComponentRef,
+  InjectionToken,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Dynamic1Component, Dynamic2Component } from '@testing';
@@ -6,21 +11,32 @@ import { DynamicModule } from 'ng-dynamic-component';
 
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
 import { ComponentMap, COMPONENTS } from '../component-map';
+import { Option } from '../config';
 import { ConfigurationService } from '../config/configuration.service';
 import { ErrorStrategy } from '../error-strategy/error-strategy';
 import { SuppressErrorStrategy } from '../error-strategy/suppress-error-strategy';
 import { ThrowErrorStrategy } from '../error-strategy/throw-error-strategy';
-import { INJECTOR_MAP_TOKEN } from '../injectors/local-injector';
+import { InjectorRegistryService } from '../injectors/injector-registry.service';
+import * as localInjector from '../injectors/local-injector';
+import { LocalInjectorParams } from '../injectors/local-injector';
 import { RenderComponent } from '../render-component';
 import { OrchestratorConfigItem } from '../types';
 import { RenderItemComponent } from './render-item.component';
+import {
+  INJECTOR_MAP_TOKEN,
+  provideInjectorMap,
+  MappedInjectorFactory,
+} from '../injectors/mapped-injector';
 
 @Component({
   selector: 'orc-host-comp',
-  template: `<orc-render-item
-    [item]="item"
-    (componentCreated)="onComponentCreated($event)"
-    (childComponentsCreated)="onChildComponentsCreated($event)"></orc-render-item>`,
+  template: `
+    <orc-render-item
+      [item]="item"
+      (componentCreated)="onComponentCreated($event)"
+      (childComponentsCreated)="onChildComponentsCreated($event)"
+    ></orc-render-item>
+  `,
 })
 class HostComponent {
   item: OrchestratorConfigItem<any>;
@@ -48,7 +64,7 @@ describe('RenderItemComponent', () => {
         ComponentLocatorService,
         ConfigurationService,
         { provide: ErrorStrategy, useClass: SuppressErrorStrategy },
-        { provide: INJECTOR_MAP_TOKEN, useValue: {} },
+        provideInjectorMap({}),
       ],
     });
   }));
@@ -476,6 +492,210 @@ describe('RenderItemComponent', () => {
       comp.customEvt.emit(customEvt);
 
       expect(customFn).toHaveBeenCalledWith(customEvt);
+    });
+  });
+
+  describe('injector', () => {
+    describe('mapped', () => {
+      beforeEach(init);
+
+      it('should use local injector as parent', () => {
+        spyOn(localInjector, 'createLocalInjector').and.returnValue(
+          'local-injector',
+        );
+
+        const compElem = fixture.debugElement.query(
+          By.directive(RenderItemComponent),
+        );
+
+        expect(compElem).toBeTruthy();
+
+        const mappedInjectorFactory = compElem.injector.get(
+          MappedInjectorFactory,
+        ) as MappedInjectorFactory;
+
+        spyOn(mappedInjectorFactory, 'create');
+
+        hostComp.item = { component: Dynamic1Component };
+
+        fixture.detectChanges();
+
+        expect(mappedInjectorFactory.create).toHaveBeenCalledWith(
+          'local-injector',
+        );
+      });
+    });
+
+    describe('local', () => {
+      let createLocalInjector: jasmine.Spy;
+
+      beforeEach(init);
+
+      beforeEach(() => {
+        const injector = fixture.debugElement.query(
+          By.directive(RenderItemComponent),
+        ).injector;
+
+        createLocalInjector = spyOn(
+          localInjector,
+          'createLocalInjector',
+        ).and.returnValue(injector);
+      });
+
+      describe('parentInjector prop', () => {
+        it('should be `InjectorRegistryService`', () => {
+          hostComp.item = { component: Dynamic1Component };
+
+          fixture.detectChanges();
+
+          expect(createLocalInjector).toHaveBeenCalledWith(
+            expect.objectContaining({
+              parentInjector: expect.any(InjectorRegistryService),
+            }),
+          );
+        });
+      });
+
+      describe('getComponent prop', () => {
+        it('should return dynamic component', () => {
+          hostComp.item = { component: Dynamic1Component };
+
+          fixture.detectChanges();
+
+          const compElem = fixture.debugElement.query(
+            By.directive(Dynamic1Component),
+          );
+
+          expect(compElem).toBeTruthy();
+          expect(createLocalInjector).toHaveBeenCalled();
+
+          const { getComponent } = createLocalInjector.calls.mostRecent()
+            .args[0] as LocalInjectorParams;
+
+          expect(getComponent).toEqual(expect.any(Function));
+          expect(getComponent()).toBe(compElem.componentInstance);
+        });
+      });
+
+      describe('getConfig prop', () => {
+        it('should return component`s configuration', () => {
+          const config = { isConfig: true };
+          hostComp.item = { component: Dynamic1Component, config };
+
+          fixture.detectChanges();
+
+          expect(createLocalInjector).toHaveBeenCalled();
+
+          const { getConfig } = createLocalInjector.calls.mostRecent()
+            .args[0] as LocalInjectorParams;
+
+          expect(getConfig).toEqual(expect.any(Function));
+          expect(getConfig()).toEqual(config);
+        });
+      });
+
+      describe('updateConfig prop', () => {
+        it('should update component`s configuration and return it', () => {
+          const config = { isConfig: true };
+          hostComp.item = { component: Dynamic1Component, config };
+
+          fixture.detectChanges();
+
+          expect(createLocalInjector).toHaveBeenCalled();
+
+          const { updateConfig } = createLocalInjector.calls.mostRecent()
+            .args[0] as LocalInjectorParams;
+
+          expect(updateConfig).toEqual(expect.any(Function));
+          expect(updateConfig({ isConfig: false })).toEqual({
+            isConfig: false,
+          });
+        });
+
+        it('should markForCheck dynamic component', () => {
+          hostComp.item = { component: Dynamic1Component };
+
+          fixture.detectChanges();
+
+          const compElem = fixture.debugElement.query(
+            By.directive(Dynamic1Component),
+          );
+
+          expect(compElem).toBeTruthy();
+
+          const renderItemElem = fixture.debugElement.query(
+            By.directive(RenderItemComponent),
+          );
+
+          expect(renderItemElem).toBeTruthy();
+
+          const renderItem = renderItemElem.componentInstance as RenderItemComponent;
+
+          const markForCheck = jest.fn();
+          const injectorGet = jest.fn().mockReturnValue({ markForCheck });
+
+          renderItem.onComponentCreated({
+            injector: { get: injectorGet },
+          } as any);
+
+          expect(createLocalInjector).toHaveBeenCalled();
+
+          const { updateConfig } = createLocalInjector.calls.mostRecent()
+            .args[0] as LocalInjectorParams;
+
+          updateConfig({});
+
+          expect(injectorGet).toHaveBeenCalledWith(ChangeDetectorRef);
+          expect(markForCheck).toHaveBeenCalled();
+        });
+      });
+
+      describe('isConfigValid prop', () => {
+        beforeEach(() => {
+          class Config {
+            @Option() prop: string;
+          }
+
+          const compLocator = TestBed.get(
+            ComponentLocatorService,
+          ) as ComponentLocatorService;
+          spyOn(compLocator, 'getConfigType').and.returnValue(Config);
+        });
+
+        it('should return `true` when config valid', () => {
+          hostComp.item = {
+            component: Dynamic1Component,
+            config: { prop: 'ok' },
+          };
+
+          fixture.detectChanges();
+
+          expect(createLocalInjector).toHaveBeenCalled();
+
+          const { isConfigValid } = createLocalInjector.calls.mostRecent()
+            .args[0] as LocalInjectorParams;
+
+          expect(isConfigValid).toEqual(expect.any(Function));
+          expect(isConfigValid()).toBe(true);
+        });
+
+        it('should return `false` when config invalid', () => {
+          hostComp.item = {
+            component: Dynamic1Component,
+            config: { prop: 1 },
+          };
+
+          fixture.detectChanges();
+
+          expect(createLocalInjector).toHaveBeenCalled();
+
+          const { isConfigValid } = createLocalInjector.calls.mostRecent()
+            .args[0] as LocalInjectorParams;
+
+          expect(isConfigValid).toEqual(expect.any(Function));
+          expect(isConfigValid()).toBe(false);
+        });
+      });
     });
   });
 

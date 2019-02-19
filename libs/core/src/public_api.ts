@@ -21,3 +21,6 @@ export * from './lib/config/function-error';
 
 // Injectors
 export * from './lib/injectors/injector-registry.service';
+export * from './lib/injectors/mapped-injector';
+export * from './lib/injectors/static-injector-map';
+export * from './lib/injectors/local-injector-map';
