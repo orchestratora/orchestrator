@@ -17,7 +17,7 @@
     "test:p:ui-web": "ng test ui-web",
     "lint": "./node_modules/.bin/nx lint && ng lint",
     "e2e": "ng e2e",
-    "ci": "npm-run-all -p lint test build-libs",
+    "ci": "npm run format:check && npm-run-all -p lint test build-libs",
     "affected:apps": "./node_modules/.bin/nx affected:apps",
     "affected:libs": "./node_modules/.bin/nx affected:libs",
     "affected:build": "./node_modules/.bin/nx affected:build",
@@ -128,12 +128,8 @@
       "tslint -p tsconfig.json -c tslint.json --fix",
       "git add"
     ],
-    "{libs,apps,tools}/**/*.{ts,js,json,?css}": [
-      "prettier --write",
-      "git add"
-    ],
-    "{libs,apps,tools}/**/*.html": [
-      "prettyhtml",
+    "{libs,apps,tools}/**/*.{ts,js,json,html,?css}": [
+      "npm run format -- --files",
       "git add"
     ]
   }
