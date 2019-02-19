@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DynamicComponent, OrchestratorDynamicComponent } from '@orchestrator/core';
+import {
+  DynamicComponent,
+  OrchestratorDynamicComponent,
+} from '@orchestrator/core';
 
 import { UiWebInputConfig } from './ui-web-input-config';
 
@@ -10,6 +13,7 @@ import { UiWebInputConfig } from './ui-web-input-config';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 @DynamicComponent({ config: UiWebInputConfig })
-export class UiWebInputHostComponent implements OrchestratorDynamicComponent<UiWebInputConfig> {
+export class UiWebInputHostComponent
+  implements OrchestratorDynamicComponent<UiWebInputConfig> {
   @Input() config: UiWebInputConfig;
 }

@@ -18,7 +18,10 @@ describe('ComponentLocatorService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
-      providers: [ComponentLocatorService, { provide: COMPONENTS, useValue: [], multi: true }],
+      providers: [
+        ComponentLocatorService,
+        { provide: COMPONENTS, useValue: [], multi: true },
+      ],
     });
   });
 
@@ -35,8 +38,11 @@ describe('ComponentLocatorService', () => {
     describe('when components as array', () => {
       beforeEach(() =>
         TestBed.configureTestingModule({
-          providers: [{ provide: COMPONENTS, useValue: [TestComponent], multi: true }],
-        }));
+          providers: [
+            { provide: COMPONENTS, useValue: [TestComponent], multi: true },
+          ],
+        }),
+      );
 
       it('should return component by it`s selector', () => {
         expect(getService().resolve('orc-test-comp')).toEqual(TestComponent);
@@ -47,9 +53,14 @@ describe('ComponentLocatorService', () => {
       beforeEach(() =>
         TestBed.configureTestingModule({
           providers: [
-            { provide: COMPONENTS, useValue: { comp1: 'comp1', comp2: 'comp2' }, multi: true },
+            {
+              provide: COMPONENTS,
+              useValue: { comp1: 'comp1', comp2: 'comp2' },
+              multi: true,
+            },
           ],
-        }));
+        }),
+      );
 
       it('should return mapped component when match', () => {
         expect(getService().resolve('comp1')).toBe('comp1');
@@ -83,7 +94,9 @@ describe('ComponentLocatorService', () => {
         providers: [MyConfig],
       });
 
-      expect(getService().getDefaultConfig(MyComp)).toEqual(expect.any(MyConfig));
+      expect(getService().getDefaultConfig(MyComp)).toEqual(
+        expect.any(MyConfig),
+      );
     });
   });
 });

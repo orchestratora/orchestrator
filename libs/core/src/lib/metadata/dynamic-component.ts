@@ -11,7 +11,9 @@ const dynamicComponentMeta = createMetadataGetSet<DynamicComponentOptions<any>>(
   'DynamicComponentMeta',
 );
 
-export function DynamicComponent<C>(options: DynamicComponentOptions<C>): ClassDecorator {
+export function DynamicComponent<C>(
+  options: DynamicComponentOptions<C>,
+): ClassDecorator {
   return target => dynamicComponentMeta.set(options, target);
 }
 

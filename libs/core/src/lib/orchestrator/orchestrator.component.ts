@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentRef } from '@angular/core/src/render3';
 import { combineLatest, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,9 +22,10 @@ export class OrchestratorComponent {
   private childCompsCreated$ = new Subject<ComponentRef<any>[]>();
 
   @Output()
-  componentsCreated = combineLatest(this.compCreated$, this.childCompsCreated$).pipe(
-    map(([comp, comps]) => [comp, ...comps]),
-  );
+  componentsCreated = combineLatest(
+    this.compCreated$,
+    this.childCompsCreated$,
+  ).pipe(map(([comp, comps]) => [comp, ...comps]));
 
   compCreated(compRef: ComponentRef<any>) {
     this.compCreated$.next(compRef);

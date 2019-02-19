@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DynamicComponent, OrchestratorDynamicComponent } from '@orchestrator/core';
+import {
+  DynamicComponent,
+  OrchestratorDynamicComponent,
+} from '@orchestrator/core';
 
 import { UiWebButtonConfig } from './ui-web-button-config';
 
@@ -10,6 +13,7 @@ import { UiWebButtonConfig } from './ui-web-button-config';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 @DynamicComponent({ config: UiWebButtonConfig })
-export class UiWebButtonHostComponent implements OrchestratorDynamicComponent<UiWebButtonConfig> {
+export class UiWebButtonHostComponent
+  implements OrchestratorDynamicComponent<UiWebButtonConfig> {
   @Input() config: UiWebButtonConfig;
 }

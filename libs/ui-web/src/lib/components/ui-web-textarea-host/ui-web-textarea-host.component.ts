@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DynamicComponent, OrchestratorDynamicComponent } from '@orchestrator/core';
+import {
+  DynamicComponent,
+  OrchestratorDynamicComponent,
+} from '@orchestrator/core';
 
 import { UiWebTextAreaConfig } from './ui-web-textarea-config';
 

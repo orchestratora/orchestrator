@@ -7,7 +7,9 @@ import { FlexJustifyContentDirective } from './flex-justify-content.directive';
 
 @Component({
   selector: 'orc-host-comp',
-  template: `<div [orcFxJustifyContent]="justifyContent">`,
+  template: `
+    <div [orcFxJustifyContent]="justifyContent"></div>
+  `,
 })
 class HostComponent {
   justifyContent: LayoutFlatJustifyOptions;
@@ -27,7 +29,9 @@ describe('Directive: FlexJustifyContent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HostComponent);
     hostComp = fixture.componentInstance;
-    directiveElem = fixture.debugElement.query(By.directive(FlexJustifyContentDirective));
+    directiveElem = fixture.debugElement.query(
+      By.directive(FlexJustifyContentDirective),
+    );
   });
 
   it('should create an instance', () => {

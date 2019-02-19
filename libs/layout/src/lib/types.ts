@@ -1,10 +1,21 @@
 export type LayoutFlatCommonOptions = 'initial' | 'inherit';
 
-export type LayoutFlatWrapOptions = LayoutFlatCommonOptions | 'wrap' | 'nowrap' | 'wrap-reverse';
+export type LayoutFlatWrapOptions =
+  | LayoutFlatCommonOptions
+  | 'wrap'
+  | 'nowrap'
+  | 'wrap-reverse';
 
-export type LayoutFlatDirectionOptions = LayoutFlatCommonOptions | 'row' | 'column';
+export type LayoutFlatDirectionOptions =
+  | LayoutFlatCommonOptions
+  | 'row'
+  | 'column';
 
-export type LayoutFlatFlexOptions = LayoutFlatCommonOptions | 'center' | 'flex-end' | 'flex-start';
+export type LayoutFlatFlexOptions =
+  | LayoutFlatCommonOptions
+  | 'center'
+  | 'flex-end'
+  | 'flex-start';
 
 export type LayoutFlatJustifyOptions =
   | LayoutFlatFlexOptions
@@ -12,7 +23,10 @@ export type LayoutFlatJustifyOptions =
   | 'space-around'
   | 'space-evenly';
 
-export type LayoutFlatAlignItemsOptions = LayoutFlatFlexOptions | 'baseline' | 'stretch';
+export type LayoutFlatAlignItemsOptions =
+  | LayoutFlatFlexOptions
+  | 'baseline'
+  | 'stretch';
 
 export type LayoutFlatAlignContentOptions =
   | LayoutFlatFlexOptions

@@ -14,7 +14,10 @@ import {
 import { COMPONENTS, HOST_COMPONENTS } from './components/components';
 
 @NgModule({
-  imports: [CommonModule, OrchestratorCoreModule.withComponents(HOST_COMPONENTS)],
+  imports: [
+    CommonModule,
+    OrchestratorCoreModule.withComponents(HOST_COMPONENTS),
+  ],
   exports: [OrchestratorCoreModule, ...HOST_COMPONENTS, ...COMPONENTS],
   declarations: [...HOST_COMPONENTS, ...COMPONENTS],
 })

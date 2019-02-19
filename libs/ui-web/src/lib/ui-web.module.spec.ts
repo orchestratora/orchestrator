@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { OrchestratorConfigItem, OrchestratorCoreModule } from '@orchestrator/core';
+import {
+  OrchestratorConfigItem,
+  OrchestratorCoreModule,
+} from '@orchestrator/core';
 
 import {
   UiWebButtonHostComponent,
@@ -16,7 +19,9 @@ import { UiWebModule } from './ui-web.module';
 
 @Component({
   selector: 'orc-host-comp',
-  template: `<orc-orchestrator [config]="config"></orc-orchestrator>`,
+  template: `
+    <orc-orchestrator [config]="config"></orc-orchestrator>
+  `,
 })
 class HostComponent {
   config: OrchestratorConfigItem;
@@ -44,7 +49,9 @@ describe('UiWebModule', () => {
 
       fixture.detectChanges();
 
-      const buttonElem = fixture.debugElement.query(By.directive(UiWebButtonHostComponent));
+      const buttonElem = fixture.debugElement.query(
+        By.directive(UiWebButtonHostComponent),
+      );
 
       expect(buttonElem).toBeTruthy();
     });
@@ -56,7 +63,9 @@ describe('UiWebModule', () => {
 
       fixture.detectChanges();
 
-      const labelElem = fixture.debugElement.query(By.directive(UiWebTextHostComponent));
+      const labelElem = fixture.debugElement.query(
+        By.directive(UiWebTextHostComponent),
+      );
 
       expect(labelElem).toBeTruthy();
     });
@@ -68,7 +77,9 @@ describe('UiWebModule', () => {
 
       fixture.detectChanges();
 
-      const imageElem = fixture.debugElement.query(By.directive(UiWebImageHostComponent));
+      const imageElem = fixture.debugElement.query(
+        By.directive(UiWebImageHostComponent),
+      );
 
       expect(imageElem).toBeTruthy();
     });
@@ -80,7 +91,9 @@ describe('UiWebModule', () => {
 
       fixture.detectChanges();
 
-      const headingElem = fixture.debugElement.query(By.directive(UiWebHeadingHostComponent));
+      const headingElem = fixture.debugElement.query(
+        By.directive(UiWebHeadingHostComponent),
+      );
 
       expect(headingElem).toBeTruthy();
     });
@@ -92,7 +105,9 @@ describe('UiWebModule', () => {
 
       fixture.detectChanges();
 
-      const inputElem = fixture.debugElement.query(By.directive(UiWebInputHostComponent));
+      const inputElem = fixture.debugElement.query(
+        By.directive(UiWebInputHostComponent),
+      );
 
       expect(inputElem).toBeTruthy();
     });
@@ -104,7 +119,9 @@ describe('UiWebModule', () => {
 
       fixture.detectChanges();
 
-      const selectElem = fixture.debugElement.query(By.directive(UiWebSelectHostComponent));
+      const selectElem = fixture.debugElement.query(
+        By.directive(UiWebSelectHostComponent),
+      );
 
       expect(selectElem).toBeTruthy();
     });
@@ -116,7 +133,9 @@ describe('UiWebModule', () => {
 
       fixture.detectChanges();
 
-      const textareaElem = fixture.debugElement.query(By.directive(UiWebTextareaHostComponent));
+      const textareaElem = fixture.debugElement.query(
+        By.directive(UiWebTextareaHostComponent),
+      );
 
       expect(textareaElem).toBeTruthy();
     });
