@@ -33,11 +33,11 @@ export function provideInjectorMap(map: InjectorMap): Provider {
  * Use via {@link MappedInjectorFactory}
  */
 export class MappedInjector implements Injector {
-  private injectorMaps: InjectorMap[];
+  private injectorMap: InjectorMap;
 
   constructor(
     private parent: Injector,
-    private injectorMap: InjectorMapToken,
+    private injectorMaps: InjectorMapToken,
   ) {}
 
   get<T>(
@@ -55,21 +55,22 @@ export class MappedInjector implements Injector {
       return token;
     }
 
-    this.maybeInitInjectorMaps();
+    this.maybeInitInjectorMap();
 
     token = this.processToken(token);
 
-    const injectorMap = this.injectorMaps.find(m => token in m);
-    return injectorMap ? injectorMap[token] : token;
+    return token in this.injectorMap ? this.injectorMap[token] : token;
   }
 
-  private maybeInitInjectorMaps() {
-    if (!this.injectorMaps) {
-      this.injectorMaps = this.injectorMap.map(m =>
-        Object.keys(m).reduce(
-          (obj, k) => ({ ...obj, [this.processToken(k)]: m[k] }),
-          {},
-        ),
+  private maybeInitInjectorMap() {
+    if (!this.injectorMap) {
+      this.injectorMap = this.injectorMaps.reduce(
+        (acc, m) =>
+          Object.keys(m).reduce(
+            (obj, k) => ({ ...obj, [this.processToken(k)]: m[k] }),
+            acc,
+          ),
+        Object.create(null),
       );
     }
   }

@@ -61,6 +61,22 @@ describe('MappedInjector', () => {
         'flags',
       );
     });
+
+    it('should map token to `null/undefined`', () => {
+      const injector: Injector = { get: jest.fn() };
+      const injectorMap: InjectorMapToken = [
+        { token1: null as any },
+        { token2: undefined as any },
+      ];
+
+      const mappedInjector = new MappedInjector(injector, injectorMap);
+
+      mappedInjector.get('token1', 'default', 'flags' as any);
+      expect(injector.get).toHaveBeenCalledWith(null, 'default', 'flags');
+
+      mappedInjector.get('token2', 'default', 'flags' as any);
+      expect(injector.get).toHaveBeenCalledWith(undefined, 'default', 'flags');
+    });
   });
 });
 
