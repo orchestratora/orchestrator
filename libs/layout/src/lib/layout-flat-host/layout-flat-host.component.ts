@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   DynamicComponent,
   OrchestratorConfigItem,
@@ -15,7 +20,8 @@ import { LayoutFlatConfig } from './layout-flat-config';
   encapsulation: ViewEncapsulation.None,
 })
 @DynamicComponent({ config: LayoutFlatConfig })
-export class LayoutFlatHostComponent implements OrchestratorDynamicComponent<LayoutFlatConfig> {
+export class LayoutFlatHostComponent
+  implements OrchestratorDynamicComponent<LayoutFlatConfig> {
   @Input() items: OrchestratorConfigItem[];
   @Input() config: LayoutFlatConfig;
 }

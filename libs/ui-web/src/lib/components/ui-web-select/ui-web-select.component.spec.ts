@@ -206,7 +206,9 @@ describe('UiWebSelectComponent', () => {
 
       expect(groupsElem.length).toBe(2);
 
-      const [group1, group2] = groupsElem.map(group => group.queryAll(By.css('option')));
+      const [group1, group2] = groupsElem.map(group =>
+        group.queryAll(By.css('option')),
+      );
 
       expect(group1).toBeTruthy();
       expect(group1.length).toBe(2);
@@ -221,7 +223,10 @@ describe('UiWebSelectComponent', () => {
       component.options = [
         {
           label: 'Group 1',
-          children: [{ label: 'Opt 1', value: 1 }, { label: 'Opt 2', value: 2 }],
+          children: [
+            { label: 'Opt 1', value: 1 },
+            { label: 'Opt 2', value: 2 },
+          ],
         },
         { label: 'Group 2', children: [{ label: 'Opt 3', value: 3 }] },
       ];
@@ -232,7 +237,9 @@ describe('UiWebSelectComponent', () => {
 
       expect(groupsElem.length).toBe(2);
 
-      const [group1, group2] = groupsElem.map(group => group.queryAll(By.css('option')));
+      const [group1, group2] = groupsElem.map(group =>
+        group.queryAll(By.css('option')),
+      );
 
       expect(group1.length).toBe(2);
       expect(group1[0].properties['value']).toBe(1);

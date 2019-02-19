@@ -6,7 +6,11 @@ export function createMetadataGetSet<M = any>(key: string) {
   };
 }
 
-export function defineMetadata<T>(key: string | number | symbol, value: any, target: T) {
+export function defineMetadata<T>(
+  key: string | number | symbol,
+  value: any,
+  target: T,
+) {
   Object.defineProperty(target, key, {
     enumerable: false,
     configurable: false,

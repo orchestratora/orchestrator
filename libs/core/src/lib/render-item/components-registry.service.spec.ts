@@ -10,7 +10,10 @@ describe('Service: ComponentsRegistry', () => {
     });
   });
 
-  it('should ...', inject([ComponentsRegistryService], (service: ComponentsRegistryService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should ...', inject(
+    [ComponentsRegistryService],
+    (service: ComponentsRegistryService) => {
+      expect(service).toBeTruthy();
+    },
+  ));
 });

@@ -4,7 +4,10 @@ import { HomeComponent } from './home.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild([{ path: '', component: HomeComponent }])],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([{ path: '', component: HomeComponent }]),
+  ],
   declarations: [HomeComponent],
 })
 export class HomeModule {}

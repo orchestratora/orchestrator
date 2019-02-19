@@ -50,7 +50,9 @@ describe('UiWebInputHostComponent', () => {
 
       fixture.detectChanges();
 
-      const labelElem = fixture.debugElement.query(By.css('label[for=myInput]'));
+      const labelElem = fixture.debugElement.query(
+        By.css('label[for=myInput]'),
+      );
 
       expect(labelElem).toBeTruthy();
     });

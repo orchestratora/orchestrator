@@ -13,7 +13,8 @@ import { LayoutFlatHostComponent } from './layout-flat-host.component';
     <orc-layout-flat-host
       [items]="items"
       [config]="config"
-    ></orc-layout-flat-host>`,
+    ></orc-layout-flat-host>
+  `,
 })
 class HostComponent {
   items: any;
@@ -37,7 +38,9 @@ describe('LayoutFlatHostComponent', () => {
     TestBed.compileComponents().then(() => {
       fixture = TestBed.createComponent(HostComponent);
       hostComp = fixture.componentInstance;
-      compElem = fixture.debugElement.query(By.directive(LayoutFlatHostComponent));
+      compElem = fixture.debugElement.query(
+        By.directive(LayoutFlatHostComponent),
+      );
     });
   });
 
@@ -107,16 +110,23 @@ describe('LayoutFlatHostComponent', () => {
       };
 
       TestBed.configureTestingModule({
-        imports: [OrchestratorCoreModule.withComponents([LayoutFlatHostComponent])],
+        imports: [
+          OrchestratorCoreModule.withComponents([LayoutFlatHostComponent]),
+        ],
         providers: [{ provide: LayoutFlatConfig, useValue: defaultConfig }],
-      }).overrideTemplate(HostComponent, `<orc-orchestrator [config]="items"></orc-orchestrator>`);
+      }).overrideTemplate(
+        HostComponent,
+        `<orc-orchestrator [config]="items"></orc-orchestrator>`,
+      );
 
       init(done);
     });
 
     function updateCompElem() {
       fixture.detectChanges();
-      compElem = fixture.debugElement.query(By.directive(LayoutFlatHostComponent));
+      compElem = fixture.debugElement.query(
+        By.directive(LayoutFlatHostComponent),
+      );
       fixture.detectChanges();
     }
 
@@ -131,7 +141,9 @@ describe('LayoutFlatHostComponent', () => {
       expect(layoutElem.styles['flex-direction']).toBe(defaultConfig.direction);
       expect(layoutElem.styles['justify-content']).toBe(defaultConfig.justify);
       expect(layoutElem.styles['align-items']).toBe(defaultConfig.alignItems);
-      expect(layoutElem.styles['align-content']).toBe(defaultConfig.alignContent);
+      expect(layoutElem.styles['align-content']).toBe(
+        defaultConfig.alignContent,
+      );
     });
 
     it('should be overridden by `config` input', () => {
@@ -151,7 +163,9 @@ describe('LayoutFlatHostComponent', () => {
       expect(layoutElem.styles['flex-direction']).toBe('column');
       expect(layoutElem.styles['justify-content']).toBe(defaultConfig.justify);
       expect(layoutElem.styles['align-items']).toBe(defaultConfig.alignItems);
-      expect(layoutElem.styles['align-content']).toBe(defaultConfig.alignContent);
+      expect(layoutElem.styles['align-content']).toBe(
+        defaultConfig.alignContent,
+      );
     });
   });
 

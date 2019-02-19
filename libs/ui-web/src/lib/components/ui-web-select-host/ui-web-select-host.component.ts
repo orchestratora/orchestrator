@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DynamicComponent, OrchestratorDynamicComponent } from '@orchestrator/core';
+import {
+  DynamicComponent,
+  OrchestratorDynamicComponent,
+} from '@orchestrator/core';
 
 import { UiWebSelectConfig } from './ui-web-select-config';
 
@@ -10,6 +13,7 @@ import { UiWebSelectConfig } from './ui-web-select-config';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 @DynamicComponent({ config: UiWebSelectConfig })
-export class UiWebSelectHostComponent implements OrchestratorDynamicComponent<UiWebSelectConfig> {
+export class UiWebSelectHostComponent
+  implements OrchestratorDynamicComponent<UiWebSelectConfig> {
   @Input() config: UiWebSelectConfig;
 }

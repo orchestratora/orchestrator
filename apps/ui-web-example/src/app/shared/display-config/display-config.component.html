@@ -1,5 +1,7 @@
 <p>
-  <button type="button" (click)="showAsInput = !showAsInput">Toggle Code</button>
+  <button type="button" (click)="showAsInput = !showAsInput">
+    Toggle Code
+  </button>
 </p>
 <p>
   <code *ngIf="!showAsInput; else inputTpl">
@@ -19,7 +21,8 @@
       :
       <i>{{ entry.kind }}</i>
     </small>
-    <ng-container *ngIf="!entry.children">=
+    <ng-container *ngIf="!entry.children"
+      >=
       <pre><orc-editable [value]="entry.str"></orc-editable></pre>
     </ng-container>
   </li>

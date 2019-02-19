@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { UiWebSelectOption, UiWebSelectOptionGroup, UiWebSelectOptionPair } from './types';
+import {
+  UiWebSelectOption,
+  UiWebSelectOptionGroup,
+  UiWebSelectOptionPair,
+} from './types';
 
 @Component({
   selector: 'orc-ui-web-select',

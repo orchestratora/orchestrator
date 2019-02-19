@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DynamicComponent, OrchestratorDynamicComponent } from '@orchestrator/core';
+import {
+  DynamicComponent,
+  OrchestratorDynamicComponent,
+} from '@orchestrator/core';
 
 import { UiWebImageConfig } from './ui-web-image-config';
 
@@ -10,6 +13,7 @@ import { UiWebImageConfig } from './ui-web-image-config';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 @DynamicComponent({ config: UiWebImageConfig })
-export class UiWebImageHostComponent implements OrchestratorDynamicComponent<UiWebImageConfig> {
+export class UiWebImageHostComponent
+  implements OrchestratorDynamicComponent<UiWebImageConfig> {
   @Input() config: UiWebImageConfig;
 }

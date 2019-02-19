@@ -11,4 +11,7 @@ export interface UiWebSelectOptionPair {
   selected?: boolean;
 }
 
-export type UiWebSelectOption = string | UiWebSelectOptionPair | UiWebSelectOptionGroup;
+export type UiWebSelectOption =
+  | string
+  | UiWebSelectOptionPair
+  | UiWebSelectOptionGroup;
