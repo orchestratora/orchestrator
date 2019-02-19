@@ -5,9 +5,10 @@
     cols="50"
     [rows]="rows"
     (blur)="toggle(false)"
-  >{{ value }}</textarea>
+    >{{ value }}</textarea
+  >
   <ng-template #singleLine>
-    <input #inputElem type="text" [value]="value" (blur)="isEditing = false">
+    <input #inputElem type="text" [value]="value" (blur)="isEditing = false" />
   </ng-template>
 </ng-container>
 <ng-template #renderTpl>

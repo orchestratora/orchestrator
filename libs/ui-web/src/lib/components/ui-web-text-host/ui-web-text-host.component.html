@@ -1,4 +1,6 @@
-<pre *ngIf="config?.preserveFormatting; else noPreTpl"><p>{{ config?.text }}</p></pre>
+<pre
+  *ngIf="config?.preserveFormatting; else noPreTpl"
+><p>{{ config?.text }}</p></pre>
 <ng-template #noPreTpl>
   <p>{{ config?.text }}</p>
 </ng-template>
