@@ -22,6 +22,9 @@
     },
     "ui-web-example-e2e": {
       "tags": ["e2e", "ui"]
+    },
+    "stepper": {
+      "tags": ["components", "ui"]
     }
   }
 }
