@@ -25,7 +25,10 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["libs/core/tsconfig.lib.json", "libs/core/tsconfig.spec.json"],
+            "tsConfig": [
+              "libs/core/tsconfig.lib.json",
+              "libs/core/tsconfig.spec.json"
+            ],
             "exclude": ["**/node_modules/**"]
           }
         }
@@ -53,7 +56,10 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["libs/layout/tsconfig.lib.json", "libs/layout/tsconfig.spec.json"],
+            "tsConfig": [
+              "libs/layout/tsconfig.lib.json",
+              "libs/layout/tsconfig.spec.json"
+            ],
             "exclude": ["**/node_modules/**"]
           }
         }
@@ -81,7 +87,10 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["libs/ui-web/tsconfig.lib.json", "libs/ui-web/tsconfig.spec.json"],
+            "tsConfig": [
+              "libs/ui-web/tsconfig.lib.json",
+              "libs/ui-web/tsconfig.spec.json"
+            ],
             "exclude": ["**/node_modules/**"]
           }
         }
@@ -102,7 +111,10 @@
             "main": "apps/ui-web-example/src/main.ts",
             "polyfills": "apps/ui-web-example/src/polyfills.ts",
             "tsConfig": "apps/ui-web-example/tsconfig.app.json",
-            "assets": ["apps/ui-web-example/src/favicon.ico", "apps/ui-web-example/src/assets"],
+            "assets": [
+              "apps/ui-web-example/src/favicon.ico",
+              "apps/ui-web-example/src/assets"
+            ],
             "styles": ["apps/ui-web-example/src/styles.css"],
             "scripts": []
           },
@@ -195,6 +207,38 @@
           }
         }
       }
+    },
+    "stepper": {
+      "root": "libs/stepper",
+      "sourceRoot": "libs/stepper/src",
+      "projectType": "library",
+      "prefix": "orc",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "libs/stepper/tsconfig.lib.json",
+            "project": "libs/stepper/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/stepper/tsconfig.lib.json",
+              "libs/stepper/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@angular-builders/jest:run",
+          "options": {
+            "configPath": "jest.config.js"
+          }
+        }
+      },
+      "schematics": {}
     }
   },
   "cli": {

@@ -1,0 +1,88 @@
+<div class="step-wrapper">
+  <div class="step">
+    <div class="step-header-wrapper">
+      <ng-container
+        *ngTemplateOutlet="
+          renderStepTpl;
+          context: {
+            $implicit: stepHeader,
+            animation: animationHeader
+          }
+        "
+      ></ng-container>
+    </div>
+    <div class="step-content-wrapper">
+      <ng-container
+        *ngTemplateOutlet="
+          renderStepTpl;
+          context: {
+            $implicit: stepContent,
+            animation: animationContent
+          }
+        "
+      ></ng-container>
+    </div>
+    <div class="step-footer-wrapper">
+      <ng-container
+        *ngTemplateOutlet="
+          renderStepTpl;
+          context: {
+            $implicit: stepFooter,
+            animation: animationFooter
+          }
+        "
+      ></ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #renderStepTpl let-tpl let-animation="animation">
+  <div
+    [@stepAnimationForward]="animation.curr"
+    [@stepAnimationBackward]="animation.prev"
+    (@stepAnimationForward.done)="cleanupPrevStep()"
+    (@stepAnimationBackward.done)="cleanupPrevStep()"
+  >
+    <div *ngIf="animation.animate" @stepAnimationPrev>
+      <ng-container
+        *ngTemplateOutlet="tpl; context: { $implicit: prevStep }"
+      ></ng-container>
+    </div>
+    <div @stepAnimationNext>
+      <ng-container
+        *ngTemplateOutlet="tpl; context: { $implicit: currentStep }"
+      ></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #stepHeader let-step>
+  <div *ngIf="step && !hideHeader" class="step-header">
+    <orc-render-item
+      *ngIf="headerItem; else defaultHeader"
+      [item]="headerItem"
+      [context]="step"
+    ></orc-render-item>
+    <ng-template #defaultHeader>{{ step.config.name }}</ng-template>
+  </div>
+</ng-template>
+
+<ng-template #stepContent let-step>
+  <div *ngIf="step" class="step-content">
+    <orc-render-item [item]="step"></orc-render-item>
+  </div>
+</ng-template>
+
+<ng-template #stepFooter let-step>
+  <div *ngIf="step && !hideFooter" class="step-footer">
+    <orc-render-item
+      *ngIf="footerItem; else defaultFooter"
+      [item]="footerItem"
+      [context]="step"
+    ></orc-render-item>
+    <ng-template #defaultFooter>
+      <button type="button" (click)="goBack()">Prev</button>
+      <button type="button" (click)="goNext()">Next</button>
+    </ng-template>
+  </div>
+</ng-template>
