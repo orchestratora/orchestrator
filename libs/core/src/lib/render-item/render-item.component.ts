@@ -56,6 +56,7 @@ class Handler {
 export class RenderItemComponent extends RenderComponent
   implements OnInit, OnChanges, OnDestroy {
   @Input() item: OrchestratorConfigItem<any> | undefined;
+  @Input() context: any;
 
   @Output() componentCreated = new EventEmitter<ComponentRef<any>>();
   @Output() childComponentsCreated = new EventEmitter<ComponentRef<any>[]>();
@@ -67,6 +68,7 @@ export class RenderItemComponent extends RenderComponent
   inputs: OrchestratorDynamicComponentInputs = {
     items: undefined,
     config: undefined,
+    context: undefined,
   };
 
   directives: DynamicDirectiveDef<any>[] = [];
@@ -111,6 +113,8 @@ export class RenderItemComponent extends RenderComponent
   ngOnChanges(changes: SimpleChanges): void {
     if ('item' in changes) {
       this.update();
+    } else if ('context' in changes) {
+      this.inputs.context = this.context;
     }
   }
 
@@ -216,6 +220,7 @@ export class RenderItemComponent extends RenderComponent
     if (this.componentType) {
       this.inputs.items = this.item.items;
       this.inputs.config = this.getConfig();
+      this.inputs.context = this.context;
     } else {
       this.inputs.items = this.inputs.config = null;
     }
@@ -242,10 +247,12 @@ export class RenderItemComponent extends RenderComponent
   }
 
   private getConfig() {
-    return this.configurationService.decode(
-      this.componentLocatorService.getConfigType(this.componentType),
-      this.config,
-      this.injector,
+    return (
+      this.configurationService.decode(
+        this.componentLocatorService.getConfigType(this.componentType),
+        this.config,
+        this.injector,
+      ) || {}
     );
   }
 

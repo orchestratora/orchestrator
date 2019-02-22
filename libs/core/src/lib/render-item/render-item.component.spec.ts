@@ -33,6 +33,7 @@ import {
   template: `
     <orc-render-item
       [item]="item"
+      [context]="context"
       (componentCreated)="onComponentCreated($event)"
       (childComponentsCreated)="onChildComponentsCreated($event)"
     ></orc-render-item>
@@ -40,6 +41,7 @@ import {
 })
 class HostComponent {
   item: OrchestratorConfigItem<any>;
+  context: any;
   onComponentCreated() {}
   onChildComponentsCreated() {}
 }
@@ -337,6 +339,39 @@ describe('RenderItemComponent', () => {
       const renderComp = renderItemElem.injector.get(RenderComponent);
 
       expect(renderComp).toBe(renderItemElem.componentInstance);
+    });
+  });
+
+  describe('context', () => {
+    beforeEach(init);
+
+    it('should be passed to dynamic component', () => {
+      hostComp.item = { component: Dynamic1Component };
+      hostComp.context = { ctx: true };
+
+      fixture.detectChanges();
+
+      const comp = fixture.debugElement.query(By.directive(Dynamic1Component));
+
+      expect(comp).toBeTruthy();
+      expect(comp.componentInstance.context).toBe(hostComp.context);
+    });
+
+    it('should re-render dynamic component when updated', () => {
+      hostComp.item = { component: Dynamic1Component };
+      hostComp.context = {};
+
+      fixture.detectChanges();
+
+      const comp = fixture.debugElement.query(By.directive(Dynamic1Component));
+
+      expect(comp).toBeTruthy();
+      expect(comp.componentInstance.context).toEqual({});
+
+      hostComp.context = { updated: true };
+      fixture.detectChanges();
+
+      expect(comp.componentInstance.context).toEqual({ updated: true });
     });
   });
 
