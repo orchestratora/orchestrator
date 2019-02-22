@@ -41,3 +41,5 @@ export type InferContext<T, K extends keyof T = never> = K extends never
 export type InferItemContext<T> = T extends OrchestratorConfigItem<any, infer C>
   ? C
   : never;
+
+export type FunctionWithArg<C, T = void> = ($context: C, ...args: any[]) => T;

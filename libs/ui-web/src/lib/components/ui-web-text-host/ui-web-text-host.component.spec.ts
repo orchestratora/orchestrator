@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { UiWebTextHostComponent } from './ui-web-text-host.component';
+import { SimpleChange } from '@angular/core';
 
 describe('UiWebTextHostComponent', () => {
   let component: UiWebTextHostComponent;
@@ -27,6 +28,20 @@ describe('UiWebTextHostComponent', () => {
 
     expect(pElem).toBeTruthy();
     expect(pElem.nativeElement.textContent).toMatch('some text');
+  });
+
+  describe('textWithCtx', () => {
+    it('should render p with text with context', () => {
+      component.config = { textWithCtx: ctx => `Val: ${ctx.val}` };
+      component.context = { val: 'from context' };
+
+      fixture.detectChanges();
+
+      const pElem = fixture.debugElement.query(By.css('p'));
+
+      expect(pElem).toBeTruthy();
+      expect(pElem.nativeElement.textContent).toMatch('Val: from context');
+    });
   });
 
   describe('preserveFormatting option', () => {
