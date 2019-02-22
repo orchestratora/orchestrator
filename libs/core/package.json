@@ -9,8 +9,14 @@
     "type": "git",
     "url": "https://github.com/orchestratora/orchestrator.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "rendering",
+    "extensions",
+    "orchestrator",
+    "components",
+    "angular"
+  ],
+  "author": "Orchestrator <orchestratora@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
     "@angular/core": "^7.0.0",
@@ -20,6 +26,6 @@
     "@orchestrator/gen-io-ts": "^2.0.2",
     "fp-ts": "^1.13.0",
     "io-ts": "^1.8.2",
-    "ng-dynamic-component": "^4.0.2"
+    "ng-dynamic-component": "^4.0.3"
   }
 }

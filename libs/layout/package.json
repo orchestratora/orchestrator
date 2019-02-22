@@ -1,6 +1,22 @@
 {
   "name": "@orchestrator/layout",
   "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/orchestratora/orchestrator.git"
+  },
+  "keywords": [
+    "layout",
+    "flex",
+    "orchestrator",
+    "components",
+    "angular"
+  ],
+  "author": "Orchestrator <orchestratora@gmail.com>",
+  "license": "MIT",
   "peerDependencies": {
     "@angular/core": "^7.0.0",
     "@angular/common": "^7.0.0",
