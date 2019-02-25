@@ -1,6 +1,6 @@
 <pre
   *ngIf="config?.preserveFormatting; else noPreTpl"
-><p>{{ config?.text }}</p></pre>
+><p>{{ textGetter() }}</p></pre>
 <ng-template #noPreTpl>
-  <p>{{ config?.text }}</p>
+  <p>{{ textGetter() }}</p>
 </ng-template>

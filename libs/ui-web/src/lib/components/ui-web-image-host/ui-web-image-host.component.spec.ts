@@ -29,24 +29,44 @@ describe('UiWebImageHostComponent', () => {
     expect(imgElem.properties['src']).toBe('my-src');
   });
 
-  it('should set width of img from `config.width`', () => {
+  it('should set style.width of img from `config.width`', () => {
+    component.config = { src: 'my-src', width: '123px' };
+
+    fixture.detectChanges();
+
+    const imgElem = getImgElem();
+
+    expect(imgElem.styles['width']).toBe('123px');
+  });
+
+  it('should set style.width of img from `config.width` with px', () => {
     component.config = { src: 'my-src', width: 123 };
 
     fixture.detectChanges();
 
     const imgElem = getImgElem();
 
-    expect(imgElem.properties['width']).toBe(123);
+    expect(imgElem.styles['width']).toBe('123px');
   });
 
-  it('should set height of img from `config.height`', () => {
+  it('should set style.height of img from `config.height`', () => {
+    component.config = { src: 'my-src', height: '45px' };
+
+    fixture.detectChanges();
+
+    const imgElem = getImgElem();
+
+    expect(imgElem.styles['height']).toBe('45px');
+  });
+
+  it('should set style.height of img from `config.height` with px', () => {
     component.config = { src: 'my-src', height: 45 };
 
     fixture.detectChanges();
 
     const imgElem = getImgElem();
 
-    expect(imgElem.properties['height']).toBe(45);
+    expect(imgElem.styles['height']).toBe('45px');
   });
 
   it('should set alt attribute of img from `config.alt`', () => {

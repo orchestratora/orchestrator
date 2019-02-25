@@ -16,4 +16,16 @@ import { UiWebImageConfig } from './ui-web-image-config';
 export class UiWebImageHostComponent
   implements OrchestratorDynamicComponent<UiWebImageConfig> {
   @Input() config: UiWebImageConfig;
+
+  get width() {
+    return this.pixelify(this.config.width);
+  }
+
+  get height() {
+    return this.pixelify(this.config.height);
+  }
+
+  private pixelify(val: number | string) {
+    return typeof val === 'number' ? `${val}px` : val;
+  }
 }

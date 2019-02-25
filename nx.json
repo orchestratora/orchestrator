@@ -9,22 +9,19 @@
   },
   "projects": {
     "core": {
-      "tags": []
+      "tags": ["core"]
     },
     "layout": {
-      "tags": []
+      "tags": ["components", "layout"]
     },
     "ui-web": {
-      "tags": []
+      "tags": ["components", "ui"]
     },
     "ui-web-example": {
-      "tags": [
-        "example",
-        "ui-web"
-      ]
+      "tags": ["example", "ui"]
     },
     "ui-web-example-e2e": {
-      "tags": []
+      "tags": ["e2e", "ui"]
     }
   }
 }

@@ -56,6 +56,7 @@ class Handler {
 export class RenderItemComponent extends RenderComponent
   implements OnInit, OnChanges, OnDestroy {
   @Input() item: OrchestratorConfigItem<any> | undefined;
+  @Input() context: any;
 
   @Output() componentCreated = new EventEmitter<ComponentRef<any>>();
   @Output() childComponentsCreated = new EventEmitter<ComponentRef<any>[]>();
@@ -67,6 +68,7 @@ export class RenderItemComponent extends RenderComponent
   inputs: OrchestratorDynamicComponentInputs = {
     items: undefined,
     config: undefined,
+    context: undefined,
   };
 
   directives: DynamicDirectiveDef<any>[] = [];
@@ -111,6 +113,8 @@ export class RenderItemComponent extends RenderComponent
   ngOnChanges(changes: SimpleChanges): void {
     if ('item' in changes) {
       this.update();
+    } else if ('context' in changes) {
+      this.updateContextInput();
     }
   }
 
@@ -174,6 +178,7 @@ export class RenderItemComponent extends RenderComponent
     this.updateConfig();
     this.updateInjector();
     this.updateInputs();
+    this.updateContextInput();
     this.updateAttributes();
     this.updateDirectives();
   }
@@ -242,10 +247,12 @@ export class RenderItemComponent extends RenderComponent
   }
 
   private getConfig() {
-    return this.configurationService.decode(
-      this.componentLocatorService.getConfigType(this.componentType),
-      this.config,
-      this.injector,
+    return (
+      this.configurationService.decode(
+        this.componentLocatorService.getConfigType(this.componentType),
+        this.config,
+        this.injector,
+      ) || {}
     );
   }
 
@@ -322,5 +329,13 @@ export class RenderItemComponent extends RenderComponent
   private disposeHandlers() {
     this.disposableHandlers.forEach(disposeHandler => disposeHandler());
     this.disposableHandlers = [];
+  }
+
+  private updateContextInput() {
+    if (this.componentType) {
+      this.inputs.context = this.context;
+    } else {
+      this.inputs.context = null;
+    }
   }
 }

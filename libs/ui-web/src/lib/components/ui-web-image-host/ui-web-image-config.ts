@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class UiWebImageConfig {
   src: string;
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   alt?: string;
 }
