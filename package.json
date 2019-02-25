@@ -59,7 +59,7 @@
     "@angular/platform-browser": "^7.2.5",
     "@angular/platform-browser-dynamic": "^7.2.5",
     "@angular/router": "^7.2.5",
-    "@nrwl/nx": "^7.5.2",
+    "@nrwl/nx": "^7.6.2",
     "@orchestrator/gen-io-ts": "^2.0.2",
     "core-js": "^2.6.5",
     "fp-ts": "^1.13.0",
