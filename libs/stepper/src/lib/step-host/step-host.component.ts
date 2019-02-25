@@ -17,10 +17,4 @@ import { StepConfig } from './step-config';
 export class StepHostComponent
   implements OrchestratorDynamicComponent<StepConfig> {
   @Input() items: OrchestratorConfigItem<any>[];
-
-  @Input() config: StepConfig;
-
-  get step() {
-    return this.items ? this.items[0] : null;
-  }
 }

@@ -81,8 +81,12 @@
       [context]="step"
     ></orc-render-item>
     <ng-template #defaultFooter>
-      <button type="button" (click)="goBack()">Prev</button>
-      <button type="button" (click)="goNext()">Next</button>
+      <button type="button" class="step-footer--prev" (click)="goBack()">
+        Prev
+      </button>
+      <button type="button" class="step-footer--next" (click)="goNext()">
+        Next
+      </button>
     </ng-template>
   </div>
 </ng-template>

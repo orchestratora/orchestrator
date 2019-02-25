@@ -1,14 +1,26 @@
-import { async, TestBed } from '@angular/core/testing';
+import * as core from '@orchestrator/core';
+
+import { Stepper } from './stepper';
 import { StepperModule } from './stepper.module';
 
 describe('StepperModule', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [StepperModule],
-    }).compileComponents();
-  }));
+  describe('static forRoot()', () => {
+    it('should return same `ngModule`', () => {
+      const res = StepperModule.forRoot();
 
-  it('should create', () => {
-    expect(StepperModule).toBeDefined();
+      expect(res.ngModule).toBe(StepperModule);
+    });
+
+    it('should provide `provideInjectorMap` with `Stepper: Stepper`', () => {
+      const provideInjectorMap = spyOn(
+        core,
+        'provideInjectorMap',
+      ).and.returnValue('stepper-map');
+
+      const res = StepperModule.forRoot();
+
+      expect(provideInjectorMap).toHaveBeenCalledWith({ Stepper: Stepper });
+      expect(res.providers).toContainEqual('stepper-map');
+    });
   });
 });
