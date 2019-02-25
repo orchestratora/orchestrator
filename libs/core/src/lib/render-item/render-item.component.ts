@@ -114,7 +114,7 @@ export class RenderItemComponent extends RenderComponent
     if ('item' in changes) {
       this.update();
     } else if ('context' in changes) {
-      this.inputs.context = this.context;
+      this.updateContextInput();
     }
   }
 
@@ -178,6 +178,7 @@ export class RenderItemComponent extends RenderComponent
     this.updateConfig();
     this.updateInjector();
     this.updateInputs();
+    this.updateContextInput();
     this.updateAttributes();
     this.updateDirectives();
   }
@@ -220,7 +221,6 @@ export class RenderItemComponent extends RenderComponent
     if (this.componentType) {
       this.inputs.items = this.item.items;
       this.inputs.config = this.getConfig();
-      this.inputs.context = this.context;
     } else {
       this.inputs.items = this.inputs.config = null;
     }
@@ -329,5 +329,13 @@ export class RenderItemComponent extends RenderComponent
   private disposeHandlers() {
     this.disposableHandlers.forEach(disposeHandler => disposeHandler());
     this.disposableHandlers = [];
+  }
+
+  private updateContextInput() {
+    if (this.componentType) {
+      this.inputs.context = this.context;
+    } else {
+      this.inputs.context = null;
+    }
   }
 }
