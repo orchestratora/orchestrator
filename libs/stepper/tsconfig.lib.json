@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/libs/stepper",
     "target": "es2015",
@@ -10,9 +10,13 @@
     "inlineSources": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "noEmitHelpers": true,
     "importHelpers": true,
     "types": [],
-    "lib": ["dom", "es2018"]
+    "lib": ["dom", "es2018"],
+    "paths": {
+      "@orchestrator/*": ["dist/libs/*"]
+    }
   },
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,

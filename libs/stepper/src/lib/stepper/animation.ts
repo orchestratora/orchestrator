@@ -17,7 +17,7 @@ export function getStepAnimation(name: string) {
   ];
 }
 
-function stepAnimationTransition(name: string, forwards: boolean) {
+export function stepAnimationTransition(name: string, forwards: boolean) {
   return transition('* <=> *', [
     // Initial state
     style({
