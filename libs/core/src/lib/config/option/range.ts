@@ -1,7 +1,11 @@
 import { Property } from '@orchestrator/gen-io-ts';
-import { refinement } from 'io-ts';
+import { brand, Branded } from 'io-ts';
 
 import { addConfig } from '../../metadata/configuration';
+
+export interface InRangeBrand {
+  readonly InRange: unique symbol;
+}
 
 export function OptionRange(
   min: number,
@@ -9,7 +13,11 @@ export function OptionRange(
   step: number = 1,
 ): PropertyDecorator {
   const typeFactory = (type: any) =>
-    refinement(type, n => n >= min && n <= max, 'InRange');
+    brand(
+      type,
+      (n): n is Branded<number, InRangeBrand> => n >= min && n <= max,
+      'InRange',
+    );
   const decorator = Property({ type: Number, typeFactory });
   return (target, prop) => {
     decorator(target, prop);
