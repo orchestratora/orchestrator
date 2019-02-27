@@ -3,7 +3,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { OrchestratorCoreModule, provideInjectorMap } from '@orchestrator/core';
 
 import { StepHostComponent } from './step-host/step-host.component';
-import { Stepper } from './stepper';
+import { Stepper } from './stepper.class';
 import { StepperHostComponent } from './stepper-host/stepper-host.component';
 import { StepperComponent } from './stepper/stepper.component';
 

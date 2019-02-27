@@ -1,6 +1,6 @@
 import * as core from '@orchestrator/core';
 
-import { Stepper } from './stepper';
+import { Stepper } from './stepper.class';
 import { StepperModule } from './stepper.module';
 
 describe('StepperModule', () => {

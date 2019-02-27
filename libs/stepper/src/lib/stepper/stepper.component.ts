@@ -10,7 +10,7 @@ import {
 import { OrchestratorConfigItem } from '@orchestrator/core';
 
 import { StepConfig } from '../step-host';
-import { Stepper } from '../stepper';
+import { Stepper } from '../stepper.class';
 import { getStepAnimation } from './animation';
 
 interface SectionAnimation {
