@@ -1,36 +1,38 @@
-import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { OrchestratorCoreModule } from '@orchestrator/core';
 
 import {
-  UiWebButtonConfig,
-  UiWebHeadingConfig,
-  UiWebImageConfig,
-  UiWebInputConfig,
-  UiWebTextConfig,
-  UiWebSelectConfig,
-  UiWebTextAreaConfig,
+  UiWebHeadingHostModule,
+  UiWebImageHostModule,
+  UiWebInputHostModule,
+  UiWebSelectHostModule,
+  UiWebTextareaHostModule,
+  UiWebTextHostModule,
 } from './components';
-import { COMPONENTS, HOST_COMPONENTS } from './components/components';
+import { UiWebButtonHostModule } from './components/ui-web-button-host';
 
 @NgModule({
-  imports: [CommonModule, OrchestratorCoreModule],
-  exports: [OrchestratorCoreModule, ...HOST_COMPONENTS, ...COMPONENTS],
-  declarations: [...HOST_COMPONENTS, ...COMPONENTS],
+  exports: [
+    UiWebButtonHostModule,
+    UiWebImageHostModule,
+    UiWebTextHostModule,
+    UiWebHeadingHostModule,
+    UiWebInputHostModule,
+    UiWebSelectHostModule,
+    UiWebTextareaHostModule,
+  ],
 })
 export class UiWebModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: UiWebModule,
       providers: [
-        ...OrchestratorCoreModule.registerComponents(HOST_COMPONENTS),
-        UiWebButtonConfig,
-        UiWebHeadingConfig,
-        UiWebImageConfig,
-        UiWebInputConfig,
-        UiWebTextConfig,
-        UiWebSelectConfig,
-        UiWebTextAreaConfig,
+        ...UiWebButtonHostModule.forRoot().providers,
+        ...UiWebImageHostModule.forRoot().providers,
+        ...UiWebTextHostModule.forRoot().providers,
+        ...UiWebHeadingHostModule.forRoot().providers,
+        ...UiWebInputHostModule.forRoot().providers,
+        ...UiWebSelectHostModule.forRoot().providers,
+        ...UiWebTextareaHostModule.forRoot().providers,
       ],
     };
   }
