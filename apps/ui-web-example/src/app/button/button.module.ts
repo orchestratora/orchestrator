@@ -8,6 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ButtonComponent } from './button.component';
 import { LayoutButtonComponent } from './layout-button/layout-button.component';
 import { SimpleButtonComponent } from './simple-button/simple-button.component';
+import { OrchestratorCoreModule } from '@orchestrator/core';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { SimpleButtonComponent } from './simple-button/simple-button.component';
       { path: 'simple', component: SimpleButtonComponent },
       { path: 'layout', component: LayoutButtonComponent },
     ]),
+    OrchestratorCoreModule.forRoot(),
     LayoutModule.forRoot(),
     UiWebModule.forRoot(),
   ],

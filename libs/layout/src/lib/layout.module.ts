@@ -8,11 +8,7 @@ import { LayoutFlatHostComponent } from './layout-flat-host/layout-flat-host.com
 import { LayoutFlatComponent } from './layout-flat/layout-flat.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    OrchestratorCoreModule.withComponents([LayoutFlatHostComponent]),
-    LayoutFlexModule,
-  ],
+  imports: [CommonModule, OrchestratorCoreModule, LayoutFlexModule],
   exports: [
     OrchestratorCoreModule,
     LayoutFlexModule,
@@ -25,7 +21,10 @@ export class LayoutModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: LayoutModule,
-      providers: [LayoutFlatConfig],
+      providers: [
+        ...OrchestratorCoreModule.registerComponents([LayoutFlatHostComponent]),
+        LayoutFlatConfig,
+      ],
     };
   }
 }

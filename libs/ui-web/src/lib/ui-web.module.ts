@@ -14,10 +14,7 @@ import {
 import { COMPONENTS, HOST_COMPONENTS } from './components/components';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    OrchestratorCoreModule.withComponents(HOST_COMPONENTS),
-  ],
+  imports: [CommonModule, OrchestratorCoreModule],
   exports: [OrchestratorCoreModule, ...HOST_COMPONENTS, ...COMPONENTS],
   declarations: [...HOST_COMPONENTS, ...COMPONENTS],
 })
@@ -26,6 +23,7 @@ export class UiWebModule {
     return {
       ngModule: UiWebModule,
       providers: [
+        ...OrchestratorCoreModule.registerComponents(HOST_COMPONENTS),
         UiWebButtonConfig,
         UiWebHeadingConfig,
         UiWebImageConfig,
