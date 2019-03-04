@@ -87,7 +87,10 @@ describe('UiWebModule', () => {
 
   describe('UiWebHeadingHostComponent', () => {
     it('should be rendered from config', () => {
-      hostComp.config = { component: UiWebHeadingHostComponent };
+      hostComp.config = {
+        component: UiWebHeadingHostComponent,
+        config: { text: 'text' },
+      };
 
       fixture.detectChanges();
 
