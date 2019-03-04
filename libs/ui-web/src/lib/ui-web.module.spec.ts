@@ -76,7 +76,10 @@ describe('UiWebModule', () => {
 
   describe('UiWebImageHostComponent', () => {
     it('should be rendered from config', () => {
-      hostComp.config = { component: UiWebImageHostComponent };
+      hostComp.config = {
+        component: UiWebImageHostComponent,
+        config: { src: 'url' },
+      };
 
       fixture.detectChanges();
 
