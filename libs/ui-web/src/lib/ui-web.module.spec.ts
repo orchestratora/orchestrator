@@ -45,7 +45,10 @@ describe('UiWebModule', () => {
 
   describe('UiWebButtonHostComponent', () => {
     it('should be rendered from config', () => {
-      hostComp.config = { component: UiWebButtonHostComponent };
+      hostComp.config = {
+        component: UiWebButtonHostComponent,
+        config: { text: 'text' },
+      };
 
       fixture.detectChanges();
 

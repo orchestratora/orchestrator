@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Option, OptionInteger } from '@orchestrator/core';
+import { Option, OptionInteger, OptionRequired } from '@orchestrator/core';
 
 @Injectable()
 export class UiWebButtonConfig {
-  @Option()
+  @OptionRequired()
   text: string;
 
   @Option()

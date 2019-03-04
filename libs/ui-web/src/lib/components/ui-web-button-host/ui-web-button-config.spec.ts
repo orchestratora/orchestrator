@@ -22,97 +22,127 @@ describe('UiWebButtonConfig', () => {
   });
 
   describe('text prop', () => {
+    const setTextConfig = (text: any) => ({ text });
+
     it('should allow any string value', () => {
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { text: 'text' }),
+        getConfigService().validate(UiWebButtonConfig, setTextConfig('text')),
       ).not.toThrow();
+    });
+
+    it('should fail if not set', () => {
+      expect(() =>
+        getConfigService().validate(
+          UiWebButtonConfig,
+          setTextConfig(undefined),
+        ),
+      ).toThrow();
+
+      expect(() =>
+        getConfigService().validate(UiWebButtonConfig, setTextConfig(null)),
+      ).toThrow();
     });
 
     it('should fail if NOT a string value', () => {
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { text: 1 }),
+        getConfigService().validate(UiWebButtonConfig, setTextConfig(1)),
       ).toThrow();
 
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { text: true }),
+        getConfigService().validate(UiWebButtonConfig, setTextConfig(true)),
       ).toThrow();
 
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { text: {} }),
+        getConfigService().validate(UiWebButtonConfig, setTextConfig({})),
       ).toThrow();
     });
   });
 
   describe('type prop', () => {
+    const setTypeConfig = (type: any) => ({ type, text: '' });
+
     it('should allow any string value', () => {
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { type: 'type' }),
+        getConfigService().validate(UiWebButtonConfig, setTypeConfig('type')),
       ).not.toThrow();
     });
 
     it('should fail if NOT a string value', () => {
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { type: 0 }),
+        getConfigService().validate(UiWebButtonConfig, setTypeConfig(0)),
       ).toThrow();
 
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { type: true }),
+        getConfigService().validate(UiWebButtonConfig, setTypeConfig(true)),
       ).toThrow();
 
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { type: {} }),
+        getConfigService().validate(UiWebButtonConfig, setTypeConfig({})),
       ).toThrow();
     });
   });
 
   describe('disabled prop', () => {
+    const setDisabledConfig = (disabled: any) => ({ disabled, text: '' });
+
     it('should allow boolean value', () => {
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { disabled: true }),
+        getConfigService().validate(UiWebButtonConfig, setDisabledConfig(true)),
       ).not.toThrow();
 
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { disabled: false }),
+        getConfigService().validate(
+          UiWebButtonConfig,
+          setDisabledConfig(false),
+        ),
       ).not.toThrow();
     });
 
     it('should fail if NOT a boolean value', () => {
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { disabled: 1 }),
+        getConfigService().validate(UiWebButtonConfig, setDisabledConfig(1)),
       ).toThrow();
 
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { disabled: 'value' }),
+        getConfigService().validate(
+          UiWebButtonConfig,
+          setDisabledConfig('value'),
+        ),
       ).toThrow();
 
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { disabled: {} }),
+        getConfigService().validate(UiWebButtonConfig, setDisabledConfig({})),
       ).toThrow();
     });
   });
 
   describe('tabindex prop', () => {
+    const setTabindexConfig = (tabindex: any) => ({ tabindex, text: '' });
+
     it('should allow any integer value', () => {
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { tabindex: 0 }),
+        getConfigService().validate(UiWebButtonConfig, setTabindexConfig(0)),
       ).not.toThrow();
 
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { tabindex: -1 }),
+        getConfigService().validate(UiWebButtonConfig, setTabindexConfig(-1)),
       ).not.toThrow();
     });
 
     it('should fail if NOT a integer value', () => {
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { tabindex: 1.1 }),
+        getConfigService().validate(UiWebButtonConfig, setTabindexConfig(1.1)),
       ).toThrow();
 
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { tabindex: 'value' }),
+        getConfigService().validate(
+          UiWebButtonConfig,
+          setTabindexConfig('value'),
+        ),
       ).toThrow();
 
       expect(() =>
-        getConfigService().validate(UiWebButtonConfig, { tabindex: {} }),
+        getConfigService().validate(UiWebButtonConfig, setTabindexConfig({})),
       ).toThrow();
     });
   });
