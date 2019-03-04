@@ -8,13 +8,7 @@ import { StepperHostComponent } from './stepper-host/stepper-host.component';
 import { StepperComponent } from './stepper/stepper.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    OrchestratorCoreModule.withComponents([
-      StepperHostComponent,
-      StepHostComponent,
-    ]),
-  ],
+  imports: [CommonModule, OrchestratorCoreModule],
   declarations: [StepperHostComponent, StepperComponent, StepHostComponent],
   exports: [
     OrchestratorCoreModule,
@@ -27,7 +21,13 @@ export class StepperModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: StepperModule,
-      providers: [provideInjectorMap({ Stepper: Stepper as any })],
+      providers: [
+        ...OrchestratorCoreModule.registerComponents([
+          StepperHostComponent,
+          StepHostComponent,
+        ]),
+        provideInjectorMap({ Stepper: Stepper as any }),
+      ],
     };
   }
 }
