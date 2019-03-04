@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Option, OptionRange } from '@orchestrator/core';
+import { OptionRange, OptionRequired } from '@orchestrator/core';
 
 export enum UiWebHeadingLevel {
   One = 1,
@@ -12,7 +12,7 @@ export enum UiWebHeadingLevel {
 
 @Injectable()
 export class UiWebHeadingConfig {
-  @Option({ required: true })
+  @OptionRequired()
   text: string;
 
   @OptionRange(1, 6, 1)
