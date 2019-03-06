@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Option, OptionInteger } from '@orchestrator/core';
-import { Property } from '@orchestrator/gen-io-ts';
+import { Option, OptionInteger, OptionTypeFactory } from '@orchestrator/core';
 import { array, string, union } from 'io-ts';
 
 import { FormAttributesConfig } from '../../form-attributes-config';
@@ -10,14 +9,18 @@ import {
   UiWebSelectOptionPairType,
 } from '../ui-web-select';
 
+/**
+ * @internal
+ */
+export function uiWebSelectOptionFactory() {
+  return array(
+    union([string, UiWebSelectOptionGroupType, UiWebSelectOptionPairType]),
+  );
+}
+
 @Injectable()
 export class UiWebSelectConfig extends FormAttributesConfig {
-  @Property({
-    typeFactory: () =>
-      array(
-        union([string, UiWebSelectOptionGroupType, UiWebSelectOptionPairType]),
-      ),
-  })
+  @OptionTypeFactory(uiWebSelectOptionFactory)
   options: UiWebSelectOption[];
 
   @Option()

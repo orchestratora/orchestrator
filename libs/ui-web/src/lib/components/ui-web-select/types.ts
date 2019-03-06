@@ -26,9 +26,16 @@ export class UiWebSelectOptionPair {
 
 export const UiWebSelectOptionPairType = classToType(UiWebSelectOptionPair);
 
+/**
+ * @internal
+ */
+export function uiWebSelectOptionGroupFactory() {
+  return array(union([string, UiWebSelectOptionPairType]));
+}
+
 export class UiWebSelectOptionGroup {
   @OptionRequired()
-  @OptionTypeFactory(() => array(union([string, UiWebSelectOptionPairType])))
+  @OptionTypeFactory(uiWebSelectOptionGroupFactory)
   children: (string | UiWebSelectOptionPair)[];
 
   @Option()
