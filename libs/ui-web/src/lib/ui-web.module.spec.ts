@@ -33,7 +33,7 @@ describe('UiWebModule', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [UiWebModule.forRoot(), OrchestratorCoreModule],
+      imports: [UiWebModule.forRoot(), OrchestratorCoreModule.forRoot()],
       declarations: [HostComponent],
     }).compileComponents();
   }));
