@@ -3,7 +3,7 @@ import { Option, OptionInteger } from '@orchestrator/core';
 import { Property } from '@orchestrator/gen-io-ts';
 import { array, string, union } from 'io-ts';
 
-import { GenericFormAttributesConfig } from '../../types';
+import { FormAttributesConfig } from '../../form-attributes-config';
 import {
   UiWebSelectOption,
   UiWebSelectOptionGroupType,
@@ -11,7 +11,7 @@ import {
 } from '../ui-web-select';
 
 @Injectable()
-export class UiWebSelectConfig extends GenericFormAttributesConfig {
+export class UiWebSelectConfig extends FormAttributesConfig {
   @Property({
     typeFactory: () =>
       array(

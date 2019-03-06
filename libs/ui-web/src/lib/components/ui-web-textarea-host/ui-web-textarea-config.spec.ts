@@ -1,10 +1,11 @@
-import { TestBed } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import {
   ConfigurationService,
   ErrorStrategy,
   ThrowErrorStrategy,
 } from '@orchestrator/core';
 
+import { FormAttributesConfig } from '../../form-attributes-config';
 import { UiWebTextAreaConfig } from './ui-web-textarea-config';
 
 describe('UiWebTextAreaConfig', () => {
@@ -21,6 +22,13 @@ describe('UiWebTextAreaConfig', () => {
   it('should exist', () => {
     expect(UiWebTextAreaConfig).toBeTruthy();
   });
+
+  it('should extend from `FormAttributesConfig`', inject(
+    [UiWebTextAreaConfig],
+    (config: UiWebTextAreaConfig) => {
+      expect(config).toEqual(expect.any(FormAttributesConfig));
+    },
+  ));
 
   it('should set `cols` to `20`', () => {
     expect(getConfig().cols).toBe(20);

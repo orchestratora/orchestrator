@@ -6,10 +6,10 @@ import {
   OptionRange,
 } from '@orchestrator/core';
 
-import { GenericFormAttributesConfig } from '../../types';
+import { FormAttributesConfig } from '../../form-attributes-config';
 
 @Injectable()
-export class UiWebTextAreaConfig extends GenericFormAttributesConfig {
+export class UiWebTextAreaConfig extends FormAttributesConfig {
   @Option()
   placeholder?: string;
 

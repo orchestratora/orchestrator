@@ -1,16 +1,18 @@
-import { TestBed } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import {
   ConfigurationService,
   ErrorStrategy,
   ThrowErrorStrategy,
 } from '@orchestrator/core';
 
+import { FormAttributesConfig } from '../../form-attributes-config';
 import { UiWebInputConfig } from './ui-web-input-config';
 
 describe('UiWebInputConfig', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        UiWebInputConfig,
         ConfigurationService,
         { provide: ErrorStrategy, useClass: ThrowErrorStrategy },
       ],
@@ -20,6 +22,13 @@ describe('UiWebInputConfig', () => {
   it('should exist', () => {
     expect(UiWebInputConfig).toBeTruthy();
   });
+
+  it('should extend from `FormAttributesConfig`', inject(
+    [UiWebInputConfig],
+    (config: UiWebInputConfig) => {
+      expect(config).toEqual(expect.any(FormAttributesConfig));
+    },
+  ));
 
   describe('type prop', () => {
     it('should allow any string value', () => {

@@ -1,24 +1,38 @@
-import { UiWebSelectConfig } from './ui-web-select-config';
-import { TestBed } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import {
   ConfigurationService,
   ErrorStrategy,
   ThrowErrorStrategy,
 } from '@orchestrator/core';
+
+import { FormAttributesConfig } from '../../form-attributes-config';
 import {
-  UiWebSelectOptionPair,
   UiWebSelectOptionGroup,
+  UiWebSelectOptionPair,
 } from '../ui-web-select';
+import { UiWebSelectConfig } from './ui-web-select-config';
 
 describe('UiWebSelectConfig', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        UiWebSelectConfig,
         ConfigurationService,
         { provide: ErrorStrategy, useClass: ThrowErrorStrategy },
       ],
     });
   });
+
+  it('should exist', () => {
+    expect(UiWebSelectConfig).toBeTruthy();
+  });
+
+  it('should extend from `FormAttributesConfig`', inject(
+    [UiWebSelectConfig],
+    (config: UiWebSelectConfig) => {
+      expect(config).toEqual(expect.any(FormAttributesConfig));
+    },
+  ));
 
   describe('size prop', () => {
     it('should allow integer', () => {
