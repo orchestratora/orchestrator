@@ -5,7 +5,8 @@
     "entryFile": "src/public_api.ts",
     "umdId": "orchestrator.ui-web",
     "umdModuleIds": {
-      "@orchestrator/core": "orchestrator.core"
+      "@orchestrator/core": "orchestrator.core",
+      "io-ts": "ioTs"
     }
   }
 }

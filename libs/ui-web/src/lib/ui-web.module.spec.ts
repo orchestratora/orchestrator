@@ -45,7 +45,10 @@ describe('UiWebModule', () => {
 
   describe('UiWebButtonHostComponent', () => {
     it('should be rendered from config', () => {
-      hostComp.config = { component: UiWebButtonHostComponent };
+      hostComp.config = {
+        component: UiWebButtonHostComponent,
+        config: { text: 'text' },
+      };
 
       fixture.detectChanges();
 
@@ -73,7 +76,10 @@ describe('UiWebModule', () => {
 
   describe('UiWebImageHostComponent', () => {
     it('should be rendered from config', () => {
-      hostComp.config = { component: UiWebImageHostComponent };
+      hostComp.config = {
+        component: UiWebImageHostComponent,
+        config: { src: 'url' },
+      };
 
       fixture.detectChanges();
 
@@ -87,7 +93,10 @@ describe('UiWebModule', () => {
 
   describe('UiWebHeadingHostComponent', () => {
     it('should be rendered from config', () => {
-      hostComp.config = { component: UiWebHeadingHostComponent };
+      hostComp.config = {
+        component: UiWebHeadingHostComponent,
+        config: { text: 'text' },
+      };
 
       fixture.detectChanges();
 

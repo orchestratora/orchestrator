@@ -5,3 +5,5 @@ export * from './range';
 export * from './integer';
 export * from './allowed-values';
 export * from './function';
+export * from './type-factory';
+export * from './not-present';
