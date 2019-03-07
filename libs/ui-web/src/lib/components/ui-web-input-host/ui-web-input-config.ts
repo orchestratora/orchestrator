@@ -5,7 +5,7 @@ import { FormAttributesConfig } from '../../form-attributes-config';
 
 @Injectable()
 export class UiWebInputConfig extends FormAttributesConfig {
-  @OptionType(String)
+  @Option()
   type?: string;
 
   @Option()
