@@ -32,13 +32,19 @@
       "path": "./apps/ui-web-example/tsconfig.spec.json"
     },
     {
-      "path": "./apps/ui-web-example-e2e/tsconfig.e2e.json"
+      "path": "./apps/ui-web-example-e2e/tsconfig.json"
     },
     {
       "path": "./libs/stepper/tsconfig.lib.json"
     },
     {
       "path": "./libs/stepper/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/composer/tsconfig.lib.json"
+    },
+    {
+      "path": "./libs/composer/tsconfig.spec.json"
     }
   ],
   "angularCompilerOptions": {
