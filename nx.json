@@ -28,6 +28,12 @@
     },
     "composer": {
       "tags": ["utility", "ui"]
+    },
+    "composer-example": {
+      "tags": ["example", "utility"]
+    },
+    "composer-example-e2e": {
+      "tags": ["e2e", "utility"]
     }
   }
 }
