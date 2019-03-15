@@ -2,6 +2,7 @@
 export * from './lib/core.module';
 export * from './lib/types';
 export * from './lib/metadata';
+export * from './lib/component-map';
 
 // Components
 export * from './lib/orchestrator/orchestrator.component';
