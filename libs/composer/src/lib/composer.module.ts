@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
+import {
+  ComponentRegistry,
+  OrchestratorCoreModule,
+  OrchestratorDynamicComponentType,
+} from '@orchestrator/core';
 
 import { ComposerCanvasModule } from './composer-canvas';
 import { ComposerComponentsModule } from './composer-components';
@@ -14,6 +19,7 @@ import { ComposerComponent } from './composer.component';
 @NgModule({
   imports: [
     CommonModule,
+    OrchestratorCoreModule,
     ComposerCanvasModule,
     ComposerComponentsModule,
     ComposerPreviewModule,
@@ -34,4 +40,19 @@ import { ComposerComponent } from './composer.component';
   ],
   declarations: [ComposerComponent],
 })
-export class ComposerModule {}
+export class ComposerModule {
+  static forRoot(): ModuleWithProviders<ComposerModule> {
+    return {
+      ngModule: ComposerModule,
+    };
+  }
+
+  static withComponents(
+    components: ComponentRegistry<OrchestratorDynamicComponentType>,
+  ): ModuleWithProviders<ComposerModule> {
+    return {
+      ngModule: ComposerModule,
+      providers: [OrchestratorCoreModule.registerComponents(components)],
+    };
+  }
+}
