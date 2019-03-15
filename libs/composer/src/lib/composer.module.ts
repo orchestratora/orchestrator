@@ -6,6 +6,7 @@ import { ComposerComponentsModule } from './composer-components';
 import { ComposerConfigModule } from './composer-config';
 import { ComposerConfiguratorModule } from './composer-configurator';
 import { ComposerControlsModule } from './composer-controls';
+import { ComposerDroppableModule } from './composer-droppable';
 import { ComposerErrorsModule } from './composer-errors';
 import { ComposerPreviewModule } from './composer-preview';
 import { ComposerComponent } from './composer.component';
@@ -20,6 +21,7 @@ import { ComposerComponent } from './composer.component';
     ComposerErrorsModule,
     ComposerControlsModule,
     ComposerConfiguratorModule,
+    ComposerDroppableModule,
   ],
   exports: [
     ComposerCanvasModule,
