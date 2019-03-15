@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { ComposerCanvasModule } from './composer-canvas/composer-canvas.module';
-import { ComposerComponentsModule } from './composer-components/composer-components.module';
-import { ComposerConfigModule } from './composer-config/composer-config.module';
-import { ComposerControlsModule } from './composer-controls/composer-controls.module';
-import { ComposerErrorsModule } from './composer-errors/composer-errors.module';
-import { ComposerPreviewModule } from './composer-preview/composer-preview.module';
+import { ComposerCanvasModule } from './composer-canvas';
+import { ComposerComponentsModule } from './composer-components';
+import { ComposerConfigModule } from './composer-config';
+import { ComposerControlsModule } from './composer-controls';
+import { ComposerErrorsModule } from './composer-errors';
+import { ComposerPreviewModule } from './composer-preview';
 import { ComposerComponent } from './composer.component';
 
 @NgModule({
