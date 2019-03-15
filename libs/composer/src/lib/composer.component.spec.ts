@@ -11,9 +11,8 @@ describe('ComposerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ComposerComponent ]
-    })
-    .compileComponents();
+      declarations: [ComposerComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
