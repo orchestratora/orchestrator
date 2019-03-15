@@ -18,8 +18,7 @@
   <li *ngIf="entry.prop || !entry.children">
     <b>{{ entry.prop }}</b>
     <small>
-      :
-      <i>{{ entry.kind }}</i>
+      : <i>{{ entry.kind }}</i>
     </small>
     <ng-container *ngIf="!entry.children"
       >=
