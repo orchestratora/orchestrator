@@ -239,6 +239,38 @@
         }
       },
       "schematics": {}
+    },
+    "composer": {
+      "root": "libs/composer",
+      "sourceRoot": "libs/composer/src",
+      "projectType": "library",
+      "prefix": "orc",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "libs/composer/tsconfig.lib.json",
+            "project": "libs/composer/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/composer/tsconfig.lib.json",
+              "libs/composer/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@angular-builders/jest:run",
+          "options": {
+            "configPath": "jest.config.js"
+          }
+        }
+      },
+      "schematics": {}
     }
   },
   "cli": {

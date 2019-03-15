@@ -25,6 +25,9 @@
     },
     "stepper": {
       "tags": ["components", "ui"]
+    },
+    "composer": {
+      "tags": ["utility", "ui"]
     }
   }
 }
