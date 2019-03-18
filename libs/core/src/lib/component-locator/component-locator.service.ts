@@ -24,7 +24,7 @@ import {
  */
 @Injectable()
 export class ComponentLocatorService {
-  private componentRegistry = this.injector.get(COMPONENTS);
+  private componentRegistry = this.injector.get(COMPONENTS, []);
 
   private componentArray = this.componentRegistry
     .filter(isComponentArray)
