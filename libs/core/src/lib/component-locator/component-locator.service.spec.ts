@@ -8,9 +8,12 @@ import { ComponentLocatorService } from './component-locator.service';
 @Component({ selector: 'orc-test-comp', template: '' })
 class TestComponent {}
 
+@Component({ selector: 'orc-test-comp2', template: '' })
+class Test2Component {}
+
 @NgModule({
-  declarations: [TestComponent],
-  entryComponents: [TestComponent],
+  declarations: [TestComponent, Test2Component],
+  entryComponents: [TestComponent, Test2Component],
 })
 class TestModule {}
 
@@ -96,6 +99,29 @@ describe('ComponentLocatorService', () => {
 
       expect(getService().getDefaultConfig(MyComp)).toEqual(
         expect.any(MyConfig),
+      );
+    });
+  });
+
+  describe('getComponents() method', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: COMPONENTS,
+            useValue: { test: TestComponent },
+            multi: true,
+          },
+          { provide: COMPONENTS, useValue: [Test2Component], multi: true },
+        ],
+      });
+    });
+
+    it('should return all available components flattened', () => {
+      const comps = getService().getComponents();
+
+      expect(comps).toEqual(
+        expect.arrayContaining([TestComponent, Test2Component]),
       );
     });
   });
