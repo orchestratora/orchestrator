@@ -5,12 +5,12 @@ import {
   Type,
 } from '@angular/core';
 
+import { COMPONENTS } from '../component-map';
 import {
   ComponentMap,
   ComponentRegistry,
-  COMPONENTS,
   DefaultDynamicComponent,
-} from '../component-map';
+} from '../component-registry';
 import { getDynamicComponentMeta } from '../metadata/dynamic-component';
 import {
   GetOrchestratorDynamicComponentConfig,
