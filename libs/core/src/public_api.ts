@@ -3,6 +3,7 @@ export * from './lib/core.module';
 export * from './lib/types';
 export * from './lib/metadata';
 export * from './lib/component-registry';
+export * from './lib/component-locator/component-locator.service';
 
 // Components
 export * from './lib/orchestrator/orchestrator.component';
