@@ -8,7 +8,8 @@ import {
 import { DynamicModule } from 'ng-dynamic-component';
 
 import { ComponentLocatorService } from './component-locator/component-locator.service';
-import { ComponentRegistry, COMPONENTS } from './component-map';
+import { COMPONENTS } from './component-map';
+import { ComponentRegistry } from './component-registry';
 import { ConfigurationService } from './config/configuration.service';
 import { ErrorStrategy } from './error-strategy/error-strategy';
 import { ThrowErrorStrategy } from './error-strategy/throw-error-strategy';
