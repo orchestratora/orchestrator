@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ComposerModule } from '@orchestrator/composer';
 import { OrchestratorCoreModule } from '@orchestrator/core';
+import { LayoutModule } from '@orchestrator/layout';
+import { UiWebModule } from '@orchestrator/ui-web';
 
 import { DefaultComponent } from './default.component';
 
@@ -10,6 +12,8 @@ import { DefaultComponent } from './default.component';
   imports: [
     CommonModule,
     OrchestratorCoreModule.forRoot(),
+    LayoutModule.forRoot(),
+    UiWebModule.forRoot(),
     ComposerModule.forRoot(),
     RouterModule.forChild([{ path: '', component: DefaultComponent }]),
   ],
