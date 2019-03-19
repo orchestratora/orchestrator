@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ComponentFactory,
+  ComponentFactoryResolver,
+  OnInit,
+} from '@angular/core';
+import {
+  ComponentLocatorService,
+  OrchestratorDynamicComponent,
+} from '@orchestrator/core';
 
 @Component({
   selector: 'orc-composer-components',
@@ -7,7 +17,18 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComposerComponentsComponent implements OnInit {
-  constructor() {}
+  components = this.componentLocator.getComponents();
 
-  ngOnInit() {}
+  componentsInfo: ComponentFactory<OrchestratorDynamicComponent>[] = [];
+
+  constructor(
+    private componentLocator: ComponentLocatorService,
+    private cfr: ComponentFactoryResolver,
+  ) {}
+
+  ngOnInit() {
+    this.componentsInfo = this.components.map(comp =>
+      this.cfr.resolveComponentFactory(comp),
+    );
+  }
 }

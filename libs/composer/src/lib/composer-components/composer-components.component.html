@@ -1,1 +1,11 @@
-<p>composer-components works!</p>
+<h3>Component List</h3>
+<nz-list nzBordered [nzDataSource]="componentsInfo" [nzRenderItem]="item">
+  <ng-template #item let-item>
+    <nz-list-item>
+      <nz-list-item-meta
+        [nzTitle]="item.componentType.name"
+        nzDescription="<{{ item.selector }}>"
+      ></nz-list-item-meta>
+    </nz-list-item>
+  </ng-template>
+</nz-list>
