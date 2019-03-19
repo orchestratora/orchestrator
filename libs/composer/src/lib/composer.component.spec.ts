@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { OrchestratorCoreModule } from '@orchestrator/core';
 
 import { ComposerCanvasModule } from './composer-canvas';
 import { ComposerComponentsModule } from './composer-components';
@@ -15,6 +16,7 @@ describe('ComposerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        OrchestratorCoreModule.forRoot(),
         ComposerCanvasModule,
         ComposerComponentsModule,
         ComposerPreviewModule,
