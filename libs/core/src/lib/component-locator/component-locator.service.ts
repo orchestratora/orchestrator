@@ -46,7 +46,9 @@ export class ComponentLocatorService {
     this.componentArrayMap as ComponentMap,
   );
 
-  private components = Object.values(this.componentMap).map(comp => comp);
+  private components = Object.keys(this.componentMap).map(
+    key => this.componentMap[key],
+  );
 
   constructor(
     private injector: Injector,
