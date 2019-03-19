@@ -311,9 +311,17 @@
             "tsConfig": "apps/composer-example/tsconfig.app.json",
             "assets": [
               "apps/composer-example/src/favicon.ico",
-              "apps/composer-example/src/assets"
+              "apps/composer-example/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
             ],
-            "styles": ["apps/composer-example/src/styles.css"],
+            "styles": [
+              "apps/composer-example/src/styles.css",
+              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
+            ],
             "scripts": [],
             "es5BrowserSupport": true
           },

@@ -5,7 +5,8 @@
     "entryFile": "src/public_api.ts",
     "umdId": "orchestrator.composer",
     "umdModuleIds": {
-      "@orchestrator/core": "orchestrator.core"
+      "@orchestrator/core": "orchestrator.core",
+      "ng-zorro-antd": "ngZorroAntd"
     }
   }
 }

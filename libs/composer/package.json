@@ -20,6 +20,7 @@
   "peerDependencies": {
     "@angular/common": "^7.0.0",
     "@angular/core": "^7.0.0",
-    "@orchestrator/core": "^0.0.0"
+    "@orchestrator/core": "^0.0.0",
+    "ng-zorro-antd": "^7.0.0"
   }
 }
