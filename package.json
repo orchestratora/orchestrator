@@ -67,7 +67,7 @@
     "fp-ts": "^1.14.4",
     "io-ts": "^1.8.3",
     "ng-dynamic-component": "^4.0.3",
-    "ng-zorro-antd": "^7.0.3",
+    "ng-zorro-antd": "^7.3.0",
     "rxjs": "^6.4.0",
     "zone.js": "^0.8.29"
   },

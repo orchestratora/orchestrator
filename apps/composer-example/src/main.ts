@@ -2,7 +2,7 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { enableProdMode, LOCALE_ID } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { en_US, NZ_I18N } from 'ng-zorro-antd';
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
