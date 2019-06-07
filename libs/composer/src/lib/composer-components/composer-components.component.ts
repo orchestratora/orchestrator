@@ -17,8 +17,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComposerComponentsComponent implements OnInit {
-  components = this.componentLocator.getComponents();
-
   componentsInfo: ComponentFactory<OrchestratorDynamicComponent>[] = [];
 
   constructor(
@@ -27,8 +25,8 @@ export class ComposerComponentsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.componentsInfo = this.components.map(comp =>
-      this.cfr.resolveComponentFactory(comp),
-    );
+    this.componentsInfo = this.componentLocator
+      .getComponents()
+      .map(comp => this.cfr.resolveComponentFactory(comp));
   }
 }

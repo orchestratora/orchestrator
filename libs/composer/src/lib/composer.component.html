@@ -1,6 +1,17 @@
-<orc-composer-components></orc-composer-components>
-<orc-composer-canvas></orc-composer-canvas>
-<orc-composer-preview></orc-composer-preview>
-<orc-composer-config></orc-composer-config>
-<orc-composer-controls></orc-composer-controls>
-<orc-composer-errors></orc-composer-errors>
+<nz-layout>
+  <nz-sider
+    nzTheme="light"
+    style="overflow: auto; height: 100vh; position: fixed; left: 0"
+  >
+    <orc-composer-components></orc-composer-components>
+  </nz-sider>
+  <nz-layout style="margin-left: 200px">
+    <nz-content style="margin:24px 16px 0; overflow: initial">
+      <orc-composer-canvas></orc-composer-canvas>
+      <orc-composer-preview></orc-composer-preview>
+      <orc-composer-config></orc-composer-config>
+      <orc-composer-controls></orc-composer-controls>
+      <orc-composer-errors></orc-composer-errors>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

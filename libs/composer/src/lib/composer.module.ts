@@ -5,6 +5,8 @@ import {
   OrchestratorCoreModule,
   OrchestratorDynamicComponentType,
 } from '@orchestrator/core';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
 
 import { ComposerCanvasModule } from './composer-canvas';
 import { ComposerComponentsModule } from './composer-components';
@@ -19,6 +21,8 @@ import { ComposerComponent } from './composer.component';
 @NgModule({
   imports: [
     CommonModule,
+    NzLayoutModule,
+    NzMenuModule,
     OrchestratorCoreModule,
     ComposerCanvasModule,
     ComposerComponentsModule,
