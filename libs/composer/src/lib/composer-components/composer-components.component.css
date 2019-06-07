@@ -1,0 +1,3 @@
+nz-list-item-meta::ng-deep .ant-list-item-meta-title {
+  word-break: break-all;
+}
