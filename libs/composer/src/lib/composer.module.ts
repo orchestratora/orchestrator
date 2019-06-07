@@ -22,7 +22,6 @@ import { ComposerComponent } from './composer.component';
   imports: [
     CommonModule,
     NzLayoutModule,
-    NzMenuModule,
     OrchestratorCoreModule,
     ComposerCanvasModule,
     ComposerComponentsModule,
