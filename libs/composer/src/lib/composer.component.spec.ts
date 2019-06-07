@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrchestratorCoreModule } from '@orchestrator/core';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 import { ComposerCanvasModule } from './composer-canvas';
 import { ComposerComponentsModule } from './composer-components';
@@ -16,6 +17,7 @@ describe('ComposerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        NzLayoutModule,
         OrchestratorCoreModule.forRoot(),
         ComposerCanvasModule,
         ComposerComponentsModule,
