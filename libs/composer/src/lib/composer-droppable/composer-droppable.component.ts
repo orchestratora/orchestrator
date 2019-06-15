@@ -27,7 +27,6 @@ import { ComposerDroppableConfig } from './composer-droppable-config';
 @DynamicComponent({ config: ComposerDroppableConfig })
 export class ComposerDroppableComponent
   implements OrchestratorDynamicComponent {
-
   @Input() config: ComposerDroppableConfig;
 
   @Output() componentDrop = new EventEmitter<OrchestratorConfigItem>();
