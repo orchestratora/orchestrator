@@ -18,6 +18,7 @@
   "author": "Orchestrator <orchestratora@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
+    "@angular/cdk": "^7.0.0",
     "@angular/common": "^7.0.0",
     "@angular/core": "^7.0.0",
     "@orchestrator/core": "^0.0.0",

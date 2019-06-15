@@ -27,6 +27,7 @@ export class ComposerComponentsComponent implements OnInit {
   ngOnInit() {
     this.componentsInfo = this.componentLocator
       .getComponents()
-      .map(comp => this.cfr.resolveComponentFactory(comp));
+      .map(comp => this.cfr.resolveComponentFactory(comp))
+      .filter(({ selector }) => !selector.startsWith('orc-composer'));
   }
 }

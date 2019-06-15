@@ -1,4 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { OrchestratorConfigItem } from '@orchestrator/core';
+
+import { ComposerDroppableComponent } from '../composer-droppable';
 
 @Component({
   selector: 'orc-composer-canvas',
@@ -6,8 +9,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./composer-canvas.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ComposerCanvasComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
+export class ComposerCanvasComponent {
+  initialConfig: OrchestratorConfigItem = ComposerDroppableComponent.getWrapperConfig();
 }

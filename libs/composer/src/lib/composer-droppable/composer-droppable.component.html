@@ -1,1 +1,9 @@
-<p>composer-droppable works!</p>
+<orc-orchestrator *ngIf="config.component" [config]="config"></orc-orchestrator>
+<div
+  *ngIf="!config.component"
+  class="drop-list"
+  cdkDropList
+  (cdkDropListDropped)="drop($event)"
+>
+  <span class="drop-list-hint">Drop component here!</span>
+</div>

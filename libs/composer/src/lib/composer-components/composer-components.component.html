@@ -1,7 +1,12 @@
 <h3>Component List</h3>
-<nz-list nzBordered [nzDataSource]="componentsInfo" [nzRenderItem]="item">
+<nz-list
+  nzBordered
+  [nzDataSource]="componentsInfo"
+  [nzRenderItem]="item"
+  cdkDropList
+>
   <ng-template #item let-item>
-    <nz-list-item>
+    <nz-list-item cdkDrag [cdkDragData]="item.componentType">
       <nz-list-item-meta
         [nzTitle]="item.componentType.name"
         nzDescription="<{{ item.selector }}>"
