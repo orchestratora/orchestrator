@@ -23,7 +23,7 @@ export const LOCAL_GET_CONFIG = new InjectionToken<LocalGetConfigToken>(
 );
 
 export const LOCAL_UPDATE_CONFIG = new InjectionToken<LocalUpdateConfigToken>(
-  'LOCAL_GET_CONFIGURATION',
+  'LOCAL_UPDATE_CONFIG',
 );
 
 export const LOCAL_GET_CONFIG_VALID = new InjectionToken<
