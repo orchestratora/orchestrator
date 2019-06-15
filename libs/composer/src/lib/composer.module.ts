@@ -1,12 +1,14 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
   ComponentRegistry,
+  ErrorStrategy,
   OrchestratorCoreModule,
   OrchestratorDynamicComponentType,
+  SuppressErrorStrategy,
 } from '@orchestrator/core';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
 
 import { ComposerCanvasModule } from './composer-canvas';
 import { ComposerComponentsModule } from './composer-components';
@@ -21,6 +23,7 @@ import { ComposerComponent } from './composer.component';
 @NgModule({
   imports: [
     CommonModule,
+    DragDropModule,
     NzLayoutModule,
     OrchestratorCoreModule,
     ComposerCanvasModule,
@@ -42,11 +45,13 @@ import { ComposerComponent } from './composer.component';
     ComposerComponent,
   ],
   declarations: [ComposerComponent],
+  providers: [],
 })
 export class ComposerModule {
   static forRoot(): ModuleWithProviders<ComposerModule> {
     return {
       ngModule: ComposerModule,
+      providers: [{ provide: ErrorStrategy, useClass: SuppressErrorStrategy }],
     };
   }
 

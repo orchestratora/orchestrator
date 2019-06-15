@@ -1,0 +1,10 @@
+.drop-list {
+  padding: 10px;
+  background: lightcyan;
+  border: 1px dashed lightblue;
+  text-align: center;
+}
+
+.drop-list.cdk-drop-list-dragging .drop-list-hint {
+  display: none;
+}
