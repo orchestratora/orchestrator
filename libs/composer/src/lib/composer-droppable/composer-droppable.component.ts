@@ -49,15 +49,19 @@ export class ComposerDroppableComponent
   >();
 
   private droppedConfig: OrchestratorConfigItem;
+  private component: OrchestratorDynamicComponentType;
+  private compConfig: any;
+  private prevItem: OrchestratorConfigItem;
 
   static wrapComponent<C>(
     comp: OrchestratorDynamicComponentType<C>,
     config?: C,
+    items?: OrchestratorConfigItem[],
   ): OrchestratorConfigItem<C> {
     return {
       component: comp,
       config,
-      items: [ComposerDroppableComponent.wrapperConfig],
+      items: items || [ComposerDroppableComponent.wrapperConfig],
     };
   }
 
@@ -80,33 +84,53 @@ export class ComposerDroppableComponent
     }
   }
 
-  drop(e: CdkDragDrop<any>, conf?: string) {
+  drop(e: CdkDragDrop<any>) {
     const compType = e.item.data as OrchestratorDynamicComponentType;
+
+    this.compConfig = undefined;
+    this.component = compType;
+
+    this.updateItem();
+
+    this.componentDropped.emit(compType);
+  }
+
+  replaceItem(item: OrchestratorConfigItem, prevItem?: OrchestratorConfigItem) {
+    this.renderComponent.removeItem(ComposerDroppableComponent.wrapperConfig);
+
+    if (prevItem) {
+      this.renderComponent.removeItem(prevItem);
+    }
+
+    const newItem = ComposerDroppableComponent.wrapComponent(
+      ComposerDroppableComponent,
+      { item },
+    );
+
+    this.renderComponent.addItem(newItem);
+    this.renderComponent.addItem(ComposerDroppableComponent.wrapperConfig);
+
+    return newItem;
+  }
+
+  configUpdated(compConfig: any) {
+    this.compConfig = compConfig;
+    this.updateItem();
+  }
+
+  private updateItem() {
     const config = ComposerDroppableComponent.wrapComponent(
-      compType,
-      JSON.parse(conf || 'null'),
+      this.component,
+      this.compConfig,
+      this.config ? this.config.item.items : undefined,
     );
 
     this.droppedConfig = config;
 
     if (this.parentDroppable) {
-      this.parentDroppable.addItem(config);
+      this.prevItem = this.parentDroppable.replaceItem(config, this.prevItem);
     } else {
       this.config = { item: config };
     }
-
-    this.componentDropped.emit(compType);
-  }
-
-  addItem(item: OrchestratorConfigItem) {
-    this.renderComponent.removeItem(ComposerDroppableComponent.wrapperConfig);
-
-    this.renderComponent.addItem(
-      ComposerDroppableComponent.wrapComponent(ComposerDroppableComponent, {
-        item,
-      }),
-    );
-
-    this.renderComponent.addItem(ComposerDroppableComponent.wrapperConfig);
   }
 }

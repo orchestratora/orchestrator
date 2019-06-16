@@ -3,7 +3,7 @@ import {
   Component,
   Input,
   OnChanges,
-  OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import {
@@ -16,12 +16,27 @@ import {
   ComponentLocatorService,
   ConfigurationMeta,
   ConfigurationService,
+  OptionAllowedValues,
   OptionInteger,
   OptionRange,
   OptionRequired,
   OrchestratorDynamicComponentType,
-  OptionAllowedValues,
 } from '@orchestrator/core';
+import { Observable, Subject } from 'rxjs';
+import { switchAll } from 'rxjs/operators';
+
+export interface ControlConfig {
+  validators: ValidatorFn[];
+  tag: string;
+  type?: string;
+  options?: any[];
+  extras: any;
+  default?: any;
+}
+
+export interface ControlConfigObject {
+  [key: string]: ControlConfig;
+}
 
 /**
  * @internal
@@ -32,8 +47,12 @@ import {
   styleUrls: ['./composer-configurator.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ComposerConfiguratorComponent implements OnInit, OnChanges {
+export class ComposerConfiguratorComponent implements OnChanges {
+  setFormChanges$ = new Subject<Observable<any>>();
+
   @Input() component: OrchestratorDynamicComponentType;
+
+  @Output() configUpdate = this.setFormChanges$.pipe(switchAll());
 
   formConfig: ControlConfigObject;
   formGroup: FormGroup;
@@ -44,17 +63,13 @@ export class ComposerConfiguratorComponent implements OnInit, OnChanges {
     private fb: FormBuilder,
   ) {}
 
-  ngOnInit() {
-    this.updateConfigMeta();
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     if ('component' in changes) {
-      this.updateConfigMeta();
+      this.updateConfig();
     }
   }
 
-  private updateConfigMeta() {
+  private updateConfig() {
     const configType = this.componentLocatorService.getConfigType(
       this.component,
     );
@@ -67,7 +82,7 @@ export class ComposerConfiguratorComponent implements OnInit, OnChanges {
     this.formConfig = this.genConfigFromMeta(groupedConfig, defaultConfig);
     this.formGroup = this.genFormGroupFromConfig(this.formConfig);
 
-    console.log(this.formConfig);
+    this.setFormChanges$.next(this.formGroup.valueChanges);
   }
 
   private genFormGroupFromConfig(config: ControlConfigObject): FormGroup {
@@ -172,17 +187,4 @@ export class ComposerConfiguratorComponent implements OnInit, OnChanges {
       } as ControlConfig,
     );
   }
-}
-
-export interface ControlConfig {
-  validators: ValidatorFn[];
-  tag: string;
-  type?: string;
-  options?: any[];
-  extras: any;
-  default?: any;
-}
-
-export interface ControlConfigObject {
-  [key: string]: ControlConfig;
 }

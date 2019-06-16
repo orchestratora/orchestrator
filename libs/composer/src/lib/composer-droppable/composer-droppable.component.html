@@ -1,21 +1,16 @@
 <div class="rendered-item" *ngIf="config?.item?.component; else dropTpl">
   <orc-render-item [item]="config.item"></orc-render-item>
-  <orc-composer-configurator
-    [component]="config.item.component"
-  ></orc-composer-configurator>
+  <nz-collapse [nzBordered]="false">
+    <nz-collapse-panel nzHeader="Configuration Form">
+      <orc-composer-configurator
+        [component]="config.item.component"
+        (configUpdate)="configUpdated($event)"
+      ></orc-composer-configurator>
+    </nz-collapse-panel>
+  </nz-collapse>
 </div>
 <ng-template #dropTpl>
-  <div
-    class="drop-list"
-    cdkDropList
-    (cdkDropListDropped)="drop($event, configInput.value)"
-  >
+  <div class="drop-list" cdkDropList (cdkDropListDropped)="drop($event)">
     <span class="drop-list-hint">Drop component here!</span>
   </div>
-  <nz-divider nzText="Set component configuration" nzDashed></nz-divider>
-  <textarea
-    #configInput
-    nz-input
-    [nzAutosize]="{ minRows: 2, maxRows: 6 }"
-  ></textarea>
 </ng-template>
