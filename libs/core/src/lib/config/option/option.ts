@@ -6,6 +6,7 @@ import { OptionInteger } from './integer';
 import { OptionRange } from './range';
 import { OptionRequired } from './required';
 import { OptionType } from './type';
+import { addConfig } from '../../metadata/configuration';
 
 export interface OptionConfig {
   required?: boolean;
@@ -42,5 +43,9 @@ export function Option(config: OptionConfig = {}): PropertyDecorator {
   return (target, prop) => {
     decorator(target, prop);
     decorators.forEach((d) => d!(target, prop));
+
+    if (!decorators.length) {
+      addConfig(target, { prop, decorator: Option, args: [config] });
+    }
   };
 }
