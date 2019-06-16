@@ -5,6 +5,7 @@ import { OrchestratorCoreModule } from '@orchestrator/core';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzInputModule } from 'ng-zorro-antd/input';
 
+import { ComposerConfiguratorModule } from '../composer-configurator';
 import { ComposerDroppableComponent } from './composer-droppable.component';
 
 /**
@@ -17,6 +18,7 @@ import { ComposerDroppableComponent } from './composer-droppable.component';
     NzInputModule,
     NzDividerModule,
     OrchestratorCoreModule.withComponents([ComposerDroppableComponent]),
+    ComposerConfiguratorModule,
   ],
   exports: [ComposerDroppableComponent],
   declarations: [ComposerDroppableComponent],

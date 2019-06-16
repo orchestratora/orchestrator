@@ -1,5 +1,8 @@
 <div class="rendered-item" *ngIf="config?.item?.component; else dropTpl">
   <orc-render-item [item]="config.item"></orc-render-item>
+  <orc-composer-configurator
+    [component]="config.item.component"
+  ></orc-composer-configurator>
 </div>
 <ng-template #dropTpl>
   <div
