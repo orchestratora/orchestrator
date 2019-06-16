@@ -4,9 +4,9 @@ import { RenderComponent } from '../render-component';
 import { InjectorMap } from '../types';
 
 export type LocalGetInjectorToken = () => Injector;
-export type LocalGetComponentToken = () => any;
-export type LocalGetConfigToken = () => any;
-export type LocalUpdateConfigToken = (config: any) => any;
+export type LocalGetComponentToken<T = any> = () => T;
+export type LocalGetConfigToken<T = any> = () => T;
+export type LocalUpdateConfigToken<T = any> = (config: Partial<T>) => T;
 export type LocalIsConfigValidToken = () => boolean;
 export type LocalGetContextToken = () => any;
 
