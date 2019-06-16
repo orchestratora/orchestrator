@@ -32,7 +32,6 @@ import { ComposerDroppableConfig } from './composer-droppable-config';
 @DynamicComponent({ config: ComposerDroppableConfig })
 export class ComposerDroppableComponent
   implements OrchestratorDynamicComponent<ComposerDroppableConfig>, OnChanges {
-
   constructor(
     private renderComponent: RenderComponent,
     @SkipSelf() @Optional() private parentDroppable: ComposerDroppableComponent,
