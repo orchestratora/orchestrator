@@ -1,1 +1,43 @@
-<p>composer-configurator works!</p>
+<form nz-form [formGroup]="formGroup">
+  <nz-form-item *ngFor="let item of (formConfig | keyvalue)">
+    <nz-form-label [nzRequired]="item.value.extras.required">
+      {{ item.key | uppercase }}
+    </nz-form-label>
+    <nz-form-control [ngSwitch]="item.value.tag">
+      <input
+        *ngSwitchCase="'input'"
+        nz-input
+        [formControlName]="item.key"
+        [type]="item.value.type"
+        [min]="item.value.extras.min"
+        [max]="item.value.extras.max"
+        [step]="item.value.extras.step"
+      />
+      <nz-slider
+        *ngSwitchCase="'slider'"
+        [formControlName]="item.key"
+        [nzMin]="item.value.extras.min"
+        [nzMax]="item.value.extras.max"
+        [nzStep]="item.value.extras.step"
+      ></nz-slider>
+      <nz-select
+        *ngSwitchCase="'select'"
+        nzAllowClear
+        [formControlName]="item.key"
+      >
+        <nz-option
+          *ngFor="let opt of item.value.options"
+          [nzValue]="opt"
+          [nzLabel]="opt"
+        ></nz-option>
+      </nz-select>
+      <p *ngSwitchDefault>
+        HUI! NA RUL'
+      </p>
+    </nz-form-control>
+  </nz-form-item>
+  <p>Valid: {{ formGroup.valid }}</p>
+  <code
+    ><pre>{{ formGroup.value | json }}</pre></code
+  >
+</form>
