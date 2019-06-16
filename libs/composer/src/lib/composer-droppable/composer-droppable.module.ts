@@ -2,6 +2,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { OrchestratorCoreModule } from '@orchestrator/core';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 import { ComposerDroppableComponent } from './composer-droppable.component';
 
@@ -12,6 +14,8 @@ import { ComposerDroppableComponent } from './composer-droppable.component';
   imports: [
     CommonModule,
     DragDropModule,
+    NzInputModule,
+    NzDividerModule,
     OrchestratorCoreModule.withComponents([ComposerDroppableComponent]),
   ],
   exports: [ComposerDroppableComponent],

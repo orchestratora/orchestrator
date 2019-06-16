@@ -1,9 +1,18 @@
-<orc-orchestrator *ngIf="config.component" [config]="config"></orc-orchestrator>
-<div
-  *ngIf="!config.component"
-  class="drop-list"
-  cdkDropList
-  (cdkDropListDropped)="drop($event)"
->
-  <span class="drop-list-hint">Drop component here!</span>
+<div class="rendered-item" *ngIf="config?.item?.component; else dropTpl">
+  <orc-render-item [item]="config.item"></orc-render-item>
 </div>
+<ng-template #dropTpl>
+  <div
+    class="drop-list"
+    cdkDropList
+    (cdkDropListDropped)="drop($event, configInput.value)"
+  >
+    <span class="drop-list-hint">Drop component here!</span>
+  </div>
+  <nz-divider nzText="Set component configuration" nzDashed></nz-divider>
+  <textarea
+    #configInput
+    nz-input
+    [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+  ></textarea>
+</ng-template>

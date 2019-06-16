@@ -4,6 +4,7 @@ import {
   ComponentFactory,
   ComponentFactoryResolver,
   OnInit,
+  Type,
 } from '@angular/core';
 import {
   ComponentLocatorService,
@@ -17,6 +18,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComposerComponentsComponent implements OnInit {
+  static BLACKLIST_COMPONENTS: Type<any>[] = [];
+
   componentsInfo: ComponentFactory<OrchestratorDynamicComponent>[] = [];
 
   constructor(

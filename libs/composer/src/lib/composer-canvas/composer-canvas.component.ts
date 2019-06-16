@@ -10,5 +10,5 @@ import { ComposerDroppableComponent } from '../composer-droppable';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComposerCanvasComponent {
-  initialConfig: OrchestratorConfigItem = ComposerDroppableComponent.getWrapperConfig();
+  initialConfig = ComposerDroppableComponent.wrapperConfig;
 }
