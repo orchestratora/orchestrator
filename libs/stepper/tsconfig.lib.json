@@ -11,7 +11,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "types": [],
-    "lib": ["dom", "es2018"],
     "paths": {
       "@orchestrator/*": ["dist/libs/*"]
     }
