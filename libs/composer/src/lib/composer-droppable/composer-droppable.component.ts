@@ -32,10 +32,6 @@ import { ComposerDroppableConfig } from './composer-droppable-config';
 @DynamicComponent({ config: ComposerDroppableConfig })
 export class ComposerDroppableComponent
   implements OrchestratorDynamicComponent<ComposerDroppableConfig>, OnChanges {
-  constructor(
-    private renderComponent: RenderComponent,
-    @SkipSelf() @Optional() private parentDroppable: ComposerDroppableComponent,
-  ) {}
   static wrapperConfig = Object.freeze<OrchestratorConfigItem>({
     component: ComposerDroppableComponent,
   });
@@ -48,7 +44,8 @@ export class ComposerDroppableComponent
     OrchestratorDynamicComponentType
   >();
 
-  private droppedConfig: OrchestratorConfigItem;
+  fullConfig: ComposerDroppableConfig;
+  private droppedConfig: ComposerDroppableConfig;
   private compConfig: any;
 
   static wrapComponent<C>(
@@ -63,35 +60,56 @@ export class ComposerDroppableComponent
     };
   }
 
+  constructor(
+    private renderComponent: RenderComponent,
+    @SkipSelf() @Optional() private parentDroppable: ComposerDroppableComponent,
+  ) {}
+
   ngOnChanges(changes: SimpleChanges) {
-    if ('config' in changes && this.droppedConfig) {
-      this.config = {
-        ...this.config,
-        item: this.droppedConfig,
-      };
+    if ('config' in changes) {
+      // HACK: We need to manually track component changes
+      // because Angular will reuse same instance of component in the DOM
+      // between different components
+      if (
+        !changes.config.firstChange &&
+        changes.config.currentValue.component !==
+          changes.config.previousValue.component
+      ) {
+        this.reset();
+      }
+
+      // Update config only if nothing was dropped into us
+      if (!this.droppedConfig) {
+        this.fullConfig = this.config;
+      }
     }
 
+    // Project items into config for rendering
     if ('items' in changes) {
-      this.config = {
-        ...this.config,
+      this.fullConfig = {
+        ...this.fullConfig,
         item: {
-          ...this.config.item,
+          ...this.fullConfig.item,
           items: this.items,
         },
       };
-      console.log('items update', this.config.component, this.items);
     }
   }
 
   drop(e: CdkDragDrop<any>) {
     const compType = e.item.data as OrchestratorDynamicComponentType;
 
-    this.config.component = compType;
+    this.fullConfig.component = compType;
     this.compConfig = undefined;
 
-    this.updateItem();
+    this.updateItem(true);
 
     this.componentDropped.emit(compType);
+  }
+
+  configUpdated(compConfig: any) {
+    this.compConfig = compConfig;
+    this.updateItem();
   }
 
   replaceItem(item: OrchestratorConfigItem, prevItem?: OrchestratorConfigItem) {
@@ -103,10 +121,8 @@ export class ComposerDroppableComponent
     config.prevItem = newItem;
 
     if (prevItem) {
-      console.log('update', newItem, prevItem);
       this.renderComponent.updateItem(prevItem, newItem);
     } else {
-      console.log('add', newItem);
       this.renderComponent.removeItem(ComposerDroppableComponent.wrapperConfig);
       this.renderComponent.addItem(newItem);
       this.renderComponent.addItem(ComposerDroppableComponent.wrapperConfig);
@@ -115,29 +131,31 @@ export class ComposerDroppableComponent
     return newItem;
   }
 
-  configUpdated(compConfig: any) {
-    this.compConfig = compConfig;
-    this.updateItem(true);
-  }
-
-  private updateItem(replaceItem = false) {
+  private updateItem(dropped = false) {
     const config = ComposerDroppableComponent.wrapComponent(
-      this.config.component,
+      this.fullConfig.component,
       this.compConfig,
-      this.config ? this.config.item.items : undefined,
+      this.fullConfig ? this.fullConfig.item.items : undefined,
     );
 
-    console.log('update item', this.config.component, config);
+    this.fullConfig = { ...this.fullConfig, item: config };
 
-    this.droppedConfig = config;
+    if (dropped) {
+      this.droppedConfig = this.fullConfig;
+    }
 
     if (this.parentDroppable) {
       this.parentDroppable.replaceItem(
         config,
-        replaceItem ? this.config.prevItem : undefined,
+        !dropped ? this.fullConfig.prevItem : undefined,
       );
-    } else {
-      this.config = { item: config };
     }
+  }
+
+  // This method is responsible to reset instance state to default
+  private reset() {
+    this.fullConfig = undefined;
+    this.droppedConfig = undefined;
+    this.compConfig = undefined;
   }
 }
