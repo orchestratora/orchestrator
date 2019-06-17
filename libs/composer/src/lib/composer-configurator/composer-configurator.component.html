@@ -13,6 +13,13 @@
         [max]="item.value.extras.max"
         [step]="item.value.extras.step"
       />
+      <nz-input-number
+        *ngSwitchCase="'input-number'"
+        [formControlName]="item.key"
+        [nzMin]="item.value.extras.min"
+        [nzMax]="item.value.extras.max"
+        [nzStep]="item.value.extras.step || 1"
+      ></nz-input-number>
       <nz-slider
         *ngSwitchCase="'slider'"
         [formControlName]="item.key"
@@ -31,6 +38,10 @@
           [nzLabel]="opt"
         ></nz-option>
       </nz-select>
+      <nz-switch
+        *ngSwitchCase="'switch'"
+        [formControlName]="item.key"
+      ></nz-switch>
       <p *ngSwitchDefault>HUI! NA RUL'</p>
     </nz-form-control>
   </nz-form-item>

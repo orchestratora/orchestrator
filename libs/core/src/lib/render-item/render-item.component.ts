@@ -156,6 +156,19 @@ export class RenderItemComponent extends RenderComponent
     this.cdr.markForCheck();
   }
 
+  updateItem(
+    item: OrchestratorConfigItem<any, any>,
+    newItem: OrchestratorConfigItem<any, any>,
+  ): void {
+    if (!this.inputs.items) {
+      return;
+    }
+
+    this.inputs.items = this.inputs.items.map(i => (i === item ? newItem : i));
+
+    this.cdr.markForCheck();
+  }
+
   removeItem(item: OrchestratorConfigItem<any>) {
     const idx = this.inputs.items ? this.inputs.items.indexOf(item) : -1;
 

@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Option, OrchestratorConfigItem } from '@orchestrator/core';
+import {
+  Option,
+  OrchestratorConfigItem,
+  OrchestratorDynamicComponentType,
+} from '@orchestrator/core';
 
 /**
  * @internal
@@ -7,5 +11,11 @@ import { Option, OrchestratorConfigItem } from '@orchestrator/core';
 @Injectable({ providedIn: 'root' })
 export class ComposerDroppableConfig<C = any> {
   @Option()
+  component?: string | OrchestratorDynamicComponentType;
+
+  @Option()
   item?: OrchestratorConfigItem<C>;
+
+  @Option()
+  prevItem?: OrchestratorConfigItem<C>;
 }
