@@ -29,6 +29,7 @@ import { OptionFunction } from '../config';
 import { ConfigurationService } from '../config/configuration.service';
 import { InjectorRegistryService } from '../injectors/injector-registry.service';
 import { createLocalInjector } from '../injectors/local-injector';
+import { LocalGetInjectorToken } from '../injectors/local-injector-map';
 import { MappedInjectorFactory } from '../injectors/mapped-injector';
 import { RenderComponent } from '../render-component';
 import {
@@ -270,14 +271,19 @@ export class RenderItemComponent extends RenderComponent
   }
 
   private createInjector() {
-    return this.mappedInjectorFactory.create(this.createLocalInjector());
+    const injector = this.mappedInjectorFactory.create(
+      this.createLocalInjector(() => injector),
+    );
+    return injector;
   }
 
-  private createLocalInjector() {
+  private createLocalInjector(getInjector: LocalGetInjectorToken) {
     return createLocalInjector({
       parentInjector: this.injectorRegistryService,
+      getInjector,
       getComponent: () => this.compRef.instance,
       getConfig: () => this.inputs.config,
+      getContext: () => this.context,
       updateConfig: config => {
         this.markForCheck();
         return (this.inputs.config = { ...this.inputs.config, ...config });
