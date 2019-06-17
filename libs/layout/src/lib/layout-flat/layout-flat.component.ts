@@ -7,6 +7,7 @@ import {
   Input,
   Output,
   ViewEncapsulation,
+  OnInit,
 } from '@angular/core';
 import { OrchestratorConfigItem } from '@orchestrator/core';
 
@@ -17,7 +18,7 @@ import { OrchestratorConfigItem } from '@orchestrator/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class LayoutFlatComponent {
+export class LayoutFlatComponent implements OnInit {
   @Input() items: ReadonlyArray<OrchestratorConfigItem>;
 
   /**
@@ -28,6 +29,14 @@ export class LayoutFlatComponent {
   @HostBinding('class.layout-flat-orc') readonly classLayoutFlat = true;
 
   private _itemsRendered: Array<ComponentRef<any>> = [];
+
+  ngOnInit(): void {
+    console.log('layout rerendered', this.items);
+  }
+
+  trackByComponent(item: OrchestratorConfigItem) {
+    return item.component;
+  }
 
   onComponentCreated(component: ComponentRef<any>) {
     this._itemsRendered.push(component);
