@@ -6,6 +6,7 @@ import {
   HostBinding,
   Input,
   Output,
+  TrackByFunction,
   ViewEncapsulation,
 } from '@angular/core';
 import { OrchestratorConfigItem } from '@orchestrator/core';
@@ -29,9 +30,9 @@ export class LayoutFlatComponent {
 
   private _itemsRendered: Array<ComponentRef<any>> = [];
 
-  trackByComponent(item: OrchestratorConfigItem) {
+  trackByComponent: TrackByFunction<OrchestratorConfigItem> = (i, item) => {
     return item.component;
-  }
+  };
 
   onComponentCreated(component: ComponentRef<any>) {
     this._itemsRendered.push(component);
