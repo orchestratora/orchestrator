@@ -51,11 +51,13 @@ export class ComposerConfiguratorComponent implements OnChanges {
   setFormChanges$ = new Subject<Observable<any>>();
 
   @Input() component: OrchestratorDynamicComponentType;
+  @Input() config: any;
 
   @Output() configUpdate = this.setFormChanges$.pipe(switchAll());
 
   formConfig: ControlConfigObject;
   formGroup: FormGroup;
+  defaultConfig: any;
 
   constructor(
     private configService: ConfigurationService,
@@ -64,6 +66,10 @@ export class ComposerConfiguratorComponent implements OnChanges {
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
+    if ('config' in changes) {
+      this.defaultConfig = this.config;
+    }
+
     if ('component' in changes) {
       this.updateConfig();
     }
@@ -73,9 +79,9 @@ export class ComposerConfiguratorComponent implements OnChanges {
     const configType = this.componentLocatorService.getConfigType(
       this.component,
     );
-    const defaultConfig = this.componentLocatorService.getDefaultConfig(
-      this.component,
-    );
+    const defaultConfig =
+      this.defaultConfig ||
+      this.componentLocatorService.getDefaultConfig(this.component);
     const configMeta = this.configService.getMetaOf(configType);
     const groupedConfig = this.groupConfigByProp(configMeta);
 
@@ -133,11 +139,10 @@ export class ComposerConfiguratorComponent implements OnChanges {
 
           switch (meta.type) {
             case Number:
-              acc.type = 'number';
+              acc.tag = 'input-number';
               break;
             case Boolean:
-              acc.tag = 'select';
-              acc.options = [true, false];
+              acc.tag = 'switch';
               break;
             default:
               acc.type = 'text';
@@ -151,16 +156,14 @@ export class ComposerConfiguratorComponent implements OnChanges {
             break;
           case OptionInteger:
             acc.validators.push(Validators.pattern(/^-?\d+$/));
-            acc.tag = 'input';
-            acc.type = 'number';
+            acc.tag = 'input-number';
             break;
           case OptionRange:
             const [min, max, step] = meta.args;
             acc.tag =
               !Number.isFinite(max) || !Number.isFinite(min)
-                ? 'input'
+                ? 'input-number'
                 : 'slider';
-            acc.type = 'number';
             acc.extras.min = min;
             acc.extras.max = max;
             acc.extras.step = step;

@@ -6,6 +6,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 import { ComposerConfiguratorComponent } from './composer-configurator.component';
 
@@ -21,6 +22,7 @@ import { ComposerConfiguratorComponent } from './composer-configurator.component
     NzInputNumberModule,
     NzSelectModule,
     NzSliderModule,
+    NzSwitchModule,
   ],
   exports: [ComposerConfiguratorComponent],
   declarations: [ComposerConfiguratorComponent],

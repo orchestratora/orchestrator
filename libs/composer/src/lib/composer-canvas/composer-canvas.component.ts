@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrchestratorConfigItem } from '@orchestrator/core';
 
 import { ComposerDroppableComponent } from '../composer-droppable';
 

@@ -4,6 +4,7 @@
     <nz-collapse-panel nzHeader="Configuration Form">
       <orc-composer-configurator
         [component]="config.item.component"
+        [config]="config.item.config"
         (configUpdate)="configUpdated($event)"
       ></orc-composer-configurator>
     </nz-collapse-panel>
