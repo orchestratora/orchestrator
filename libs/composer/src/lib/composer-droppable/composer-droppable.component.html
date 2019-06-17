@@ -1,10 +1,10 @@
-<div class="rendered-item" *ngIf="config?.item?.component; else dropTpl">
-  <orc-render-item [item]="config.item"></orc-render-item>
+<div class="rendered-item" *ngIf="fullConfig?.item?.component; else dropTpl">
+  <orc-render-item [item]="fullConfig.item"></orc-render-item>
   <nz-collapse [nzBordered]="false">
     <nz-collapse-panel nzHeader="Configuration Form">
       <orc-composer-configurator
-        [component]="config.item.component"
-        [config]="config.item.config"
+        [component]="fullConfig.item.component"
+        [config]="fullConfig.item.config"
         (configUpdate)="configUpdated($event)"
       ></orc-composer-configurator>
     </nz-collapse-panel>
