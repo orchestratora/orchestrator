@@ -57,6 +57,7 @@ export class ComposerConfiguratorComponent implements OnChanges {
 
   formConfig: ControlConfigObject;
   formGroup: FormGroup;
+  componentDefaultConfig: any;
   defaultConfig: any;
 
   constructor(
@@ -66,26 +67,39 @@ export class ComposerConfiguratorComponent implements OnChanges {
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if ('config' in changes) {
-      this.defaultConfig = this.config;
-    }
-
     if ('component' in changes) {
+      this.updateDefaultConfig();
+      this.updateForm();
+    } else if ('config' in changes) {
       this.updateConfig();
+      if (this.formGroup) {
+        this.formGroup.patchValue(this.defaultConfig, { emitEvent: false });
+      }
     }
   }
 
+  private updateDefaultConfig() {
+    this.componentDefaultConfig = this.componentLocatorService.getDefaultConfig(
+      this.component,
+    );
+    this.updateConfig();
+  }
+
   private updateConfig() {
+    this.defaultConfig = {
+      ...this.componentDefaultConfig,
+      ...this.config,
+    };
+  }
+
+  private updateForm() {
     const configType = this.componentLocatorService.getConfigType(
       this.component,
     );
-    const defaultConfig =
-      this.defaultConfig ||
-      this.componentLocatorService.getDefaultConfig(this.component);
     const configMeta = this.configService.getMetaOf(configType);
     const groupedConfig = this.groupConfigByProp(configMeta);
 
-    this.formConfig = this.genConfigFromMeta(groupedConfig, defaultConfig);
+    this.formConfig = this.genConfigFromMeta(groupedConfig, this.defaultConfig);
     this.formGroup = this.genFormGroupFromConfig(this.formConfig);
 
     this.setFormChanges$.next(this.formGroup.valueChanges);

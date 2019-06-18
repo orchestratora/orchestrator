@@ -3,10 +3,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  HostBinding,
   Input,
   OnChanges,
   Optional,
   Output,
+  SimpleChange,
   SimpleChanges,
   SkipSelf,
 } from '@angular/core';
@@ -44,9 +46,14 @@ export class ComposerDroppableComponent
     OrchestratorDynamicComponentType
   >();
 
+  @HostBinding('class.no-hover')
+  noHover = false;
+
   fullConfig: ComposerDroppableConfig;
-  private droppedConfig: ComposerDroppableConfig;
-  private compConfig: any;
+  showConfig = false;
+  componentName: string;
+  droppedConfig: ComposerDroppableConfig;
+  compConfig: any;
 
   static wrapComponent<C>(
     comp: string | OrchestratorDynamicComponentType<C>,
@@ -67,37 +74,20 @@ export class ComposerDroppableComponent
 
   ngOnChanges(changes: SimpleChanges) {
     if ('config' in changes) {
-      // HACK: We need to manually track component changes
-      // because Angular will reuse same instance of component in the DOM
-      // between different components
-      if (
-        !changes.config.firstChange &&
-        changes.config.currentValue.component !==
-          changes.config.previousValue.component
-      ) {
-        this.reset();
-      }
-
-      // Update config only if nothing was dropped into us
-      if (!this.droppedConfig) {
-        this.fullConfig = this.config;
-      }
+      this.updateConfig(changes.config);
     }
 
-    // Project items into config for rendering
     if ('items' in changes) {
-      this.fullConfig = {
-        ...this.fullConfig,
-        item: {
-          ...this.fullConfig.item,
-          items: this.items,
-        },
-      };
+      this.updateItems();
     }
   }
 
   drop(e: CdkDragDrop<any>) {
     const compType = e.item.data as OrchestratorDynamicComponentType;
+
+    if (!this.fullConfig) {
+      this.fullConfig = {};
+    }
 
     this.fullConfig.component = compType;
     this.compConfig = undefined;
@@ -112,7 +102,10 @@ export class ComposerDroppableComponent
     this.updateItem();
   }
 
-  replaceItem(item: OrchestratorConfigItem, prevItem?: OrchestratorConfigItem) {
+  replaceChildItem(
+    item: OrchestratorConfigItem,
+    prevItem?: OrchestratorConfigItem,
+  ) {
     const config: ComposerDroppableConfig = { item, component: item.component };
     const newItem = ComposerDroppableComponent.wrapComponent(
       ComposerDroppableComponent,
@@ -131,11 +124,83 @@ export class ComposerDroppableComponent
     return newItem;
   }
 
+  removeChildItem(item: OrchestratorConfigItem) {
+    this.renderComponent.removeItem(item);
+  }
+
+  removeItem() {
+    if (this.parentDroppable) {
+      this.parentDroppable.removeChildItem(this.config.prevItem);
+    } else {
+      this.renderComponent.clearItems();
+      this.renderComponent.addItem(ComposerDroppableComponent.wrapperConfig);
+      this.reset();
+    }
+  }
+
+  clearItems() {
+    this.renderComponent.clearItems();
+    this.renderComponent.addItem(ComposerDroppableComponent.wrapperConfig);
+  }
+
+  childHover(isHover: boolean) {
+    this.noHover = isHover;
+
+    if (this.parentDroppable) {
+      this.parentDroppable.childHover(isHover);
+    }
+  }
+
+  hover(isHover: boolean) {
+    if (this.parentDroppable) {
+      this.parentDroppable.childHover(isHover);
+    }
+  }
+
+  private updateConfig(change: SimpleChange) {
+    // HACK: We need to manually track component changes
+    // because Angular will reuse same instance of component in the DOM
+    // between different components
+    if (
+      !change.firstChange &&
+      change.currentValue.component !== change.previousValue.component
+    ) {
+      this.reset();
+    }
+
+    // Update config only if nothing was dropped into us
+    if (!this.droppedConfig) {
+      this.fullConfig = this.config;
+    }
+
+    this.updateCompName();
+  }
+
+  private updateItems() {
+    // Project items into config for rendering
+    this.fullConfig = {
+      ...this.fullConfig,
+      item: {
+        ...this.fullConfig.item,
+        items: this.items,
+      },
+    };
+  }
+
+  private updateCompName() {
+    this.componentName =
+      typeof this.fullConfig.component === 'function'
+        ? this.fullConfig.component.name
+        : this.fullConfig.component;
+  }
+
   private updateItem(dropped = false) {
     const config = ComposerDroppableComponent.wrapComponent(
       this.fullConfig.component,
       this.compConfig,
-      this.fullConfig ? this.fullConfig.item.items : undefined,
+      this.fullConfig && this.fullConfig.item
+        ? this.fullConfig.item.items
+        : undefined,
     );
 
     this.fullConfig = { ...this.fullConfig, item: config };
@@ -145,10 +210,12 @@ export class ComposerDroppableComponent
     }
 
     if (this.parentDroppable) {
-      this.parentDroppable.replaceItem(
+      this.parentDroppable.replaceChildItem(
         config,
         !dropped ? this.fullConfig.prevItem : undefined,
       );
+    } else {
+      this.updateCompName();
     }
   }
 
@@ -157,5 +224,8 @@ export class ComposerDroppableComponent
     this.fullConfig = undefined;
     this.droppedConfig = undefined;
     this.compConfig = undefined;
+    this.showConfig = false;
+    this.noHover = false;
+    this.componentName = '';
   }
 }
