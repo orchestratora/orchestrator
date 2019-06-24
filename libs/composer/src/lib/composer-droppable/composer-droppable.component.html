@@ -3,6 +3,7 @@
   *ngIf="fullConfig?.item?.component; else dropTpl"
   nz-popover
   [nzContent]="controlsTpl"
+  [(nzVisible)]="controlsVisible"
   (mouseover)="hover(true)"
   (mouseout)="hover(false)"
 >

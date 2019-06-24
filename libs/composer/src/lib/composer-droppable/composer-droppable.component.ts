@@ -49,6 +49,8 @@ export class ComposerDroppableComponent
   @HostBinding('class.no-hover')
   noHover = false;
 
+  controlsVisible = false;
+
   fullConfig: ComposerDroppableConfig;
   showConfig = false;
   componentName: string;
@@ -146,6 +148,11 @@ export class ComposerDroppableComponent
   childHover(isHover: boolean) {
     this.noHover = isHover;
 
+    // Hide controls is children hovering
+    if (isHover && this.controlsVisible) {
+      this.controlsVisible = false;
+    }
+
     if (this.parentDroppable) {
       this.parentDroppable.childHover(isHover);
     }
@@ -226,6 +233,7 @@ export class ComposerDroppableComponent
     this.compConfig = undefined;
     this.showConfig = false;
     this.noHover = false;
+    this.controlsVisible = false;
     this.componentName = '';
   }
 }
