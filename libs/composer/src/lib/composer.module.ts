@@ -14,6 +14,7 @@ import { ComposerCanvasModule } from './composer-canvas';
 import { ComposerComponentsModule } from './composer-components';
 import { ComposerConfigModule } from './composer-config';
 import { ComposerConfiguratorModule } from './composer-configurator';
+import { ComposerConfiguratorService } from './composer-configurator/composer-configurator.service';
 import { ComposerControlsModule } from './composer-controls';
 import { ComposerDroppableModule } from './composer-droppable';
 import { ComposerErrorsModule } from './composer-errors';
@@ -51,7 +52,10 @@ export class ComposerModule {
   static forRoot(): ModuleWithProviders<ComposerModule> {
     return {
       ngModule: ComposerModule,
-      providers: [{ provide: ErrorStrategy, useClass: SuppressErrorStrategy }],
+      providers: [
+        ComposerConfiguratorService,
+        { provide: ErrorStrategy, useClass: SuppressErrorStrategy },
+      ],
     };
   }
 
