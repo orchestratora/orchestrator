@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  HostBinding,
   Input,
   OnChanges,
   Optional,
@@ -46,13 +45,9 @@ export class ComposerDroppableComponent
     OrchestratorDynamicComponentType
   >();
 
-  @HostBinding('class.no-hover')
-  noHover = false;
-
   controlsVisible = false;
-
-  fullConfig: ComposerDroppableConfig;
   showConfig = false;
+  fullConfig: ComposerDroppableConfig;
   componentName: string;
   droppedConfig: ComposerDroppableConfig;
   compConfig: any;
@@ -146,8 +141,6 @@ export class ComposerDroppableComponent
   }
 
   childHover(isHover: boolean) {
-    this.noHover = isHover;
-
     // Hide controls is children hovering
     if (isHover && this.controlsVisible) {
       this.controlsVisible = false;
@@ -232,7 +225,6 @@ export class ComposerDroppableComponent
     this.droppedConfig = undefined;
     this.compConfig = undefined;
     this.showConfig = false;
-    this.noHover = false;
     this.controlsVisible = false;
     this.componentName = '';
   }

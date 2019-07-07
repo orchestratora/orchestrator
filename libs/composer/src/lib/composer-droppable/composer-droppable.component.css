@@ -3,25 +3,6 @@
   display: inline-block;
 }
 
-:host(:not(.no-hover)) .rendered-item:hover > .rendered-item-controls {
-  display: block;
-}
-
-.rendered-item-controls {
-  display: none;
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 5px;
-  background: white;
-  border: 1px solid skyblue;
-  white-space: nowrap;
-}
-
-.rendered-item-controls [nz-icon] {
-  cursor: pointer;
-}
-
 .close-config-btn {
   margin-left: 8px;
 }
