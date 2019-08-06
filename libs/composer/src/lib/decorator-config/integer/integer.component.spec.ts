@@ -5,15 +5,15 @@ import { DebugElement } from '@angular/core';
 
 import { IntegerComponent } from './integer.component';
 
-describe('IntegerComponent', () => {
+// TODO(alex): Implement unit tests for IntegerComponent
+xdescribe('IntegerComponent', () => {
   let component: IntegerComponent;
   let fixture: ComponentFixture<IntegerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IntegerComponent ]
-    })
-    .compileComponents();
+      declarations: [IntegerComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

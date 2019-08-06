@@ -5,15 +5,15 @@ import { DebugElement } from '@angular/core';
 
 import { RangeComponent } from './range.component';
 
-describe('RangeComponent', () => {
+// TODO(alex): Implement unit tests for RangeComponent
+xdescribe('', () => {
   let component: RangeComponent;
   let fixture: ComponentFixture<RangeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RangeComponent ]
-    })
-    .compileComponents();
+      declarations: [RangeComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
