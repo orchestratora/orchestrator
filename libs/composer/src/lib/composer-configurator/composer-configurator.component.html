@@ -1,48 +1,21 @@
-<form nz-form [formGroup]="formGroup">
+<form nz-form [formGroup]="formGroup" #form="ngForm">
   <nz-form-item *ngFor="let item of (formConfig | keyvalue)">
-    <nz-form-label [nzRequired]="item.value.extras.required">
+    <nz-form-label [nzRequired]="item.value.required">
       {{ item.key | uppercase }}
     </nz-form-label>
-    <nz-form-control [ngSwitch]="item.value.tag">
-      <input
-        *ngSwitchCase="'input'"
-        nz-input
-        [formControlName]="item.key"
-        [type]="item.value.type"
-        [min]="item.value.extras.min"
-        [max]="item.value.extras.max"
-        [step]="item.value.extras.step"
-      />
-      <nz-input-number
-        *ngSwitchCase="'input-number'"
-        [formControlName]="item.key"
-        [nzMin]="item.value.extras.min"
-        [nzMax]="item.value.extras.max"
-        [nzStep]="item.value.extras.step || 1"
-      ></nz-input-number>
-      <nz-slider
-        *ngSwitchCase="'slider'"
-        [formControlName]="item.key"
-        [nzMin]="item.value.extras.min"
-        [nzMax]="item.value.extras.max"
-        [nzStep]="item.value.extras.step"
-      ></nz-slider>
-      <nz-select
-        *ngSwitchCase="'select'"
-        nzAllowClear
-        [formControlName]="item.key"
-      >
-        <nz-option
-          *ngFor="let opt of item.value.options"
-          [nzValue]="opt"
-          [nzLabel]="opt"
-        ></nz-option>
-      </nz-select>
-      <nz-switch
-        *ngSwitchCase="'switch'"
-        [formControlName]="item.key"
-      ></nz-switch>
-      <p *ngSwitchDefault>HUI! NA RUL'</p>
-    </nz-form-control>
+    <ng-container
+      *ngIf="item.value.component; else noCompTpl"
+      [ngComponentOutlet]="item.value.component"
+      [ndcDynamicInputs]="{
+        name: item.key,
+        parent: form,
+        extras: item.value.extras
+      }"
+    ></ng-container>
+    <ng-template #noCompTpl>
+      <nz-form-control>
+        <textarea rows="4" nz-input [formControlName]="item.key"></textarea>
+      </nz-form-control>
+    </ng-template>
   </nz-form-item>
 </form>

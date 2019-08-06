@@ -1,41 +1,46 @@
-import { Injectable } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { Injectable, Injector } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   ComponentLocatorService,
   ConfigurationMeta,
   ConfigurationService,
-  OptionAllowedValues,
-  OptionInteger,
-  OptionRange,
-  OptionRequired,
   OrchestratorDynamicComponentType,
 } from '@orchestrator/core';
+
+import {
+  ControlConfig,
+  ControlConfigObject,
+  DECORATOR_CONFIGS_INITIALIZER_TOKEN,
+  DECORATOR_CONFIGS_TOKEN,
+  DecoratorConfigFn,
+  PropDecoratorFactory,
+} from '../decorator-config';
 
 export interface ConfigurationMetaObject {
   [key: string]: ConfigurationMeta[];
 }
 
-export interface ControlConfig {
-  validators: ValidatorFn[];
-  tag: string;
-  type?: string;
-  options?: any[];
-  extras: any;
-  default?: any;
-}
-
-export interface ControlConfigObject {
-  [key: string]: ControlConfig;
-}
-
 @Injectable()
 export class ComposerConfiguratorService {
+  private decoratorConfigsInit = this.injector.get(
+    DECORATOR_CONFIGS_INITIALIZER_TOKEN,
+    [],
+  );
+  private decoratorConfigs = this.injector.get(DECORATOR_CONFIGS_TOKEN, []);
+
+  private decoratorConfigGroups = this.decoratorConfigs.reduce(
+    (acc, config) => {
+      acc.set(config.type, [
+        ...(acc.get(config.type) || []),
+        config.fn as DecoratorConfigFn<any>,
+      ]);
+      return acc;
+    },
+    new Map<PropDecoratorFactory, DecoratorConfigFn<any>[]>(),
+  );
+
   constructor(
+    private injector: Injector,
     private fb: FormBuilder,
     private configService: ConfigurationService,
     private componentLocatorService: ComponentLocatorService,
@@ -96,65 +101,40 @@ export class ComposerConfiguratorService {
     defaultValue?: any,
   ): ControlConfig {
     return configMeta.reduce(
-      (acc, meta) => {
-        if (!acc.tag) {
-          acc.tag = 'input';
+      (config, meta) => this.applyConfig(config, meta),
+      this.getInitialConfig(configMeta, defaultValue),
+    );
+  }
 
-          switch (meta.type) {
-            case Number:
-              acc.tag = 'input-number';
-              break;
-            case Boolean:
-              acc.tag = 'switch';
-              break;
-            default:
-              acc.type = 'text';
-          }
-        }
-
-        switch (meta.decorator) {
-          case OptionRequired:
-            acc.validators.push(Validators.required);
-            acc.extras.required = true;
-            break;
-          case OptionInteger:
-            acc.validators.push(Validators.pattern(/^-?\d+$/));
-            acc.tag = 'input-number';
-            break;
-          case OptionRange:
-            const [min, max, step] = meta.args as Parameters<
-              typeof OptionRange
-            >;
-            acc.tag =
-              !Number.isFinite(max) || !Number.isFinite(min)
-                ? 'input-number'
-                : 'slider';
-            acc.extras.min = min;
-            acc.extras.max = max;
-            acc.extras.step = step;
-            acc.validators.push(Validators.min(min));
-            acc.validators.push(Validators.max(max));
-            break;
-          case OptionAllowedValues:
-            const [options] = meta.args as Parameters<
-              typeof OptionAllowedValues
-            >;
-
-            acc.tag = options.some(opt => typeof opt === 'function')
-              ? 'input'
-              : 'select';
-            acc.type = 'text';
-            acc.options = options;
-            break;
-        }
-        return acc;
+  private getInitialConfig(
+    configMeta: ConfigurationMeta[],
+    defaultValue?: any,
+  ): ControlConfig {
+    return configMeta.reduce(
+      (config, meta) => {
+        this.decoratorConfigsInit.forEach(fn =>
+          fn(config, meta.args, meta.type, meta.decorator),
+        );
+        return config;
       },
       {
         validators: [],
-        tag: '',
+        component: null,
         extras: {},
         default: defaultValue,
       } as ControlConfig,
     );
+  }
+
+  private applyConfig(config: ControlConfig, meta: ConfigurationMeta) {
+    const decoratorConfigFns = this.decoratorConfigGroups.get(meta.decorator);
+
+    if (!decoratorConfigFns) {
+      return config;
+    }
+
+    decoratorConfigFns.forEach(fn => fn(config, meta.args, meta.type));
+
+    return config;
   }
 }

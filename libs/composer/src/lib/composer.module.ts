@@ -20,6 +20,7 @@ import { ComposerDroppableModule } from './composer-droppable';
 import { ComposerErrorsModule } from './composer-errors';
 import { ComposerPreviewModule } from './composer-preview';
 import { ComposerComponent } from './composer.component';
+import { DecoratorConfigModule } from './decorator-config';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { ComposerComponent } from './composer.component';
     ComposerControlsModule,
     ComposerConfiguratorModule,
     ComposerDroppableModule,
+    DecoratorConfigModule,
   ],
   exports: [
     ComposerCanvasModule,
@@ -55,6 +57,7 @@ export class ComposerModule {
       providers: [
         ComposerConfiguratorService,
         { provide: ErrorStrategy, useClass: SuppressErrorStrategy },
+        DecoratorConfigModule.forRoot().providers,
       ],
     };
   }

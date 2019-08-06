@@ -1,0 +1,13 @@
+<nz-form-control>
+  <nz-select
+    nzAllowClear
+    [formControlNameEx]="name"
+    [formControlNameExParent]="parent"
+  >
+    <nz-option
+      *ngFor="let opt of extras?.options"
+      [nzValue]="opt"
+      [nzLabel]="opt"
+    ></nz-option>
+  </nz-select>
+</nz-form-control>
