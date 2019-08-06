@@ -14,10 +14,8 @@ import {
 import { Observable, Subject } from 'rxjs';
 import { switchAll } from 'rxjs/operators';
 
-import {
-  ComposerConfiguratorService,
-  ControlConfigObject,
-} from './composer-configurator.service';
+import { ControlConfigObject } from '../decorator-config';
+import { ComposerConfiguratorService } from './composer-configurator.service';
 
 /**
  * @internal

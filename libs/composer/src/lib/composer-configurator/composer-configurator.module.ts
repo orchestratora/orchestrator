@@ -1,12 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DynamicModule } from 'ng-dynamic-component';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzSliderModule } from 'ng-zorro-antd/slider';
-import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 import { ComposerConfiguratorComponent } from './composer-configurator.component';
 
@@ -19,10 +16,7 @@ import { ComposerConfiguratorComponent } from './composer-configurator.component
     ReactiveFormsModule,
     NzFormModule,
     NzInputModule,
-    NzInputNumberModule,
-    NzSelectModule,
-    NzSliderModule,
-    NzSwitchModule,
+    DynamicModule,
   ],
   exports: [ComposerConfiguratorComponent],
   declarations: [ComposerConfiguratorComponent],
