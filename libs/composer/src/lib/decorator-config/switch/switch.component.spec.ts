@@ -5,15 +5,15 @@ import { DebugElement } from '@angular/core';
 
 import { SwitchComponent } from './switch.component';
 
-describe('SwitchComponent', () => {
+// TODO(alex): Implement unit tests for SwitchComponent
+xdescribe('SwitchComponent', () => {
   let component: SwitchComponent;
   let fixture: ComponentFixture<SwitchComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SwitchComponent ]
-    })
-    .compileComponents();
+      declarations: [SwitchComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

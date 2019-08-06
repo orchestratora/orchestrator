@@ -5,15 +5,15 @@ import { DebugElement } from '@angular/core';
 
 import { AllowedValuesComponent } from './allowed-values.component';
 
-describe('AllowedValuesComponent', () => {
+// TODO(alex): Implement unit tests for AllowedValuesComponent
+xdescribe('AllowedValuesComponent', () => {
   let component: AllowedValuesComponent;
   let fixture: ComponentFixture<AllowedValuesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AllowedValuesComponent ]
-    })
-    .compileComponents();
+      declarations: [AllowedValuesComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
