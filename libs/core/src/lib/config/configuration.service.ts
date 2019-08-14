@@ -83,9 +83,8 @@ export class ConfigurationService {
 
         const { args, fn } = this.bindFunction(config[m.prop], customInjector);
 
-        config[m.prop] = fn;
         config[m.prop] = this.guardFunction(
-          config[m.prop],
+          fn,
           type,
           String(m.prop),
           originalConfig[m.prop],
