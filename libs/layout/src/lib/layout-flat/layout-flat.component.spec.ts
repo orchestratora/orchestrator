@@ -5,7 +5,10 @@ import {
   OrchestratorConfigItem,
   OrchestratorCoreModule,
 } from '@orchestrator/core';
-import { Dynamic1Component, Dynamic2Component } from '@testing';
+import {
+  Dynamic1Component,
+  Dynamic2Component,
+} from '@orchestrator/core/testing';
 
 import { LayoutFlexModule } from '../flex';
 import { LayoutFlatComponent } from './layout-flat.component';

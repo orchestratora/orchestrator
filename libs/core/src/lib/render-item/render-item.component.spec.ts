@@ -6,7 +6,10 @@ import {
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Dynamic1Component, Dynamic2Component } from '@testing';
+import {
+  Dynamic1Component,
+  Dynamic2Component,
+} from '@orchestrator/core/testing';
 import { DynamicModule } from 'ng-dynamic-component';
 
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
