@@ -1,15 +1,9 @@
-import { InjectionToken, Type } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
-import { OrchestratorDynamicComponentType } from './types';
+import { ComponentRegistry } from './component-registry';
 
-export type DefaultDynamicComponent = OrchestratorDynamicComponentType;
-
-export interface ComponentMap<T extends Type<any> = DefaultDynamicComponent> {
-  [k: string]: T;
-}
-
-export type ComponentRegistry<T extends Type<any> = DefaultDynamicComponent> =
-  | T[]
-  | ComponentMap<T>;
-
+/**
+ * Holds all available components for orchestrator
+ * @internal
+ */
 export const COMPONENTS = new InjectionToken<ComponentRegistry[]>('COMPONENTS');

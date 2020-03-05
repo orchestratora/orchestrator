@@ -29,6 +29,7 @@ import { OptionFunction } from '../config';
 import { ConfigurationService } from '../config/configuration.service';
 import { InjectorRegistryService } from '../injectors/injector-registry.service';
 import { createLocalInjector } from '../injectors/local-injector';
+import { LocalGetInjectorToken } from '../injectors/local-injector-map';
 import { MappedInjectorFactory } from '../injectors/mapped-injector';
 import { RenderComponent } from '../render-component';
 import {
@@ -156,6 +157,19 @@ export class RenderItemComponent extends RenderComponent
     this.cdr.markForCheck();
   }
 
+  updateItem(
+    item: OrchestratorConfigItem<any, any>,
+    newItem: OrchestratorConfigItem<any, any>,
+  ): void {
+    if (!this.inputs.items) {
+      return;
+    }
+
+    this.inputs.items = this.inputs.items.map(i => (i === item ? newItem : i));
+
+    this.cdr.markForCheck();
+  }
+
   removeItem(item: OrchestratorConfigItem<any>) {
     const idx = this.inputs.items ? this.inputs.items.indexOf(item) : -1;
 
@@ -257,14 +271,19 @@ export class RenderItemComponent extends RenderComponent
   }
 
   private createInjector() {
-    return this.mappedInjectorFactory.create(this.createLocalInjector());
+    const injector = this.mappedInjectorFactory.create(
+      this.createLocalInjector(() => injector),
+    );
+    return injector;
   }
 
-  private createLocalInjector() {
+  private createLocalInjector(getInjector: LocalGetInjectorToken) {
     return createLocalInjector({
       parentInjector: this.injectorRegistryService,
+      getInjector,
       getComponent: () => this.compRef.instance,
       getConfig: () => this.inputs.config,
+      getContext: () => this.context,
       updateConfig: config => {
         this.markForCheck();
         return (this.inputs.config = { ...this.inputs.config, ...config });

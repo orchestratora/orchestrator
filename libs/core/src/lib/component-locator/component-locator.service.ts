@@ -5,21 +5,26 @@ import {
   Type,
 } from '@angular/core';
 
+import { COMPONENTS } from '../component-map';
 import {
   ComponentMap,
   ComponentRegistry,
-  COMPONENTS,
   DefaultDynamicComponent,
-} from '../component-map';
+} from '../component-registry';
 import { getDynamicComponentMeta } from '../metadata/dynamic-component';
 import {
   GetOrchestratorDynamicComponentConfig,
   OrchestratorDynamicComponentType,
 } from '../types';
 
+/**
+ * Service that holds references to all dynamic components
+ * and can resolve them by mapping
+ * as well as resolve their configurations
+ */
 @Injectable()
 export class ComponentLocatorService {
-  private componentRegistry = this.injector.get(COMPONENTS);
+  private componentRegistry = this.injector.get(COMPONENTS, []);
 
   private componentArray = this.componentRegistry
     .filter(isComponentArray)
@@ -41,11 +46,18 @@ export class ComponentLocatorService {
     this.componentArrayMap as ComponentMap,
   );
 
+  private components = Object.keys(this.componentMap).map(
+    key => this.componentMap[key],
+  );
+
   constructor(
     private injector: Injector,
     private cfr: ComponentFactoryResolver,
   ) {}
 
+  /**
+   * Will resolve dynamic component by mapping and return it's type
+   */
   resolve<T, C = GetOrchestratorDynamicComponentConfig<T>>(
     component: string | OrchestratorDynamicComponentType<C>,
   ): OrchestratorDynamicComponentType<C> | undefined {
@@ -56,6 +68,9 @@ export class ComponentLocatorService {
     return this.componentMap[component];
   }
 
+  /**
+   * Will resolve default configuration of dynamic component
+   */
   getDefaultConfig<C>(
     component: OrchestratorDynamicComponentType<C>,
   ): C | null {
@@ -68,6 +83,9 @@ export class ComponentLocatorService {
     return this.injector.get(configType, null);
   }
 
+  /**
+   * Will resolve configuration type of dynamic component
+   */
   getConfigType<C>(
     component: OrchestratorDynamicComponentType<C>,
   ): Type<C> | null {
@@ -82,6 +100,13 @@ export class ComponentLocatorService {
     }
 
     return meta.config;
+  }
+
+  /**
+   * Will return array of all available components in orchestrator
+   */
+  getComponents(): OrchestratorDynamicComponentType[] {
+    return this.components;
   }
 }
 

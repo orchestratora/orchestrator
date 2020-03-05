@@ -239,6 +239,182 @@
         }
       },
       "schematics": {}
+    },
+    "composer": {
+      "root": "libs/composer",
+      "sourceRoot": "libs/composer/src",
+      "projectType": "library",
+      "prefix": "orc",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "libs/composer/tsconfig.lib.json",
+            "project": "libs/composer/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/composer/tsconfig.lib.json",
+              "libs/composer/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@angular-builders/jest:run",
+          "options": {
+            "configPath": "jest.config.js"
+          }
+        }
+      },
+      "schematics": {}
+    },
+    "composer-example": {
+      "root": "apps/composer-example/",
+      "sourceRoot": "apps/composer-example/src",
+      "projectType": "application",
+      "prefix": "orc",
+      "schematics": {
+        "@nrwl/schematics:class": {
+          "skipTests": true
+        },
+        "@nrwl/schematics:component": {
+          "skipTests": true
+        },
+        "@nrwl/schematics:directive": {
+          "skipTests": true
+        },
+        "@nrwl/schematics:guard": {
+          "skipTests": true
+        },
+        "@nrwl/schematics:module": {
+          "skipTests": true
+        },
+        "@nrwl/schematics:pipe": {
+          "skipTests": true
+        },
+        "@nrwl/schematics:service": {
+          "skipTests": true
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/composer-example",
+            "index": "apps/composer-example/src/index.html",
+            "main": "apps/composer-example/src/main.ts",
+            "polyfills": "apps/composer-example/src/polyfills.ts",
+            "tsConfig": "apps/composer-example/tsconfig.app.json",
+            "assets": [
+              "apps/composer-example/src/favicon.ico",
+              "apps/composer-example/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
+            ],
+            "styles": [
+              "apps/composer-example/src/styles.css",
+              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
+            ],
+            "scripts": [],
+            "es5BrowserSupport": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/composer-example/src/environments/environment.ts",
+                  "with": "apps/composer-example/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "composer-example:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "composer-example:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "composer-example:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/composer-example/tsconfig.app.json",
+              "apps/composer-example/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "apps/composer-example/jest.config.js",
+            "tsConfig": "apps/composer-example/tsconfig.spec.json",
+            "setupFile": "apps/composer-example/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "composer-example-e2e": {
+      "root": "apps/composer-example-e2e",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/builders:cypress",
+          "options": {
+            "cypressConfig": "apps/composer-example-e2e/cypress.json",
+            "tsConfig": "apps/composer-example-e2e/tsconfig.e2e.json",
+            "devServerTarget": "composer-example:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "composer-example:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/composer-example-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
     }
   },
   "cli": {

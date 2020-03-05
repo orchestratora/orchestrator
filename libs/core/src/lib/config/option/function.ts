@@ -12,10 +12,7 @@ export interface FunctionMeta {
   body: string;
 }
 
-export interface FunctionWithMeta extends Function {
-  args: string[];
-  body: string;
-}
+export interface FunctionWithMeta extends Function, FunctionMeta {}
 
 export function isFunctionWithMeta(fn: Function): fn is FunctionWithMeta {
   return typeof fn === 'function' && 'args' in fn && 'body' in fn;

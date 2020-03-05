@@ -17,6 +17,14 @@ export abstract class RenderComponent {
   abstract addItem(item: OrchestratorConfigItem<any>): void;
 
   /**
+   * Update existing item and re-render it
+   */
+  abstract updateItem(
+    item: OrchestratorConfigItem<any>,
+    newItem: OrchestratorConfigItem<any>,
+  ): void;
+
+  /**
    * Remove item from dynamic component `item` property
    * causing it to remove rendered component from view
    */

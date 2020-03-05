@@ -1,0 +1,14 @@
+<nz-layout cdkDropListGroup>
+  <nz-sider [nzWidth]="sideWidth" nzTheme="light">
+    <orc-composer-components></orc-composer-components>
+  </nz-sider>
+  <nz-layout [style.margin-left.px]="sideWidth">
+    <nz-content>
+      <orc-composer-canvas></orc-composer-canvas>
+      <orc-composer-preview></orc-composer-preview>
+      <orc-composer-config></orc-composer-config>
+      <orc-composer-controls></orc-composer-controls>
+      <orc-composer-errors></orc-composer-errors>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

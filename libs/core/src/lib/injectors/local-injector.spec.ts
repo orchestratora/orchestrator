@@ -12,6 +12,8 @@ describe('createLocalInjector()', () => {
       const parentGet = jest.fn();
       const localInjector = createLocalInjector({
         parentInjector: { get: parentGet },
+        getInjector: 'getInjector' as any,
+        getContext: 'getContext' as any,
         getComponent: 'getComponent' as any,
         getConfig: 'getConfig' as any,
         updateConfig: 'updateConfig' as any,
@@ -20,18 +22,14 @@ describe('createLocalInjector()', () => {
 
       expect(getLocalProviders).toHaveBeenCalledWith(
         expect.objectContaining({
-          getInjector: expect.any(Function),
+          getInjector: 'getInjector',
+          getContext: 'getContext',
           getComponent: 'getComponent',
           getConfig: 'getConfig',
           updateConfig: 'updateConfig',
           isConfigValid: 'isConfigValid',
         }),
       );
-
-      const { getInjector } = getLocalProviders.calls.mostRecent().args[0];
-
-      expect(getInjector).toEqual(expect.any(Function));
-      expect(getInjector()).toBe(localInjector);
 
       localInjector.get('something');
 
