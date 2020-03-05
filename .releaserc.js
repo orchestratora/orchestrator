@@ -8,10 +8,7 @@ const publish = output.isLastModified
 module.exports = {
   branch: 'master',
   tagFormat: 'v${version}',
-  prepare: [
-    '@semantic-release/npm',
-    '@semantic-release/git',
-  ],
+  prepare: ['@semantic-release/npm', '@semantic-release/git'],
   publish: publish,
   verifyConditions: ['@semantic-release/npm', '@semantic-release/github'],
 };

@@ -28,9 +28,7 @@ describe('UiWebHeadingHostComponent', () => {
   testHeading('h6', UiWebHeadingLevel.Six);
 
   function testHeading(tag: string, level?: UiWebHeadingLevel) {
-    it(`should render ${tag} with text from 'config.text' when 'config.level' is ${
-      UiWebHeadingLevel[level]
-    }`, () => {
+    it(`should render ${tag} with text from 'config.text' when 'config.level' is ${UiWebHeadingLevel[level]}`, () => {
       component.config = { text: 'my text', level };
 
       fixture.detectChanges();

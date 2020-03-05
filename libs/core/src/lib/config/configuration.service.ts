@@ -29,7 +29,10 @@ export class ConfigurationService {
   decode<T, C>(type: Type<T>, config: C, injector?: Injector): T | C {
     return this.validate(type, config)
       .map(c => this.processFunctions(type, c, config, injector))
-      .fold<T | C>(() => config, decodedConfig => decodedConfig);
+      .fold<T | C>(
+        () => config,
+        decodedConfig => decodedConfig,
+      );
   }
 
   validate<T, C>(type: Type<T>, config: C): Validation<T> {
