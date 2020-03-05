@@ -5,8 +5,6 @@ notifications:
 node_js: lts/*
 stages:
   - test
-  - name: deploy
-    if: branch = master and type != pull_request
 jobs:
   include:
     - stage: test
@@ -20,3 +18,7 @@ jobs:
       #   skip_cleanup: true
       #   script:
       #     - npm run release
+      #   on:
+      #     tags: false
+      #     all_branches: true
+      #     condition: '$TRAVIS_BRANCH =~ ^(master)$'
