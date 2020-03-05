@@ -1,16 +1,8 @@
-sudo: required
 dist: trusty
 language: node_js
-cache:
-  npm: true
 notifications:
   email: false
 node_js: lts/*
-branches:
-  only:
-    - master
-    - develop
-    - /^greenkeeper/.*$/
 stages:
   - test
   - name: deploy
@@ -19,12 +11,12 @@ jobs:
   include:
     - stage: test
       script:
-        - npm run ci
-    # - stage: release
-    #   node_js: lts/*
-    #   script: skip
-    #   deploy:
-    #     provider: script
-    #     skip_cleanup: true
-    #     script:
-    #       - npm run release-ci
+        - npm run format:check
+        - npm run lint
+        - npm run test
+        - npm run build:all
+      # deploy:
+      #   provider: script
+      #   skip_cleanup: true
+      #   script:
+      #     - npm run release

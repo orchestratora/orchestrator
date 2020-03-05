@@ -9,7 +9,7 @@
   },
   "projects": {
     "core": {
-      "tags": ["core"]
+      "tags": ["components", "core"]
     },
     "layout": {
       "tags": ["components", "layout"]
