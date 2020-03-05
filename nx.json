@@ -21,7 +21,8 @@
       "tags": ["example", "ui"]
     },
     "ui-web-example-e2e": {
-      "tags": ["e2e", "ui"]
+      "tags": ["e2e", "ui"],
+      "implicitDependencies": ["ui-web-example"]
     },
     "stepper": {
       "tags": ["components", "ui"]

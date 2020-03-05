@@ -1,5 +1,8 @@
 {
-  "rulesDirectory": ["node_modules/codelyzer", "node_modules/@nrwl/schematics/src/tslint"],
+  "rulesDirectory": [
+    "node_modules/codelyzer",
+    "node_modules/@nrwl/workspace/src/tslint"
+  ],
   "rules": {
     "arrow-return-shorthand": true,
     "callable-types": true,
@@ -14,7 +17,12 @@
     "member-ordering": [
       true,
       {
-        "order": ["static-field", "instance-field", "static-method", "instance-method"]
+        "order": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
       }
     ],
     "no-arg": true,
@@ -55,12 +63,17 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
-
     "nx-enforce-module-boundaries": [
       true,
       {
         "allow": ["@orchestrator/core/testing"],
-        "depConstraints": [{ "sourceTag": "*", "onlyDependOnLibsWithTags": ["*"] }]
+        "depConstraints": [
+          {
+            "sourceTag": "*",
+            "onlyDependOnLibsWithTags": ["*"]
+          }
+        ],
+        "enforceBuildableLibDependency": true
       }
     ]
   }
