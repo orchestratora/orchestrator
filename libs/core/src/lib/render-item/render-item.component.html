@@ -1,6 +1,8 @@
 <ndc-dynamic
-  [ndcDynamicComponent]="component"
+  [ndcDynamicComponent]="componentType"
   [ndcDynamicInputs]="inputs"
-  [ndcDynamicInjector]="injectorRegistryService"
+  [ndcDynamicInjector]="injector"
+  [ndcDynamicAttributes]="attributes"
+  [ndcDynamicDirectives]="directives"
   (ndcDynamicCreated)="onComponentCreated($event)"
 ></ndc-dynamic>

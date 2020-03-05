@@ -9,7 +9,22 @@
   },
   "projects": {
     "core": {
-      "tags": []
+      "tags": ["core"]
+    },
+    "layout": {
+      "tags": ["components", "layout"]
+    },
+    "ui-web": {
+      "tags": ["components", "ui"]
+    },
+    "ui-web-example": {
+      "tags": ["example", "ui"]
+    },
+    "ui-web-example-e2e": {
+      "tags": ["e2e", "ui"]
+    },
+    "stepper": {
+      "tags": ["components", "ui"]
     }
   }
 }

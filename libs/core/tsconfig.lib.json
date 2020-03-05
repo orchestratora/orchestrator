@@ -10,12 +10,11 @@
     "inlineSources": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
     "types": [],
-    "lib": [
-      "dom",
-      "es2015"
-    ]
+    "lib": ["dom", "es2015"],
+    "paths": {
+      "@orchestrator/*": ["dist/libs/*"]
+    }
   },
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,
@@ -25,8 +24,5 @@
     "strictInjectionParameters": true,
     "enableResourceInlining": true
   },
-  "exclude": [
-    "src/test.ts",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["src/test.ts", "**/*.spec.ts"]
 }

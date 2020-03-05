@@ -1,0 +1,23 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/libs/core",
+  "lib": {
+    "entryFile": "src/public_api.ts",
+    "umdId": "orchestrator.core",
+    "umdModuleIds": {
+      "ng-dynamic-component": "ngDynamicComponent",
+      "@orchestrator/gen-io-ts": "orchestrator.genIoTs",
+      "fp-ts": "fpTs",
+      "fp-ts/lib/Either": "fpTs.Either",
+      "fp-ts/lib/Option": "fpTs.Option",
+      "io-ts": "ioTs",
+      "io-ts/lib/PathReporter": "ioTs.PathReporter"
+    }
+  },
+  "whitelistedNonPeerDependencies": [
+    "ng-dynamic-component",
+    "@orchestrator/gen-io-ts",
+    "fp-ts",
+    "io-ts"
+  ]
+}

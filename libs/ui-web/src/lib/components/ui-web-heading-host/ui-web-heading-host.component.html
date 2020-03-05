@@ -1,0 +1,8 @@
+<ng-container [ngSwitch]="config?.level">
+  <h1 *ngSwitchDefault>{{ config?.text }}</h1>
+  <h2 *ngSwitchCase="level.Two">{{ config?.text }}</h2>
+  <h3 *ngSwitchCase="level.Three">{{ config?.text }}</h3>
+  <h4 *ngSwitchCase="level.Four">{{ config?.text }}</h4>
+  <h5 *ngSwitchCase="level.Five">{{ config?.text }}</h5>
+  <h6 *ngSwitchCase="level.Six">{{ config?.text }}</h6>
+</ng-container>

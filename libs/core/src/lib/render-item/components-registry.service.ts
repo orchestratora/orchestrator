@@ -1,4 +1,10 @@
-import { ComponentRef, Injectable, OnDestroy, Optional, SkipSelf } from '@angular/core';
+import {
+  ComponentRef,
+  Injectable,
+  OnDestroy,
+  Optional,
+  SkipSelf,
+} from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Injectable()

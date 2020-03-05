@@ -1,9 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Dynamic1Component, Dynamic2Component } from '@testing';
 import { DynamicModule } from 'ng-dynamic-component';
 
-import { Dynamic1Component, Dynamic2Component } from '../../__test__/dynamic-components';
-import { COMPONENT_MAP } from '../component-map';
+import { ComponentLocatorService } from '../component-locator/component-locator.service';
+import { COMPONENTS } from '../component-map';
+import { ConfigurationService } from '../config/configuration.service';
+import { ErrorStrategy } from '../error-strategy/error-strategy';
+import { SuppressErrorStrategy } from '../error-strategy/suppress-error-strategy';
+import { provideInjectorMap } from '../injectors/mapped-injector';
 import { RenderItemComponent } from '../render-item/render-item.component';
 import { OrchestratorComponent } from './orchestrator.component';
 
@@ -13,14 +18,22 @@ describe('OrchestratorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [DynamicModule.withComponents([Dynamic1Component, Dynamic2Component])],
+      imports: [
+        DynamicModule.withComponents([Dynamic1Component, Dynamic2Component]),
+      ],
       declarations: [
         OrchestratorComponent,
         RenderItemComponent,
         Dynamic1Component,
         Dynamic2Component,
       ],
-      providers: [{ provide: COMPONENT_MAP, useValue: null }],
+      providers: [
+        { provide: COMPONENTS, useValue: null, multi: true },
+        ComponentLocatorService,
+        ConfigurationService,
+        { provide: ErrorStrategy, useClass: SuppressErrorStrategy },
+        provideInjectorMap({}),
+      ],
     }).compileComponents();
   }));
 
@@ -34,14 +47,19 @@ describe('OrchestratorComponent', () => {
 
     fixture.detectChanges();
 
-    const renderItem = fixture.debugElement.query(By.directive(RenderItemComponent));
+    const renderItem = fixture.debugElement.query(
+      By.directive(RenderItemComponent),
+    );
 
     expect(renderItem).toBeTruthy();
     expect(renderItem.componentInstance.item).toBe('my-config');
   });
 
   it('should emit `componentsCreated` with all dynamic component refs', () => {
-    component.config = { component: Dynamic1Component, items: [{ component: Dynamic2Component }] };
+    component.config = {
+      component: Dynamic1Component,
+      items: [{ component: Dynamic2Component }],
+    };
 
     const callback = jest.fn();
     component.componentsCreated.subscribe(callback);

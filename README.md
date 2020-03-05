@@ -1,5 +1,29 @@
 # Orchestrator
 
+> Extensible orchestrator for UI and forms for Angular
+
+Current state: `Alpha v0.0.1`
+
+## Installation
+
+### Core
+
+```bash
+$ npm install @orchestrator/core
+```
+
+### Layout
+
+```bash
+$ npm install @orchestrator/layout
+```
+
+### UiWeb
+
+```bash
+$ npm install @orchestrator/ui-web
+```
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) using [Nrwl Nx](https://nrwl.io/nx).
 
 ## Nrwl Extensions for Angular (Nx)

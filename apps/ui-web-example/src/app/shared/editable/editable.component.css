@@ -1,0 +1,4 @@
+:host(:not(.blocked)) span:hover {
+  background-color: gainsboro;
+  cursor: pointer;
+}

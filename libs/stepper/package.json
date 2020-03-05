@@ -1,0 +1,25 @@
+{
+  "name": "@orchestrator/stepper",
+  "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/orchestratora/orchestrator.git"
+  },
+  "keywords": [
+    "stepper",
+    "ui",
+    "orchestrator",
+    "components",
+    "angular"
+  ],
+  "author": "Orchestrator <orchestratora@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^7.0.0",
+    "@angular/core": "^7.0.0",
+    "@orchestrator/core": "^0.0.0"
+  }
+}

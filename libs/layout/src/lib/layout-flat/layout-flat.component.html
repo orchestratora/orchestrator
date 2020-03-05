@@ -1,0 +1,6 @@
+<orc-render-item
+  *ngFor="let item of items"
+  class="layout-flat-orc-item"
+  [item]="item"
+  (componentCreated)="onComponentCreated($event)"
+></orc-render-item>
