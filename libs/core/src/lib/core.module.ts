@@ -18,7 +18,7 @@ import { RenderItemComponent } from './render-item/render-item.component';
 import { OrchestratorDynamicComponentType } from './types';
 
 @NgModule({
-  imports: [CommonModule, DynamicModule.withComponents([])],
+  imports: [CommonModule, DynamicModule],
   declarations: [OrchestratorComponent, RenderItemComponent],
   exports: [OrchestratorComponent, RenderItemComponent],
 })
@@ -29,7 +29,10 @@ export class OrchestratorCoreModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: OrchestratorCoreModule,
-      providers: [...OrchestratorCoreModule.getRootProviders()],
+      providers: [
+        ...(DynamicModule.forRoot().providers || []),
+        ...OrchestratorCoreModule.getRootProviders(),
+      ],
     };
   }
 

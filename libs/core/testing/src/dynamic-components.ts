@@ -1,5 +1,21 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ANALYZE_FOR_ENTRY_COMPONENTS,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  Provider,
+  Type,
+} from '@angular/core';
 import { OrchestratorDynamicComponent } from '@orchestrator/core';
+
+export function provideDynamicComponents(comps: Type<any>[]): Provider {
+  return {
+    provide: ANALYZE_FOR_ENTRY_COMPONENTS,
+    useValue: comps,
+    multi: true,
+  };
+}
 
 @Component({ selector: 'orc-dyn-base', template: `` })
 export class DynamicBaseComponent implements OrchestratorDynamicComponent {

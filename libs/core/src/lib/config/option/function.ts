@@ -25,7 +25,7 @@ export const FunctionFromMeta = new t.Type<FunctionWithMeta, FunctionMeta>(
   'FunctionFromMeta',
   isFunctionWithMeta,
   (m, c) =>
-    t.UnknownRecord.validate(m, c).chain((obj: FunctionMeta) => {
+    t.object.validate(m, c).chain((obj: FunctionMeta) => {
       if (
         obj === null ||
         !Array.isArray(obj.args) ||

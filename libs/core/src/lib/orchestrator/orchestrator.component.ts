@@ -4,7 +4,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentRef } from '@angular/core/src/render3';
+import { ComponentRef } from '@angular/core';
 import { combineLatest, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
