@@ -28,7 +28,7 @@ async function updatePackageVersions(cwd) {
 
   console.log(`Updating package versions`);
 
-  if (!isFileExists(packageDist)) {
+  if (!isFileExists(packageDistPath)) {
     console.log(`No package.json in dist folder found! Skipping...`);
     return;
   }
