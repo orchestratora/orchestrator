@@ -1,4 +1,5 @@
 import { genIoType } from '@orchestrator/gen-io-ts';
+import { isLeft, isRight } from 'fp-ts/lib/Either';
 
 import { OptionNotPresent } from './not-present';
 
@@ -10,11 +11,11 @@ describe('@OptionNotPresent', () => {
 
     const testType = genIoType(Test);
 
-    expect(testType.decode({ prop: null }).isRight()).toBe(true);
-    expect(testType.decode({ prop: undefined }).isRight()).toBe(true);
-    expect(testType.decode({}).isRight()).toBe(true);
+    expect(isRight(testType.decode({ prop: null }))).toBe(true);
+    expect(isRight(testType.decode({ prop: undefined }))).toBe(true);
+    expect(isRight(testType.decode({}))).toBe(true);
 
-    expect(testType.decode({ prop: 3.1 }).isLeft()).toBe(true);
-    expect(testType.decode({ prop: '' }).isLeft()).toBe(true);
+    expect(isLeft(testType.decode({ prop: 3.1 }))).toBe(true);
+    expect(isLeft(testType.decode({ prop: '' }))).toBe(true);
   });
 });

@@ -1,4 +1,5 @@
 import { genIoType } from '@orchestrator/gen-io-ts';
+import { isLeft, isRight } from 'fp-ts/lib/Either';
 
 import { OptionAllowedValues } from './allowed-values';
 
@@ -11,15 +12,15 @@ describe('@OptionAllowedValues', () => {
 
     const testType = genIoType(Test);
 
-    expect(testType.decode({ prop: 'ok' }).isRight()).toBe(true);
-    expect(testType.decode({ prop: 'good' }).isRight()).toBe(true);
-    expect(testType.decode({ prop: true }).isRight()).toBe(true);
-    expect(testType.decode({ prop: null }).isRight()).toBe(true);
-    expect(testType.decode({}).isRight()).toBe(true);
+    expect(isRight(testType.decode({ prop: 'ok' }))).toBe(true);
+    expect(isRight(testType.decode({ prop: 'good' }))).toBe(true);
+    expect(isRight(testType.decode({ prop: true }))).toBe(true);
+    expect(isRight(testType.decode({ prop: null }))).toBe(true);
+    expect(isRight(testType.decode({}))).toBe(true);
 
-    expect(testType.decode({ prop: '' }).isLeft()).toBe(true);
-    expect(testType.decode({ prop: 'fail?' }).isLeft()).toBe(true);
-    expect(testType.decode({ prop: 1 }).isLeft()).toBe(true);
-    expect(testType.decode({ prop: {} }).isLeft()).toBe(true);
+    expect(isLeft(testType.decode({ prop: '' }))).toBe(true);
+    expect(isLeft(testType.decode({ prop: 'fail?' }))).toBe(true);
+    expect(isLeft(testType.decode({ prop: 1 }))).toBe(true);
+    expect(isLeft(testType.decode({ prop: {} }))).toBe(true);
   });
 });

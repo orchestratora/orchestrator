@@ -1,12 +1,13 @@
 import { genIoType } from '@orchestrator/gen-io-ts';
 import * as genIoTs from '@orchestrator/gen-io-ts';
+import { isRight } from 'fp-ts/lib/Either';
 
+import * as allowedValues from './allowed-values';
+import * as integer from './integer';
 import { Option } from './option';
+import * as range from './range';
 import * as required from './required';
 import * as type from './type';
-import * as range from './range';
-import * as integer from './integer';
-import * as allowedValues from './allowed-values';
 
 describe('@Option', () => {
   it('should call `Property`', () => {
@@ -135,15 +136,15 @@ describe('@Option', () => {
 
       const testType = genIoType(Test);
 
-      expect(testType.decode({ prop: 0 }).isRight()).toBe(true);
-      expect(testType.decode({ prop: 1 }).isRight()).toBe(true);
-      expect(testType.decode({ prop: 100 }).isRight()).toBe(true);
+      expect(isRight(testType.decode({ prop: 0 }))).toBe(true);
+      expect(isRight(testType.decode({ prop: 1 }))).toBe(true);
+      expect(isRight(testType.decode({ prop: 100 }))).toBe(true);
 
-      expect(testType.decode({ prop: -1 }).isRight()).toBe(false);
-      expect(testType.decode({ prop: 1.1 }).isRight()).toBe(false);
-      expect(testType.decode({ prop: '' }).isRight()).toBe(false);
-      expect(testType.decode({ prop: null }).isRight()).toBe(false);
-      expect(testType.decode({}).isRight()).toBe(false);
+      expect(isRight(testType.decode({ prop: -1 }))).toBe(false);
+      expect(isRight(testType.decode({ prop: 1.1 }))).toBe(false);
+      expect(isRight(testType.decode({ prop: '' }))).toBe(false);
+      expect(isRight(testType.decode({ prop: null }))).toBe(false);
+      expect(isRight(testType.decode({}))).toBe(false);
     });
   });
 });

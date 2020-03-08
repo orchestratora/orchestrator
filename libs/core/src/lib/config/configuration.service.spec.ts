@@ -1,7 +1,8 @@
 import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Property } from '@orchestrator/gen-io-ts';
-import { left, right } from 'fp-ts/lib/Either';
+import { chain, left, right } from 'fp-ts/lib/Either';
+import { pipe } from 'fp-ts/lib/pipeable';
 import { failure, string, success, Type } from 'io-ts';
 
 import { ErrorStrategy } from '../error-strategy/error-strategy';
@@ -134,13 +135,16 @@ describe('Service: Configuration', () => {
         'FnFromString',
         (fn): fn is Function => typeof fn === 'function',
         (m, c) =>
-          string.validate(m, c).chain(s => {
-            try {
-              return success(new Function(s));
-            } catch {
-              return failure(s, c);
-            }
-          }),
+          pipe(
+            string.validate(m, c),
+            chain(str => {
+              try {
+                return success(new Function(str));
+              } catch {
+                return failure(str, c);
+              }
+            }),
+          ),
         a => a.toString(),
       );
 

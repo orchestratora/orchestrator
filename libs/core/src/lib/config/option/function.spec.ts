@@ -1,4 +1,5 @@
 import { genIoType } from '@orchestrator/gen-io-ts';
+import { isRight, Right } from 'fp-ts/lib/Either';
 
 import { FunctionMeta, OptionFunction } from './function';
 
@@ -70,18 +71,18 @@ describe('@OptionFunction', () => {
   });
 });
 
+class Test {
+  @OptionFunction() fn: Function;
+}
+
+const testType = genIoType(Test);
+
 function decodeFn(fn: Function | FunctionMeta | string) {
-  class Test {
-    @OptionFunction() fn: Function;
-  }
-
-  const testType = genIoType(Test);
-
   const res = testType.decode({ fn });
 
-  expect(res.isRight()).toBeTruthy();
+  expect(isRight(res)).toBeTruthy();
 
-  const testObj = res.value as Test;
+  const testObj = (res as Right<Test>).right;
   expect(testObj.fn).toEqual(expect.any(Function));
 
   return testObj.fn;
