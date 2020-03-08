@@ -8,7 +8,7 @@
       "gitRemote": "pub",
       "allowBranch": ["master", "next"],
       "contents": "dist",
-      "ignoreChanges": ["*.md", "**/*.spec.ts", "**/*.stories.ts"],
+      "ignoreChanges": ["**/*.spec.ts", "**/*.stories.ts"],
       "message": "chore(release): publish [skip ci]"
     }
   }
