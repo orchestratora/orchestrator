@@ -61,7 +61,7 @@ async function updateChangelog(cwd) {
 
 function isFileExists(filePath) {
   try {
-    fs.statSync(packageDistPath);
+    fs.statSync(filePath);
     return true;
   } catch (e) {
     return false;
