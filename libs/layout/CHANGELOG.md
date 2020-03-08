@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0-next.1](https://github.com/orchestratora/orchestrator/compare/@orchestrator/layout@0.1.0-next.0...@orchestrator/layout@0.1.0-next.1) (2020-03-08)
+
+
+### Bug Fixes
+
+* **changelogs:** mention removed NPM packages ([50a04f5](https://github.com/orchestratora/orchestrator/commit/50a04f5f628920c874eeadbefe3f543107b1d5bb))
+
+
+
+
+
 # 0.1.0-next.0 (2020-03-08)
 
 _NOTE:_ This version was removed from NPM due to incomplete package
