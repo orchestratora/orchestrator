@@ -43,7 +43,7 @@
     "@angular/platform-browser": "^9.0.5",
     "@angular/platform-browser-dynamic": "^9.0.5",
     "@angular/router": "^9.0.5",
-    "@orchestrator/gen-io-ts": "^3.0.0",
+    "@orchestrator/gen-io-ts": "^3.0.1",
     "core-js": "^3.6.4",
     "fp-ts": "^2.5.3",
     "io-ts": "^2.1.2",
