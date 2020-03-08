@@ -19,13 +19,13 @@
   "author": "Orchestrator <orchestratora@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/core": "^7.0.0",
-    "@angular/common": "^7.0.0"
+    "@angular/core": "^9.0.0",
+    "@angular/common": "^9.0.0"
   },
   "dependencies": {
-    "@orchestrator/gen-io-ts": "^2.0.2",
-    "fp-ts": "^1.13.0",
-    "io-ts": "^1.8.2",
-    "ng-dynamic-component": "^4.0.3"
+    "@orchestrator/gen-io-ts": "^3.0.0",
+    "fp-ts": "^2.0.0",
+    "io-ts": "^2.0.0",
+    "ng-dynamic-component": "^6.0.0"
   }
 }

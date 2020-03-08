@@ -1,7 +1,8 @@
 import { Injectable, Injector, Type } from '@angular/core';
 import { genIoType } from '@orchestrator/gen-io-ts';
-import { left } from 'fp-ts/lib/Either';
-import { none, Option, some } from 'fp-ts/lib/Option';
+import { fold as foldEither, isLeft, left, map } from 'fp-ts/lib/Either';
+import { fold, none, Option, some } from 'fp-ts/lib/Option';
+import { pipe } from 'fp-ts/lib/pipeable';
 import { Errors, Type as IoCodec, Validation } from 'io-ts';
 
 import { ErrorStrategy } from '../error-strategy/error-strategy';
@@ -27,18 +28,26 @@ export class ConfigurationService {
   decode<T>(type: Type<T>, config: T, injector?: Injector): T;
   decode<T, C>(type: Type<T>, config: C, injector?: Injector): T | C;
   decode<T, C>(type: Type<T>, config: C, injector?: Injector): T | C {
-    return this.validate(type, config)
-      .map(c => this.processFunctions(type, c, config, injector))
-      .fold<T | C>(() => config, decodedConfig => decodedConfig);
+    return pipe(
+      this.validate(type, config),
+      map(c => this.processFunctions(type, c, config, injector)),
+      foldEither(
+        () => config,
+        decodedConfig => decodedConfig,
+      ),
+    );
   }
 
-  validate<T, C>(type: Type<T>, config: C): Validation<T> {
-    const validation = this.getCodecFor(type).foldL(
-      () => left<Errors, T>([]),
-      codec => codec.decode(config),
+  validate<T, C>(type: Type<T>, config: C): Validation<T | C> {
+    const validation = pipe(
+      this.getCodecFor(type),
+      fold(
+        () => left<Errors, T>([]),
+        codec => codec.decode(config),
+      ),
     );
 
-    if (validation.isLeft() && type) {
+    if (isLeft(validation) && type) {
       this.errorStrategy.handle(
         new InvalidConfigurationError(type, validation, config),
       );

@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Dynamic1Component, Dynamic2Component } from '@testing';
+import {
+  Dynamic1Component,
+  Dynamic2Component,
+  provideDynamicComponents,
+} from '@orchestrator/core/testing';
 import { DynamicModule } from 'ng-dynamic-component';
 
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
@@ -18,9 +22,7 @@ describe('OrchestratorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        DynamicModule.withComponents([Dynamic1Component, Dynamic2Component]),
-      ],
+      imports: [DynamicModule.forRoot()],
       declarations: [
         OrchestratorComponent,
         RenderItemComponent,
@@ -28,6 +30,7 @@ describe('OrchestratorComponent', () => {
         Dynamic2Component,
       ],
       providers: [
+        provideDynamicComponents([Dynamic1Component, Dynamic2Component]),
         { provide: COMPONENTS, useValue: null, multi: true },
         ComponentLocatorService,
         ConfigurationService,

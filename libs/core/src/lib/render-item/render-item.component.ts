@@ -16,6 +16,7 @@ import {
   Renderer2,
   SimpleChanges,
 } from '@angular/core';
+import { isRight } from 'fp-ts/lib/Either';
 import {
   AttributesMap,
   DynamicDirectiveDef,
@@ -270,12 +271,12 @@ export class RenderItemComponent extends RenderComponent
         return (this.inputs.config = { ...this.inputs.config, ...config });
       },
       isConfigValid: () =>
-        this.configurationService
-          .validate(
+        isRight(
+          this.configurationService.validate(
             this.componentLocatorService.getConfigType(this.componentType),
             this.inputs.config,
-          )
-          .isRight(),
+          ),
+        ),
     });
   }
 

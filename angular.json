@@ -10,16 +10,18 @@
       "prefix": "orc",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/core/tsconfig.lib.json",
             "project": "libs/core/ng-package.json"
           }
         },
         "test": {
-          "builder": "@angular-builders/jest:run",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "configPath": "jest.config.js"
+            "jestConfig": "libs/core/jest.config.js",
+            "tsConfig": "libs/core/tsconfig.spec.json",
+            "setupFile": "libs/core/src/test-setup.ts"
           }
         },
         "lint": {
@@ -29,7 +31,7 @@
               "libs/core/tsconfig.lib.json",
               "libs/core/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!libs/core/**"]
           }
         }
       }
@@ -41,16 +43,18 @@
       "prefix": "orc",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/layout/tsconfig.lib.json",
             "project": "libs/layout/ng-package.json"
           }
         },
         "test": {
-          "builder": "@angular-builders/jest:run",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "configPath": "jest.config.js"
+            "jestConfig": "libs/layout/jest.config.js",
+            "tsConfig": "libs/layout/tsconfig.spec.json",
+            "setupFile": "libs/layout/src/test-setup.ts"
           }
         },
         "lint": {
@@ -60,7 +64,7 @@
               "libs/layout/tsconfig.lib.json",
               "libs/layout/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!libs/layout/**"]
           }
         }
       }
@@ -72,16 +76,18 @@
       "prefix": "orc",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/ui-web/tsconfig.lib.json",
             "project": "libs/ui-web/ng-package.json"
           }
         },
         "test": {
-          "builder": "@angular-builders/jest:run",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "configPath": "jest.config.js"
+            "jestConfig": "libs/ui-web/jest.config.js",
+            "tsConfig": "libs/ui-web/tsconfig.spec.json",
+            "setupFile": "libs/ui-web/src/test-setup.ts"
           }
         },
         "lint": {
@@ -91,7 +97,7 @@
               "libs/ui-web/tsconfig.lib.json",
               "libs/ui-web/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!libs/ui-web/**"]
           }
         }
       }
@@ -169,11 +175,11 @@
               "apps/ui-web-example/tsconfig.app.json",
               "apps/ui-web-example/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!apps/ui-web-example/**"]
           }
         },
         "test": {
-          "builder": "@nrwl/builders:jest",
+          "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/ui-web-example/jest.config.js",
             "tsConfig": "apps/ui-web-example/tsconfig.spec.json",
@@ -203,7 +209,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "apps/ui-web-example-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!apps/ui-web-example-e2e/**"]
           }
         }
       }
@@ -215,7 +221,7 @@
       "prefix": "orc",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/stepper/tsconfig.lib.json",
             "project": "libs/stepper/ng-package.json"
@@ -228,13 +234,15 @@
               "libs/stepper/tsconfig.lib.json",
               "libs/stepper/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!libs/stepper/**"]
           }
         },
         "test": {
-          "builder": "@angular-builders/jest:run",
+          "builder": "@nrwl/jest:jest",
           "options": {
-            "configPath": "jest.config.js"
+            "jestConfig": "libs/stepper/jest.config.js",
+            "tsConfig": "libs/stepper/tsconfig.spec.json",
+            "setupFile": "libs/stepper/src/test-setup.ts"
           }
         }
       },
@@ -242,11 +250,12 @@
     }
   },
   "cli": {
-    "warnings": {
-      "typescriptMismatch": false,
-      "versionMismatch": false
-    },
-    "defaultCollection": "@nrwl/schematics"
+    "defaultCollection": "@nrwl/angular"
   },
-  "defaultProject": "core"
+  "defaultProject": "core",
+  "schematics": {
+    "@nrwl/schematics:library": {
+      "framework": "angular"
+    }
+  }
 }

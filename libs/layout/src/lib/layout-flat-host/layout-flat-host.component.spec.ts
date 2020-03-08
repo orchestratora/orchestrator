@@ -28,7 +28,10 @@ describe('LayoutFlatHostComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LayoutFlexModule],
+      imports: [
+        LayoutFlexModule,
+        OrchestratorCoreModule.withComponents([LayoutFlatHostComponent]),
+      ],
       declarations: [LayoutFlatHostComponent, HostComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
@@ -110,9 +113,6 @@ describe('LayoutFlatHostComponent', () => {
       };
 
       TestBed.configureTestingModule({
-        imports: [
-          OrchestratorCoreModule.withComponents([LayoutFlatHostComponent]),
-        ],
         providers: [{ provide: LayoutFlatConfig, useValue: defaultConfig }],
       }).overrideTemplate(
         HostComponent,

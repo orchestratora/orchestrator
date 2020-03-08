@@ -5,7 +5,10 @@ import {
   OrchestratorConfigItem,
   OrchestratorCoreModule,
 } from '@orchestrator/core';
-import { Dynamic1Component, Dynamic2Component } from '@testing';
+import {
+  Dynamic1Component,
+  Dynamic2Component,
+} from '@orchestrator/core/testing';
 
 import { LayoutFlatConfig } from './layout-flat-host/layout-flat-config';
 import { LayoutFlatHostComponent } from './layout-flat-host/layout-flat-host.component';

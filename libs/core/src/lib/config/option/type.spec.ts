@@ -1,4 +1,5 @@
 import { genIoType } from '@orchestrator/gen-io-ts';
+import { isLeft, isRight } from 'fp-ts/lib/Either';
 
 import { OptionType } from './type';
 
@@ -10,7 +11,7 @@ describe('@OptionType', () => {
 
     const testType = genIoType(Test);
 
-    expect(testType.decode({ prop: true }).isRight()).toBe(true);
-    expect(testType.decode({ prop: '' }).isLeft()).toBe(true);
+    expect(isRight(testType.decode({ prop: true }))).toBe(true);
+    expect(isLeft(testType.decode({ prop: '' }))).toBe(true);
   });
 });
