@@ -5,7 +5,7 @@ import { DebugElement } from '@angular/core';
 
 import { SimpleButtonComponent } from './simple-button.component';
 
-describe('SimpleButtonComponent', () => {
+xdescribe('SimpleButtonComponent', () => {
   let component: SimpleButtonComponent;
   let fixture: ComponentFixture<SimpleButtonComponent>;
 

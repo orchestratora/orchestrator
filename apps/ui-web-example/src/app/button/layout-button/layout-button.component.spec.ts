@@ -5,7 +5,7 @@ import { DebugElement } from '@angular/core';
 
 import { LayoutButtonComponent } from './layout-button.component';
 
-describe('LayoutButtonComponent', () => {
+xdescribe('LayoutButtonComponent', () => {
   let component: LayoutButtonComponent;
   let fixture: ComponentFixture<LayoutButtonComponent>;
 
