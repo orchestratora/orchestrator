@@ -11,10 +11,8 @@ const UPDATE_PKG_PROPS = ['version', 'dependencies', 'peerDependencies'];
  * _NOTE:_ It must be executed from the lib directory (via `lerna exec`)
  */
 async function main() {
-  const cwd = process.cwd();
-
-  await updatePackageVersions(cwd);
-  await updateChangelog(cwd);
+  await updatePackageVersions();
+  await updateChangelog();
 }
 
 main().catch(e => {
@@ -22,7 +20,8 @@ main().catch(e => {
   process.exit(1);
 });
 
-async function updatePackageVersions(cwd) {
+async function updatePackageVersions() {
+  const cwd = process.cwd();
   const packagePath = path.resolve(cwd, 'package.json');
   const packageDistPath = path.resolve(cwd, 'dist/package.json');
 
@@ -41,18 +40,18 @@ async function updatePackageVersions(cwd) {
   fs.writeFileSync(packageDistPath, JSON.stringify(packageDist, null, 2));
 }
 
-async function updateChangelog(cwd) {
-  const changelogPath = path.resolve(cwd, 'CHANGELOG.md');
-  const changelogDistFolder = 'dist';
+async function updateChangelog() {
+  const changelogPath = 'CHANGELOG.md';
+  const distFolder = 'dist';
 
-  console.log(`Updating package CHANGELOG.md`);
+  console.log(`Updating package ${changelogPath}`);
 
   if (!isFileExists(changelogPath)) {
     console.log(`No CHANGELOG.md in lib folder found! Skipping...`);
     return;
   }
 
-  copyfiles([changelogPath, changelogDistFolder], err => {
+  copyfiles([changelogPath, distFolder], err => {
     if (err) {
       throw new Error(`Failed to copy CHANGELOG.md into dist folder: ${err}`);
     }
