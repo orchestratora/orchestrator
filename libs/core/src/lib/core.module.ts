@@ -29,10 +29,7 @@ export class OrchestratorCoreModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: OrchestratorCoreModule,
-      providers: [
-        ...(DynamicModule.forRoot().providers || []),
-        ...OrchestratorCoreModule.getRootProviders(),
-      ],
+      providers: [...OrchestratorCoreModule.getRootProviders()],
     };
   }
 
@@ -69,6 +66,7 @@ export class OrchestratorCoreModule {
 
   private static getRootProviders(): Provider[] {
     return [
+      ...(DynamicModule.forRoot().providers || []),
       { provide: ErrorStrategy, useClass: ThrowErrorStrategy },
       ...INJECTOR_MAP_PROVIDERS,
       ComponentLocatorService,
