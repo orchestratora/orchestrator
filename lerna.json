@@ -1,0 +1,15 @@
+{
+  "packages": ["libs/*"],
+  "version": "independent",
+  "npmClient": "npm",
+  "command": {
+    "publish": {
+      "conventionalCommits": true,
+      "gitRemote": "pub",
+      "allowBranch": ["master", "next"],
+      "contents": "dist",
+      "ignoreChanges": ["**/*.spec.ts", "**/*.stories.ts"],
+      "message": "chore(release): publish [skip ci]"
+    }
+  }
+}

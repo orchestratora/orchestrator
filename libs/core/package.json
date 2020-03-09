@@ -1,7 +1,6 @@
 {
-  "$schema": "./../../node_modules/ng-packagr/package.schema.json",
   "name": "@orchestrator/core",
-  "version": "0.0.0",
+  "version": "0.1.0-next.1",
   "publishConfig": {
     "access": "public"
   },
@@ -19,8 +18,9 @@
   "author": "Orchestrator <orchestratora@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
+    "@angular/common": "^9.0.0",
     "@angular/core": "^9.0.0",
-    "@angular/common": "^9.0.0"
+    "tslib": "^1.0.0"
   },
   "dependencies": {
     "@orchestrator/gen-io-ts": "^3.0.0",
