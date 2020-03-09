@@ -4,6 +4,7 @@ import {
   getLocalProviders,
   LocalGetComponentToken,
   LocalGetConfigToken,
+  LocalGetContextToken,
   LocalIsConfigValidToken,
   LocalUpdateConfigToken,
 } from './local-injector-map';
@@ -17,6 +18,7 @@ export interface LocalInjectorParams {
   getConfig: LocalGetConfigToken;
   updateConfig: LocalUpdateConfigToken;
   isConfigValid: LocalIsConfigValidToken;
+  getContext: LocalGetContextToken;
 }
 
 /**

@@ -17,6 +17,7 @@ import { OrchestratorConfigItem } from '../types';
 })
 export class OrchestratorComponent {
   @Input() config: OrchestratorConfigItem<any>;
+  @Input() context?: any;
 
   private compCreated$ = new Subject<ComponentRef<any>>();
   private childCompsCreated$ = new Subject<ComponentRef<any>[]>();

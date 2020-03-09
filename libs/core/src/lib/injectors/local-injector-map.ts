@@ -8,6 +8,7 @@ export type LocalGetComponentToken = () => any;
 export type LocalGetConfigToken = () => any;
 export type LocalUpdateConfigToken = (config: any) => any;
 export type LocalIsConfigValidToken = () => boolean;
+export type LocalGetContextToken = () => any;
 
 export const LOCAL_GET_INJECTOR = new InjectionToken<LocalGetInjectorToken>(
   'LOCAL_GET_INJECTOR',
@@ -29,6 +30,10 @@ export const LOCAL_GET_CONFIG_VALID = new InjectionToken<
   LocalIsConfigValidToken
 >('LOCAL_GET_CONFIGURATION_VALID');
 
+export const LOCAL_GET_CONTEXT = new InjectionToken<LocalGetContextToken>(
+  'LOCAL_GET_CONTEXT',
+);
+
 export const LOCAL_INJECTOR_MAP: InjectorMap = {
   getInjector: LOCAL_GET_INJECTOR,
   getComponent: LOCAL_GET_COMPONENT,
@@ -36,6 +41,7 @@ export const LOCAL_INJECTOR_MAP: InjectorMap = {
   updateConfig: LOCAL_UPDATE_CONFIG,
   isConfigValid: LOCAL_GET_CONFIG_VALID,
   renderComponent: RenderComponent as Type<RenderComponent>,
+  getContext: LOCAL_GET_CONTEXT,
 };
 
 export function getLocalProviders(data: {
@@ -44,6 +50,7 @@ export function getLocalProviders(data: {
   getConfig: LocalGetConfigToken;
   updateConfig: LocalUpdateConfigToken;
   isConfigValid: LocalIsConfigValidToken;
+  getContext: LocalGetContextToken;
 }): StaticProvider[] {
   return [
     {
@@ -65,6 +72,10 @@ export function getLocalProviders(data: {
     {
       provide: LOCAL_GET_CONFIG_VALID,
       useValue: data.isConfigValid,
+    },
+    {
+      provide: LOCAL_GET_CONTEXT,
+      useValue: data.getContext,
     },
   ];
 }

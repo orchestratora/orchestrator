@@ -16,6 +16,7 @@ describe('createLocalInjector()', () => {
         getConfig: 'getConfig' as any,
         updateConfig: 'updateConfig' as any,
         isConfigValid: 'isConfigValid' as any,
+        getContext: 'getContext' as any,
       });
 
       expect(getLocalProviders).toHaveBeenCalledWith(
@@ -25,6 +26,7 @@ describe('createLocalInjector()', () => {
           getConfig: 'getConfig',
           updateConfig: 'updateConfig',
           isConfigValid: 'isConfigValid',
+          getContext: 'getContext',
         }),
       );
 

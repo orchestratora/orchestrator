@@ -277,6 +277,7 @@ export class RenderItemComponent extends RenderComponent
             this.inputs.config,
           ),
         ),
+      getContext: () => this.context,
     });
   }
 
