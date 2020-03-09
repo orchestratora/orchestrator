@@ -151,10 +151,14 @@ export class ConfigurationService {
   private resolveArg(argExpr: string, injector: Injector): any {
     const arg = getArgName(argExpr);
     const isOptional = isArgOptional(argExpr);
+
+    // Dynamically resolve function arguments - no type info available
+    // tslint:disable-next-line: deprecation
     const res = injector.get(
       arg,
       isOptional ? null : Injector.THROW_IF_NOT_FOUND,
     );
+
     return res === null && isOptional ? undefined : res;
   }
 }

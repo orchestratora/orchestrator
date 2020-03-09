@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ANALYZE_FOR_ENTRY_COMPONENTS,
-  ModuleWithProviders,
-  NgModule,
-  Provider,
-} from '@angular/core';
+import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { DynamicModule } from 'ng-dynamic-component';
 
 import { ComponentLocatorService } from './component-locator/component-locator.service';
@@ -54,14 +49,7 @@ export class OrchestratorCoreModule {
   static registerComponents(
     components: ComponentRegistry<OrchestratorDynamicComponentType>,
   ): Provider[] {
-    return [
-      {
-        provide: ANALYZE_FOR_ENTRY_COMPONENTS,
-        useValue: components,
-        multi: true,
-      },
-      { provide: COMPONENTS, useValue: components, multi: true },
-    ];
+    return [{ provide: COMPONENTS, useValue: components, multi: true }];
   }
 
   private static getRootProviders(): Provider[] {

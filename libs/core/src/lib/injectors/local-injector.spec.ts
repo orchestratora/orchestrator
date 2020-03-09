@@ -35,6 +35,7 @@ describe('createLocalInjector()', () => {
       expect(getInjector).toEqual(expect.any(Function));
       expect(getInjector()).toBe(localInjector);
 
+      // tslint:disable-next-line: deprecation
       localInjector.get('something');
 
       expect(parentGet).toHaveBeenCalledWith(

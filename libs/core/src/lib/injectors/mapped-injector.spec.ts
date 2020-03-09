@@ -1,3 +1,5 @@
+// We disable deprecation here due to untyped usage of {@link Injector#get}
+// tslint:disable: deprecation
 import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
