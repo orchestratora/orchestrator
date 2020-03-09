@@ -98,5 +98,5 @@ describe('UiWebHeadingConfig', () => {
 });
 
 function getConfigService(): ConfigurationService {
-  return TestBed.get(ConfigurationService);
+  return TestBed.inject(ConfigurationService);
 }

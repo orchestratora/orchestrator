@@ -90,9 +90,7 @@ describe('Service: MappedInjectorFactory', () => {
         providers: [MappedInjectorFactory, provideInjectorMap(injectorMap)],
       });
 
-      const factory = TestBed.get(
-        MappedInjectorFactory,
-      ) as MappedInjectorFactory;
+      const factory = TestBed.inject(MappedInjectorFactory);
 
       const mappedInjector = factory.create(injector);
 

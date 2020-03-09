@@ -165,7 +165,7 @@ describe('Service: Configuration', () => {
 
     it('should bind `OptionFunction` functions in config via `Injector`', () => {
       const service = getService();
-      const injector = TestBed.get(Injector) as Injector;
+      const injector = TestBed.inject(Injector);
       const injectorGet = spyOn(injector, 'get');
 
       class Test {
@@ -286,9 +286,9 @@ describe('Service: Configuration', () => {
 });
 
 function getService(): ConfigurationService {
-  return TestBed.get(ConfigurationService);
+  return TestBed.inject(ConfigurationService);
 }
 
 function getErrorStrategy(): MockConfigurationErrorStrategy {
-  return TestBed.get(ErrorStrategy);
+  return TestBed.inject(ErrorStrategy) as MockConfigurationErrorStrategy;
 }

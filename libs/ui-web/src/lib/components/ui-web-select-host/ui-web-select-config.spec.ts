@@ -280,5 +280,5 @@ describe('UiWebSelectConfig', () => {
 });
 
 function getConfigSvc(): ConfigurationService {
-  return TestBed.get(ConfigurationService);
+  return TestBed.inject(ConfigurationService);
 }

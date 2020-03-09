@@ -102,5 +102,5 @@ describe('ComponentLocatorService', () => {
 });
 
 function getService(): ComponentLocatorService {
-  return TestBed.get(ComponentLocatorService);
+  return TestBed.inject(ComponentLocatorService);
 }

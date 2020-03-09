@@ -159,9 +159,7 @@ describe('RenderItemComponent', () => {
       const config = { myConfig: true };
       const finalConfig = { default: true, myConfig: true };
 
-      const cls = TestBed.get(
-        ComponentLocatorService,
-      ) as ComponentLocatorService;
+      const cls = TestBed.inject(ComponentLocatorService);
       spyOn(cls, 'getDefaultConfig').and.returnValue(configDefault);
       hostComp.item = { component: Dynamic1Component, config: config };
 
@@ -694,9 +692,7 @@ describe('RenderItemComponent', () => {
             @Option() prop: string;
           }
 
-          const compLocator = TestBed.get(
-            ComponentLocatorService,
-          ) as ComponentLocatorService;
+          const compLocator = TestBed.inject(ComponentLocatorService);
           spyOn(compLocator, 'getConfigType').and.returnValue(Config);
         });
 
