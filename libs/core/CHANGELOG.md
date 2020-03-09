@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@0.1.0...@orchestrator/core@0.2.0) (2020-03-09)
+
+
+### Bug Fixes
+
+* **core:** export component map APIs ([6b50faa](https://github.com/orchestratora/orchestrator/commit/6b50faa82629a67e22f6e2e6f097c50064767d7f))
+* **core:** remove deprecated token for dynamic components ([4f77dd8](https://github.com/orchestratora/orchestrator/commit/4f77dd8b89e9a68b70a1d1733be88aacae4e9b81))
+
+
+### Features
+
+* **core:** add context to local injector and orchestrator component ([ad33c68](https://github.com/orchestratora/orchestrator/commit/ad33c68fb6bb75cb04d5ea8d180fefc780712ec6)), closes [#39](https://github.com/orchestratora/orchestrator/issues/39)
+
+
+
+
+
 # [0.1.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@0.1.0-next.1...@orchestrator/core@0.1.0) (2020-03-09)
 
 **Note:** Version bump only for package @orchestrator/core

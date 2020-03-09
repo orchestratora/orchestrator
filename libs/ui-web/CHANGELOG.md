@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/orchestratora/orchestrator/compare/@orchestrator/ui-web@0.1.0...@orchestrator/ui-web@0.1.1) (2020-03-09)
+
+
+### Bug Fixes
+
+* **ui-web:** optimise text function rendering in text component ([45229e6](https://github.com/orchestratora/orchestrator/commit/45229e6ca1dfbeee1a831e03ffb9195a26395c69))
+
+
+
+
+
 # [0.1.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/ui-web@0.1.0-next.1...@orchestrator/ui-web@0.1.0) (2020-03-09)
 
 **Note:** Version bump only for package @orchestrator/ui-web
