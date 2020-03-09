@@ -58,6 +58,19 @@ describe('OrchestratorComponent', () => {
     expect(renderItem.componentInstance.item).toBe('my-config');
   });
 
+  it('should render `orc-render-item` with context => context prop', () => {
+    component.context = 'some-context';
+
+    fixture.detectChanges();
+
+    const renderItem = fixture.debugElement.query(
+      By.directive(RenderItemComponent),
+    );
+
+    expect(renderItem).toBeTruthy();
+    expect(renderItem.componentInstance.context).toBe('some-context');
+  });
+
   it('should emit `componentsCreated` with all dynamic component refs', () => {
     component.config = {
       component: Dynamic1Component,

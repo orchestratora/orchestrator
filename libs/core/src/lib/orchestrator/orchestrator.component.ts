@@ -23,10 +23,10 @@ export class OrchestratorComponent {
   private childCompsCreated$ = new Subject<ComponentRef<any>[]>();
 
   @Output()
-  componentsCreated = combineLatest(
+  componentsCreated = combineLatest([
     this.compCreated$,
     this.childCompsCreated$,
-  ).pipe(map(([comp, comps]) => [comp, ...comps]));
+  ]).pipe(map(([comp, comps]) => [comp, ...comps]));
 
   compCreated(compRef: ComponentRef<any>) {
     this.compCreated$.next(compRef);
