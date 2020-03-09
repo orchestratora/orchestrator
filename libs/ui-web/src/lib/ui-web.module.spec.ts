@@ -1,19 +1,17 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  OrchestratorConfigItem,
-  OrchestratorCoreModule,
-} from '@orchestrator/core';
+import { OrchestratorConfigItem } from '@orchestrator/core';
+import { OrchestratorCoreTestingModule } from '@orchestrator/core/testing';
 
 import {
   UiWebButtonHostComponent,
   UiWebHeadingHostComponent,
   UiWebImageHostComponent,
   UiWebInputHostComponent,
-  UiWebTextHostComponent,
   UiWebSelectHostComponent,
   UiWebTextareaHostComponent,
+  UiWebTextHostComponent,
 } from './components';
 import { UiWebModule } from './ui-web.module';
 
@@ -33,7 +31,18 @@ describe('UiWebModule', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [UiWebModule.forRoot(), OrchestratorCoreModule.forRoot()],
+      imports: [
+        UiWebModule.forRoot(),
+        OrchestratorCoreTestingModule.withComponents([
+          UiWebButtonHostComponent,
+          UiWebHeadingHostComponent,
+          UiWebImageHostComponent,
+          UiWebInputHostComponent,
+          UiWebSelectHostComponent,
+          UiWebTextareaHostComponent,
+          UiWebTextHostComponent,
+        ]),
+      ],
       declarations: [HostComponent],
     }).compileComponents();
   }));

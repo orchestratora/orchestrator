@@ -1,13 +1,11 @@
 import { Component, ComponentRef } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  OrchestratorConfigItem,
-  OrchestratorCoreModule,
-} from '@orchestrator/core';
+import { OrchestratorConfigItem } from '@orchestrator/core';
 import {
   Dynamic1Component,
   Dynamic2Component,
+  OrchestratorCoreTestingModule,
 } from '@orchestrator/core/testing';
 
 import { LayoutFlexModule } from '../flex';
@@ -34,11 +32,11 @@ describe('LayoutFlatComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        OrchestratorCoreModule.withComponents([
+        LayoutFlexModule,
+        OrchestratorCoreTestingModule.withComponents([
           Dynamic1Component,
           Dynamic2Component,
         ]),
-        LayoutFlexModule,
       ],
       declarations: [
         LayoutFlatComponent,

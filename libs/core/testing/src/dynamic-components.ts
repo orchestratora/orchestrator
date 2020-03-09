@@ -5,14 +5,13 @@ import {
   Input,
   Output,
   Provider,
-  Type,
 } from '@angular/core';
 import { OrchestratorDynamicComponent } from '@orchestrator/core';
 
 /**
  * In unit tests dynamic components should be registered as in pre-Ivy
  */
-export function provideDynamicComponents(comps: Type<any>[]): Provider {
+export function provideDynamicComponents(comps: any): Provider {
   return {
     // tslint:disable-next-line: deprecation
     provide: ANALYZE_FOR_ENTRY_COMPONENTS,

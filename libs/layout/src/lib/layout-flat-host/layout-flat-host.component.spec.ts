@@ -1,7 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { OrchestratorCoreModule } from '@orchestrator/core';
+import { OrchestratorCoreTestingModule } from '@orchestrator/core/testing';
 
 import { LayoutFlexModule } from '../flex';
 import { LayoutFlatConfig } from './layout-flat-config';
@@ -30,7 +30,7 @@ describe('LayoutFlatHostComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         LayoutFlexModule,
-        OrchestratorCoreModule.withComponents([LayoutFlatHostComponent]),
+        OrchestratorCoreTestingModule.withComponents([LayoutFlatHostComponent]),
       ],
       declarations: [LayoutFlatHostComponent, HostComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
