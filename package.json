@@ -117,7 +117,8 @@
   },
   "lint-staged": {
     "**/*.{ts,js,json,html,?css}": [
-      "npm run format -- --files"
+      "npm run format -- --files",
+      "git add"
     ]
   }
 }
