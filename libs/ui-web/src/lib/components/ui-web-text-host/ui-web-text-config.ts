@@ -9,7 +9,7 @@ export class UiWebTextConfig<C = any> {
   text?: string;
 
   @OptionFunction()
-  textWithCtx?: string | UiWebTextFn<C>;
+  textFn?: string | UiWebTextFn<C>;
 
   @Option()
   preserveFormatting?: boolean;

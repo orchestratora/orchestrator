@@ -32,7 +32,7 @@ describe('UiWebTextHostComponent', () => {
 
   describe('textWithCtx', () => {
     it('should render p with text with context', () => {
-      component.config = { textWithCtx: ctx => `Val: ${ctx.val}` };
+      component.config = { textFn: ctx => `Val: ${ctx.val}` };
       component.context = { val: 'from context' };
 
       fixture.detectChanges();

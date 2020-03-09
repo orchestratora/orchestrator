@@ -23,7 +23,7 @@ export class StepperComponent {
       header: {
         component: 'orc-ui-web-text-host',
         config: {
-          textWithCtx: ($ctx, stepper: Stepper) =>
+          textFn: ($ctx, stepper: Stepper) =>
             `Step ${stepper.currentStepIdx + 1} of ${stepper.stepsCount} - ${
               $ctx.config.name
             }`,
