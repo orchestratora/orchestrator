@@ -21,20 +21,19 @@ jobs:
         - git checkout $TRAVIS_BRANCH
         - npm run pack
       deploy:
-        provider: script
-        skip_cleanup: true
-        keep_history: true
-        script: npm run release
-        on:
-          tags: false
-          all_branches: true
-          condition: '$TRAVIS_BRANCH =~ ^(master)$'
-      deploy:
-        provider: script
-        skip_cleanup: true
-        keep_history: true
-        script: RELEASE_TAG=$TRAVIS_BRANCH npm run release:tag
-        on:
-          tags: false
-          all_branches: true
-          condition: '$TRAVIS_BRANCH =~ ^(next)$'
+        - provider: script
+          skip_cleanup: true
+          keep_history: true
+          script: npm run release
+          on:
+            tags: false
+            all_branches: true
+            condition: '$TRAVIS_BRANCH =~ ^(master)$'
+        - provider: script
+          skip_cleanup: true
+          keep_history: true
+          script: RELEASE_TAG=$TRAVIS_BRANCH npm run release:tag
+          on:
+            tags: false
+            all_branches: true
+            condition: '$TRAVIS_BRANCH =~ ^(next)$'
