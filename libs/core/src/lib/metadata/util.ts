@@ -11,11 +11,15 @@ export function defineMetadata<T>(
   value: any,
   target: T,
 ) {
-  Object.defineProperty(target, key, {
-    enumerable: false,
-    configurable: false,
-    writable: false,
-    value,
-  });
+  if (key in target === false) {
+    Object.defineProperty(target, key, {
+      enumerable: false,
+      configurable: true,
+      writable: true,
+      value,
+    });
+  } else {
+    target[key] = value;
+  }
   return target;
 }
