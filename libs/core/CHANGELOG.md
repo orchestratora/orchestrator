@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1-next.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@0.2.0...@orchestrator/core@0.2.1-next.0) (2020-03-17)
+
+
+### Bug Fixes
+
+* **core:** metadata definition logic ([ff9ebb7](https://github.com/orchestratora/orchestrator/commit/ff9ebb7dd15fe16955a3ca946d2e787138800fd0))
+
+
+
+
+
 # [0.2.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@0.1.0...@orchestrator/core@0.2.0) (2020-03-09)
 
 
