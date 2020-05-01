@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
-import { DynamicModule } from 'ng-dynamic-component';
+import {
+  DynamicAttributesModule,
+  DynamicComponentModule,
+  DynamicDirectivesModule,
+} from 'ng-dynamic-component';
 
 import { ComponentLocatorService } from './component-locator/component-locator.service';
 import { ComponentRegistry, COMPONENTS } from './component-map';
@@ -13,7 +17,12 @@ import { RenderItemComponent } from './render-item/render-item.component';
 import { OrchestratorDynamicComponentType } from './types';
 
 @NgModule({
-  imports: [CommonModule, DynamicModule],
+  imports: [
+    CommonModule,
+    DynamicComponentModule,
+    DynamicAttributesModule,
+    DynamicDirectivesModule,
+  ],
   declarations: [OrchestratorComponent, RenderItemComponent],
   exports: [OrchestratorComponent, RenderItemComponent],
 })
@@ -54,7 +63,6 @@ export class OrchestratorCoreModule {
 
   private static getRootProviders(): Provider[] {
     return [
-      ...(DynamicModule.forRoot().providers || []),
       { provide: ErrorStrategy, useClass: ThrowErrorStrategy },
       ...INJECTOR_MAP_PROVIDERS,
       ComponentLocatorService,
