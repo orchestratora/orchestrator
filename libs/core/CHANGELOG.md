@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2-next.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@0.2.1...@orchestrator/core@0.2.2-next.0) (2020-05-01)
+
+
+### Bug Fixes
+
+* **core:** remove try/catch from configuration codec generation ([b095913](https://github.com/orchestratora/orchestrator/commit/b095913903aea66f68c0342f9f8316b9d07edd13)), closes [#47](https://github.com/orchestratora/orchestrator/issues/47)
+* **lib:** upgrade to latest Angular with libs ([5921d28](https://github.com/orchestratora/orchestrator/commit/5921d28a20423f6d1a37dfa4d0459d24a48c907e))
+
+
+
+
+
 ## [0.2.1](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@0.2.1-next.0...@orchestrator/core@0.2.1) (2020-03-17)
 
 **Note:** Version bump only for package @orchestrator/core

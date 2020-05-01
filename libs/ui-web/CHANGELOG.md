@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2-next.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/ui-web@0.1.1...@orchestrator/ui-web@0.1.2-next.0) (2020-05-01)
+
+
+### Bug Fixes
+
+* **lib:** upgrade to latest Angular with libs ([5921d28](https://github.com/orchestratora/orchestrator/commit/5921d28a20423f6d1a37dfa4d0459d24a48c907e))
+
+
+
+
+
 ## [0.1.1](https://github.com/orchestratora/orchestrator/compare/@orchestrator/ui-web@0.1.0...@orchestrator/ui-web@0.1.1) (2020-03-09)
 
 
