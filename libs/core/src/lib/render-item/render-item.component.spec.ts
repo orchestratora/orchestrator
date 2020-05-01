@@ -11,8 +11,11 @@ import {
   Dynamic2Component,
   provideDynamicComponents,
 } from '@orchestrator/core/testing';
-import { DynamicModule } from 'ng-dynamic-component';
-
+import {
+  DynamicAttributesModule,
+  DynamicComponentModule,
+  DynamicDirectivesModule,
+} from 'ng-dynamic-component';
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
 import { ComponentMap, COMPONENTS } from '../component-map';
 import { Option } from '../config';
@@ -23,14 +26,13 @@ import { ThrowErrorStrategy } from '../error-strategy/throw-error-strategy';
 import { InjectorRegistryService } from '../injectors/injector-registry.service';
 import * as localInjector from '../injectors/local-injector';
 import { LocalInjectorParams } from '../injectors/local-injector';
+import {
+  MappedInjectorFactory,
+  provideInjectorMap,
+} from '../injectors/mapped-injector';
 import { RenderComponent } from '../render-component';
 import { OrchestratorConfigItem } from '../types';
 import { RenderItemComponent } from './render-item.component';
-import {
-  INJECTOR_MAP_TOKEN,
-  provideInjectorMap,
-  MappedInjectorFactory,
-} from '../injectors/mapped-injector';
 
 @Component({
   selector: 'orc-host-comp',
@@ -56,7 +58,11 @@ describe('RenderItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [DynamicModule.forRoot()],
+      imports: [
+        DynamicComponentModule,
+        DynamicAttributesModule,
+        DynamicDirectivesModule,
+      ],
       declarations: [
         RenderItemComponent,
         HostComponent,
