@@ -65,13 +65,9 @@ export class ConfigurationService {
       return none;
     }
 
-    try {
-      const codec = this.codecMap.get(type) || genIoType(type);
-      this.codecMap.set(type, codec); // Set codec back to cache
-      return some(codec);
-    } catch {
-      return none;
-    }
+    const codec = this.codecMap.get(type) || genIoType(type);
+    this.codecMap.set(type, codec); // Set codec back to cache
+    return some(codec);
   }
 
   private processFunctions<T>(
