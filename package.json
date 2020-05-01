@@ -56,7 +56,7 @@
     "core-js": "^3.6.4",
     "fp-ts": "^2.5.4",
     "io-ts": "^2.2.1",
-    "ng-dynamic-component": "^6.1.1-no-barrels.1",
+    "ng-dynamic-component": "^6.1.1-no-barrels.2",
     "rxjs": "^6.5.5",
     "zone.js": "^0.10.3"
   },
