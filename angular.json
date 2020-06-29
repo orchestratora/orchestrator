@@ -31,7 +31,7 @@
               "libs/core/tsconfig.lib.json",
               "libs/core/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/core/**"]
+            "exclude": ["**/node_modules/**", "!libs/core/**/*"]
           }
         }
       }
@@ -64,7 +64,7 @@
               "libs/layout/tsconfig.lib.json",
               "libs/layout/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/layout/**"]
+            "exclude": ["**/node_modules/**", "!libs/layout/**/*"]
           }
         }
       }
@@ -97,7 +97,7 @@
               "libs/ui-web/tsconfig.lib.json",
               "libs/ui-web/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/ui-web/**"]
+            "exclude": ["**/node_modules/**", "!libs/ui-web/**/*"]
           }
         }
       }
@@ -209,7 +209,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "apps/ui-web-example-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**", "!apps/ui-web-example-e2e/**"]
+            "exclude": ["**/node_modules/**", "!apps/ui-web-example-e2e/**/*"]
           }
         }
       }
@@ -234,7 +234,7 @@
               "libs/stepper/tsconfig.lib.json",
               "libs/stepper/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/stepper/**"]
+            "exclude": ["**/node_modules/**", "!libs/stepper/**/*"]
           }
         },
         "test": {

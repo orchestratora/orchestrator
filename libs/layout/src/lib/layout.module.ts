@@ -7,7 +7,7 @@ import { LayoutFlatHostModule } from './layout-flat-host';
   exports: [LayoutFlexModule, LayoutFlatHostModule],
 })
 export class LayoutModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<LayoutModule> {
     return {
       ngModule: LayoutModule,
       providers: [...LayoutFlatHostModule.forRoot().providers],

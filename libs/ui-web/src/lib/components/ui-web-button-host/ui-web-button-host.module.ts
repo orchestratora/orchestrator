@@ -9,7 +9,7 @@ import { UiWebButtonHostComponent } from './ui-web-button-host.component';
   declarations: [UiWebButtonHostComponent],
 })
 export class UiWebButtonHostModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<UiWebButtonHostModule> {
     return {
       ngModule: UiWebButtonHostModule,
       providers: [

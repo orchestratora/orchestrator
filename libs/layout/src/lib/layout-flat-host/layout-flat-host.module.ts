@@ -13,7 +13,7 @@ import { LayoutFlatHostComponent } from './layout-flat-host.component';
   declarations: [LayoutFlatHostComponent, LayoutFlatComponent],
 })
 export class LayoutFlatHostModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<LayoutFlatHostModule> {
     return {
       ngModule: LayoutFlatHostModule,
       providers: [

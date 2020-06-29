@@ -11,7 +11,7 @@ import { UiWebTextHostComponent } from './ui-web-text-host.component';
   exports: [UiWebTextHostComponent],
 })
 export class UiWebTextHostModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<UiWebTextHostModule> {
     return {
       ngModule: UiWebTextHostModule,
       providers: [

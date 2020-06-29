@@ -12,7 +12,7 @@ import { UiWebSelectHostComponent } from './ui-web-select-host.component';
   declarations: [UiWebSelectHostComponent, UiWebSelectComponent],
 })
 export class UiWebSelectHostModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<UiWebSelectHostModule> {
     return {
       ngModule: UiWebSelectHostModule,
       providers: [
