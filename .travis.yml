@@ -5,6 +5,13 @@ notifications:
 node_js: lts/*
 stages:
   - test
+
+before_script:
+  # Configure Git to fetch all branches and fetch master
+  - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+  - git fetch origin master
+  - git branch -tf master origin/master
+
 jobs:
   include:
     - stage: test
