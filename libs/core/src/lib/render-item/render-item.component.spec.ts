@@ -13,7 +13,7 @@ import {
 } from '@orchestrator/core/testing';
 import {
   DynamicAttributesModule,
-  DynamicComponentModule,
+  DynamicModule,
   DynamicDirectivesModule,
 } from 'ng-dynamic-component';
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
@@ -59,7 +59,7 @@ describe('RenderItemComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        DynamicComponentModule,
+        DynamicModule,
         DynamicAttributesModule,
         DynamicDirectivesModule,
       ],
@@ -481,7 +481,7 @@ describe('RenderItemComponent', () => {
   });
 
   describe('item.handlers', () => {
-    beforeEach(done => {
+    beforeEach((done) => {
       TestBed.configureTestingModule({
         providers: [{ provide: ErrorStrategy, useClass: ThrowErrorStrategy }],
       });
@@ -494,7 +494,7 @@ describe('RenderItemComponent', () => {
       hostComp.item = {
         component: Dynamic1Component,
         handlers: {
-          click: $event => window['clickFn']($event),
+          click: ($event) => window['clickFn']($event),
         },
       };
 
@@ -518,7 +518,7 @@ describe('RenderItemComponent', () => {
       hostComp.item = {
         component: Dynamic1Component,
         handlers: {
-          customEvent: $event => window['customFn']($event),
+          customEvent: ($event) => window['customFn']($event),
         },
       };
 
@@ -745,7 +745,7 @@ describe('RenderItemComponent', () => {
       dyn2: Dynamic2Component,
     };
 
-    beforeEach(done => {
+    beforeEach((done) => {
       TestBed.configureTestingModule({
         providers: [
           { provide: COMPONENTS, useValue: componentMap, multi: true },

@@ -7,9 +7,10 @@ import {
 } from '@orchestrator/core/testing';
 import {
   DynamicAttributesModule,
-  DynamicComponentModule,
   DynamicDirectivesModule,
+  DynamicModule,
 } from 'ng-dynamic-component';
+
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
 import { COMPONENTS } from '../component-map';
 import { ConfigurationService } from '../config/configuration.service';
@@ -26,7 +27,7 @@ describe('OrchestratorComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        DynamicComponentModule,
+        DynamicModule,
         DynamicAttributesModule,
         DynamicDirectivesModule,
       ],

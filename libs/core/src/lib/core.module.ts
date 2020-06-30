@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import {
   DynamicAttributesModule,
-  DynamicComponentModule,
   DynamicDirectivesModule,
+  DynamicModule,
 } from 'ng-dynamic-component';
 
 import { ComponentLocatorService } from './component-locator/component-locator.service';
@@ -19,7 +19,7 @@ import { OrchestratorDynamicComponentType } from './types';
 @NgModule({
   imports: [
     CommonModule,
-    DynamicComponentModule,
+    DynamicModule,
     DynamicAttributesModule,
     DynamicDirectivesModule,
   ],
@@ -30,7 +30,7 @@ export class OrchestratorCoreModule {
   /**
    * Use this to import module in root application only once
    */
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<OrchestratorCoreModule> {
     return {
       ngModule: OrchestratorCoreModule,
       providers: [...OrchestratorCoreModule.getRootProviders()],
@@ -42,7 +42,7 @@ export class OrchestratorCoreModule {
    */
   static withComponents(
     components: ComponentRegistry<OrchestratorDynamicComponentType>,
-  ): ModuleWithProviders {
+  ): ModuleWithProviders<OrchestratorCoreModule> {
     return {
       ngModule: OrchestratorCoreModule,
       providers: [

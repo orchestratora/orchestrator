@@ -22,7 +22,7 @@ import { UiWebButtonHostModule } from './components/ui-web-button-host';
   ],
 })
 export class UiWebModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<UiWebModule> {
     return {
       ngModule: UiWebModule,
       providers: [
