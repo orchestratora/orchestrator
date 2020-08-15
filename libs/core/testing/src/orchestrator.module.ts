@@ -11,7 +11,7 @@ import { provideDynamicComponents } from './dynamic-components';
 export class OrchestratorCoreTestingModule {
   static withComponents(
     components: ComponentRegistry<OrchestratorDynamicComponentType<any>>,
-  ): ModuleWithProviders {
+  ): ModuleWithProviders<OrchestratorCoreModule> {
     return {
       ngModule: OrchestratorCoreModule,
       providers: [

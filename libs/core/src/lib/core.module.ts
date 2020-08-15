@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
-import { DynamicModule } from 'ng-dynamic-component';
+import {
+  DynamicAttributesModule,
+  DynamicDirectivesModule,
+  DynamicModule,
+} from 'ng-dynamic-component';
 
 import { ComponentLocatorService } from './component-locator/component-locator.service';
 import { ComponentRegistry, COMPONENTS } from './component-map';
@@ -13,7 +17,12 @@ import { RenderItemComponent } from './render-item/render-item.component';
 import { OrchestratorDynamicComponentType } from './types';
 
 @NgModule({
-  imports: [CommonModule, DynamicModule],
+  imports: [
+    CommonModule,
+    DynamicModule,
+    DynamicAttributesModule,
+    DynamicDirectivesModule,
+  ],
   declarations: [OrchestratorComponent, RenderItemComponent],
   exports: [OrchestratorComponent, RenderItemComponent],
 })
@@ -21,7 +30,7 @@ export class OrchestratorCoreModule {
   /**
    * Use this to import module in root application only once
    */
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<OrchestratorCoreModule> {
     return {
       ngModule: OrchestratorCoreModule,
       providers: [...OrchestratorCoreModule.getRootProviders()],
@@ -33,7 +42,7 @@ export class OrchestratorCoreModule {
    */
   static withComponents(
     components: ComponentRegistry<OrchestratorDynamicComponentType>,
-  ): ModuleWithProviders {
+  ): ModuleWithProviders<OrchestratorCoreModule> {
     return {
       ngModule: OrchestratorCoreModule,
       providers: [
@@ -54,7 +63,6 @@ export class OrchestratorCoreModule {
 
   private static getRootProviders(): Provider[] {
     return [
-      ...(DynamicModule.forRoot().providers || []),
       { provide: ErrorStrategy, useClass: ThrowErrorStrategy },
       ...INJECTOR_MAP_PROVIDERS,
       ComponentLocatorService,

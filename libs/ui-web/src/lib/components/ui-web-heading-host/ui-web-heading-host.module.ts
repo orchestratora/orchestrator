@@ -11,7 +11,7 @@ import { UiWebHeadingHostComponent } from './ui-web-heading-host.component';
   exports: [UiWebHeadingHostComponent],
 })
 export class UiWebHeadingHostModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<UiWebHeadingHostModule> {
     return {
       ngModule: UiWebHeadingHostModule,
       providers: [

@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/ui-web@0.1.2-next.0...@orchestrator/ui-web@1.0.0-next.0) (2020-06-30)
+
+
+### Features
+
+* **deps:** require Angular v10 as a peer dependency ([d70f8de](https://github.com/orchestratora/orchestrator/commit/d70f8de2a2554dcdb99836ad4b912a9de0e12ea8))
+* **deps:** upgrade to Angular v10 ([469d382](https://github.com/orchestratora/orchestrator/commit/469d382175067532cdb156739ff14f39c4151509))
+
+
+### BREAKING CHANGES
+
+* **deps:** After the library migrated to Angular v10 - now you should use Angular v10 as a
+peer dependency.
+* **deps:** Now the library is built using Angular v10. No public API changes.
+
+
+
+
+
+## [0.1.2-next.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/ui-web@0.1.1...@orchestrator/ui-web@0.1.2-next.0) (2020-05-01)
+
+
+### Bug Fixes
+
+* **lib:** upgrade to latest Angular with libs ([5921d28](https://github.com/orchestratora/orchestrator/commit/5921d28a20423f6d1a37dfa4d0459d24a48c907e))
+
+
+
+
+
 ## [0.1.1](https://github.com/orchestratora/orchestrator/compare/@orchestrator/ui-web@0.1.0...@orchestrator/ui-web@0.1.1) (2020-03-09)
 
 

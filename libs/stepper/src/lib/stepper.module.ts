@@ -18,7 +18,7 @@ import { StepperComponent } from './stepper/stepper.component';
   ],
 })
 export class StepperModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<StepperModule> {
     return {
       ngModule: StepperModule,
       providers: [

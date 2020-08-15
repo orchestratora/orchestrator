@@ -30,10 +30,10 @@ export class ConfigurationService {
   decode<T, C>(type: Type<T>, config: C, injector?: Injector): T | C {
     return pipe(
       this.validate(type, config),
-      map(c => this.processFunctions(type, c, config, injector)),
+      map((c) => this.processFunctions(type, c, config, injector)),
       foldEither(
         () => config,
-        decodedConfig => decodedConfig,
+        (decodedConfig) => decodedConfig,
       ),
     );
   }
@@ -43,7 +43,7 @@ export class ConfigurationService {
       this.getCodecFor(type),
       fold(
         () => left<Errors, T>([]),
-        codec => codec.decode(config),
+        (codec) => codec.decode(config),
       ),
     );
 
@@ -65,13 +65,9 @@ export class ConfigurationService {
       return none;
     }
 
-    try {
-      const codec = this.codecMap.get(type) || genIoType(type);
-      this.codecMap.set(type, codec); // Set codec back to cache
-      return some(codec);
-    } catch {
-      return none;
-    }
+    const codec = this.codecMap.get(type) || genIoType(type);
+    this.codecMap.set(type, codec); // Set codec back to cache
+    return some(codec);
   }
 
   private processFunctions<T>(
@@ -83,8 +79,8 @@ export class ConfigurationService {
     const meta = this.getMetaOf(type);
 
     meta
-      .filter(m => m.decorator === OptionFunction && config[m.prop])
-      .forEach(m => {
+      .filter((m) => m.decorator === OptionFunction && config[m.prop])
+      .forEach((m) => {
         const customInjectorFactory = m.args[0] as CustomInjectorFactory;
         const customInjector = customInjectorFactory
           ? customInjectorFactory(injector)
@@ -112,8 +108,8 @@ export class ConfigurationService {
     const { args, body } = fn;
 
     const resolvedArgs = args
-      .filter(arg => !arg.startsWith('$'))
-      .map(arg => this.resolveArg(arg, injector));
+      .filter((arg) => !arg.startsWith('$'))
+      .map((arg) => this.resolveArg(arg, injector));
 
     const boundFn = fn.bind(null, ...resolvedArgs) as FunctionWithMeta;
     boundFn.args = args;
