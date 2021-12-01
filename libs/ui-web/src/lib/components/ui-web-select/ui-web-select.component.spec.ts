@@ -10,6 +10,7 @@ describe('UiWebSelectComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UiWebSelectComponent],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 
@@ -206,7 +207,7 @@ describe('UiWebSelectComponent', () => {
 
       expect(groupsElem.length).toBe(2);
 
-      const [group1, group2] = groupsElem.map(group =>
+      const [group1, group2] = groupsElem.map((group) =>
         group.queryAll(By.css('option')),
       );
 
@@ -237,7 +238,7 @@ describe('UiWebSelectComponent', () => {
 
       expect(groupsElem.length).toBe(2);
 
-      const [group1, group2] = groupsElem.map(group =>
+      const [group1, group2] = groupsElem.map((group) =>
         group.queryAll(By.css('option')),
       );
 

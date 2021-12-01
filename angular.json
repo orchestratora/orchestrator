@@ -23,18 +23,9 @@
             "tsConfig": "libs/core/tsconfig.spec.json",
             "setupFile": "libs/core/src/test-setup.ts"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/core/tsconfig.lib.json",
-              "libs/core/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/core/**/*"]
-          }
         }
-      }
+      },
+      "tags": ["components", "core"]
     },
     "layout": {
       "root": "libs/layout",
@@ -56,18 +47,34 @@
             "tsConfig": "libs/layout/tsconfig.spec.json",
             "setupFile": "libs/layout/src/test-setup.ts"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+        }
+      },
+      "tags": ["components", "layout"]
+    },
+    "stepper": {
+      "root": "libs/stepper",
+      "sourceRoot": "libs/stepper/src",
+      "projectType": "library",
+      "prefix": "orc",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
           "options": {
-            "tsConfig": [
-              "libs/layout/tsconfig.lib.json",
-              "libs/layout/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/layout/**/*"]
+            "tsConfig": "libs/stepper/tsconfig.lib.json",
+            "project": "libs/stepper/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/stepper/jest.config.js",
+            "tsConfig": "libs/stepper/tsconfig.spec.json",
+            "setupFile": "libs/stepper/src/test-setup.ts"
           }
         }
-      }
+      },
+      "schematics": {},
+      "tags": ["components", "ui"]
     },
     "ui-web": {
       "root": "libs/ui-web",
@@ -89,18 +96,9 @@
             "tsConfig": "libs/ui-web/tsconfig.spec.json",
             "setupFile": "libs/ui-web/src/test-setup.ts"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/ui-web/tsconfig.lib.json",
-              "libs/ui-web/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/ui-web/**/*"]
-          }
         }
-      }
+      },
+      "tags": ["components", "ui"]
     },
     "ui-web-example": {
       "root": "apps/ui-web-example/",
@@ -135,7 +133,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -168,16 +165,6 @@
             "browserTarget": "ui-web-example:build"
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/ui-web-example/tsconfig.app.json",
-              "apps/ui-web-example/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/ui-web-example/**"]
-          }
-        },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
@@ -186,7 +173,8 @@
             "setupFile": "apps/ui-web-example/src/test-setup.ts"
           }
         }
-      }
+      },
+      "tags": ["example", "ui"]
     },
     "ui-web-example-e2e": {
       "root": "apps/ui-web-example-e2e",
@@ -204,58 +192,10 @@
               "devServerTarget": "ui-web-example:serve:production"
             }
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "apps/ui-web-example-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**", "!apps/ui-web-example-e2e/**/*"]
-          }
-        }
-      }
-    },
-    "stepper": {
-      "root": "libs/stepper",
-      "sourceRoot": "libs/stepper/src",
-      "projectType": "library",
-      "prefix": "orc",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/stepper/tsconfig.lib.json",
-            "project": "libs/stepper/ng-package.json"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/stepper/tsconfig.lib.json",
-              "libs/stepper/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/stepper/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/stepper/jest.config.js",
-            "tsConfig": "libs/stepper/tsconfig.spec.json",
-            "setupFile": "libs/stepper/src/test-setup.ts"
-          }
         }
       },
-      "schematics": {}
-    }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/angular"
-  },
-  "defaultProject": "core",
-  "schematics": {
-    "@nrwl/schematics:library": {
-      "framework": "angular"
+      "tags": ["e2e", "ui"],
+      "implicitDependencies": ["ui-web-example"]
     }
   }
 }

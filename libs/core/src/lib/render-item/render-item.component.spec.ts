@@ -77,6 +77,7 @@ describe('RenderItemComponent', () => {
         { provide: ErrorStrategy, useClass: SuppressErrorStrategy },
         provideInjectorMap({}),
       ],
+      teardown: { destroyAfterEach: false },
     });
   }));
 
@@ -484,6 +485,7 @@ describe('RenderItemComponent', () => {
     beforeEach((done) => {
       TestBed.configureTestingModule({
         providers: [{ provide: ErrorStrategy, useClass: ThrowErrorStrategy }],
+        teardown: { destroyAfterEach: false },
       });
       init(done);
     });
@@ -671,7 +673,8 @@ describe('RenderItemComponent', () => {
 
           expect(renderItemElem).toBeTruthy();
 
-          const renderItem = renderItemElem.componentInstance as RenderItemComponent;
+          const renderItem =
+            renderItemElem.componentInstance as RenderItemComponent;
 
           const markForCheck = jest.fn();
           const injectorGet = jest.fn().mockReturnValue({ markForCheck });
@@ -750,6 +753,7 @@ describe('RenderItemComponent', () => {
         providers: [
           { provide: COMPONENTS, useValue: componentMap, multi: true },
         ],
+        teardown: { destroyAfterEach: false },
       });
       init(done);
     });

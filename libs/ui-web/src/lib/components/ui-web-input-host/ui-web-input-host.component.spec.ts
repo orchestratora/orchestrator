@@ -10,6 +10,7 @@ describe('UiWebInputHostComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UiWebInputHostComponent],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

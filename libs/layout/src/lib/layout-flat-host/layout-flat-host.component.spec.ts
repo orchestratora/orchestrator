@@ -34,6 +34,7 @@ describe('LayoutFlatHostComponent', () => {
       ],
       declarations: [LayoutFlatHostComponent, HostComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      teardown: { destroyAfterEach: false },
     });
   });
 
@@ -103,7 +104,7 @@ describe('LayoutFlatHostComponent', () => {
   describe('default layout styles from DI `LayoutFlatConfig`', () => {
     let defaultConfig: LayoutFlatConfig;
 
-    beforeEach(done => {
+    beforeEach((done) => {
       defaultConfig = {
         alignContent: 'space-around',
         alignItems: 'flex-start',
@@ -114,6 +115,7 @@ describe('LayoutFlatHostComponent', () => {
 
       TestBed.configureTestingModule({
         providers: [{ provide: LayoutFlatConfig, useValue: defaultConfig }],
+        teardown: { destroyAfterEach: false },
       }).overrideTemplate(
         HostComponent,
         `<orc-orchestrator [config]="items"></orc-orchestrator>`,

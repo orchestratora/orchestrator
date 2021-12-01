@@ -7,9 +7,7 @@ import { FlexAlignContentDirective } from './flex-align-content.directive';
 
 @Component({
   selector: 'orc-host-comp',
-  template: `
-    <div [orcFxAlignContent]="alignContent"></div>
-  `,
+  template: ` <div [orcFxAlignContent]="alignContent"></div> `,
 })
 class HostComponent {
   alignContent: LayoutFlatAlignContentOptions;
@@ -23,6 +21,7 @@ describe('Directive: FlexAlignContentDirective', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [FlexAlignContentDirective, HostComponent],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

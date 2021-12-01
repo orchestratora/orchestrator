@@ -16,14 +16,6 @@
       "@orchestrator/*": ["dist/libs/*"]
     }
   },
-  "angularCompilerOptions": {
-    "enableIvy": false,
-    "annotateForClosureCompiler": true,
-    "skipTemplateCodegen": true,
-    "strictMetadataEmit": true,
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true,
-    "enableResourceInlining": true
-  },
-  "exclude": ["src/test.ts", "**/*.spec.ts"]
+  "include": ["src/public_api.ts"],
+  "exclude": ["src/test.ts", "**/*.spec.ts", "**/*.test.ts"]
 }

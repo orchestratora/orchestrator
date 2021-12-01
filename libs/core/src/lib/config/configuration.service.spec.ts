@@ -31,6 +31,7 @@ describe('Service: Configuration', () => {
           useClass: MockConfigurationErrorStrategy,
         },
       ],
+      teardown: { destroyAfterEach: false },
     });
   });
 
@@ -137,7 +138,7 @@ describe('Service: Configuration', () => {
         (m, c) =>
           pipe(
             string.validate(m, c),
-            chain(str => {
+            chain((str) => {
               try {
                 return success(new Function(str));
               } catch {
@@ -145,7 +146,7 @@ describe('Service: Configuration', () => {
               }
             }),
           ),
-        a => a.toString(),
+        (a) => a.toString(),
       );
 
       class Test {
@@ -253,9 +254,8 @@ describe('Service: Configuration', () => {
       expect(() => res.prop1()).not.toThrowError();
       expect(getErrorStrategy().handle).toHaveBeenCalled();
 
-      const error = getErrorStrategy().handle.mock.calls[0][0] as FunctionError<
-        any
-      >;
+      const error = getErrorStrategy().handle.mock
+        .calls[0][0] as FunctionError<any>;
 
       expect(error.config).toBe(Test);
       expect(error.error).toEqual(new Error('reason'));

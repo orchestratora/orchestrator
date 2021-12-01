@@ -10,6 +10,7 @@ describe('UiWebTextareaHostComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UiWebTextareaHostComponent],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

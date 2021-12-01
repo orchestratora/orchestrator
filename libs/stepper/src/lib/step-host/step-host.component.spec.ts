@@ -12,6 +12,7 @@ describe('StepHostComponent', () => {
     TestBed.configureTestingModule({
       declarations: [StepHostComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

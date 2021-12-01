@@ -14,6 +14,7 @@ describe('FormAttributesConfig', () => {
         ConfigurationService,
         { provide: ErrorStrategy, useClass: ThrowErrorStrategy },
       ],
+      teardown: { destroyAfterEach: false },
     });
   });
 

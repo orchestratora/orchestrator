@@ -28,7 +28,7 @@ interface SectionAnimation {
   animations: [...getStepAnimation('stepAnimation')],
   providers: [{ provide: Stepper, useExisting: StepperComponent }],
 })
-export class StepperComponent extends Stepper implements OnInit, OnChanges {
+export class StepperComponent implements OnInit, OnChanges, Stepper {
   @Input() steps: OrchestratorConfigItem<StepConfig>[];
   @Input() header: OrchestratorConfigItem;
   @Input() footer: OrchestratorConfigItem;
@@ -40,6 +40,7 @@ export class StepperComponent extends Stepper implements OnInit, OnChanges {
   get stepsCount() {
     return this.steps ? this.steps.length : 0;
   }
+  set stepsCount(value) {}
 
   currentStepIdx: number | undefined;
   currentStep: OrchestratorConfigItem<StepConfig> | undefined;
@@ -98,9 +99,7 @@ export class StepperComponent extends Stepper implements OnInit, OnChanges {
     this.animationFooter,
   ];
 
-  constructor(private cdr: ChangeDetectorRef) {
-    super();
-  }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     if (this.steps) {
@@ -169,7 +168,7 @@ export class StepperComponent extends Stepper implements OnInit, OnChanges {
   }
 
   private async toStep(id: string, stepData?: any) {
-    const idx = this.steps.findIndex(step => step.config.id === id);
+    const idx = this.steps.findIndex((step) => step.config.id === id);
 
     if (idx !== -1) {
       return await this.activateStep(idx, stepData);
@@ -181,7 +180,7 @@ export class StepperComponent extends Stepper implements OnInit, OnChanges {
   }
 
   private updateAnimations() {
-    this.animations.forEach(animation => {
+    this.animations.forEach((animation) => {
       animation.animate = animation.shouldAnimate();
 
       if (animation.animate) {

@@ -6,9 +6,7 @@ import { FlexDirectionDirective } from './flex-direction.directive';
 
 @Component({
   selector: 'orc-host-direction-cmp',
-  template: `
-    <div [orcFxDirection]="direction">Host Component</div>
-  `,
+  template: ` <div [orcFxDirection]="direction">Host Component</div> `,
 })
 class HostFlexDirectionComponent {
   direction = 'column';
@@ -20,6 +18,7 @@ describe('FlexDirectionDirective', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HostFlexDirectionComponent, FlexDirectionDirective],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

@@ -20,6 +20,7 @@ describe('UiWebSelectConfig', () => {
         ConfigurationService,
         { provide: ErrorStrategy, useClass: ThrowErrorStrategy },
       ],
+      teardown: { destroyAfterEach: false },
     });
   });
 

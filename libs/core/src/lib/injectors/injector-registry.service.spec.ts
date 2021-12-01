@@ -7,6 +7,7 @@ describe('Service: InjectorRegistry', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [InjectorRegistryService],
+      teardown: { destroyAfterEach: false },
     });
   });
 

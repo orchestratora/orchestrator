@@ -9,6 +9,7 @@ xdescribe('DisplayConfigComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [DisplayConfigComponent],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

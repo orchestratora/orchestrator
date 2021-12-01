@@ -44,6 +44,7 @@ describe('LayoutFlatComponent', () => {
         Dynamic1Component,
         Dynamic2Component,
       ],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 
@@ -82,7 +83,7 @@ describe('LayoutFlatComponent', () => {
     );
 
     expect(compElem.children.length).toBe(2);
-    compElem.children.forEach(child =>
+    compElem.children.forEach((child) =>
       expect(child.attributes['class']).toBe('layout-flat-orc-item'),
     );
   });

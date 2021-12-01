@@ -45,6 +45,7 @@ describe('OrchestratorComponent', () => {
         { provide: ErrorStrategy, useClass: SuppressErrorStrategy },
         provideInjectorMap({}),
       ],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

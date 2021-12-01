@@ -11,6 +11,7 @@ describe('UiWebTextHostComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UiWebTextHostComponent],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 
@@ -32,7 +33,7 @@ describe('UiWebTextHostComponent', () => {
 
   describe('textWithCtx', () => {
     it('should render p with text with context', () => {
-      component.config = { textFn: ctx => `Val: ${ctx.val}` };
+      component.config = { textFn: (ctx) => `Val: ${ctx.val}` };
       component.context = { val: 'from context' };
 
       fixture.detectChanges();

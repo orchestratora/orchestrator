@@ -10,6 +10,7 @@ describe('UiWebImageHostComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UiWebImageHostComponent],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

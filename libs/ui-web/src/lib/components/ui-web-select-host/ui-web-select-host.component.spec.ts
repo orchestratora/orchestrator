@@ -12,6 +12,7 @@ describe('UiWebSelectHostComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UiWebSelectHostComponent],
       schemas: [NO_ERRORS_SCHEMA],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

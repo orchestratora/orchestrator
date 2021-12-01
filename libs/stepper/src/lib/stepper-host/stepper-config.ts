@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Option, OrchestratorConfigItem } from '@orchestrator/core';
 
-import { StepConfig } from '../step-host';
-
-export interface StepperContext extends OrchestratorConfigItem<StepConfig> {}
+import { StepperContext } from '../step-host';
 
 @Injectable()
 export class StepperConfig {

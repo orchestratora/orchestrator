@@ -15,9 +15,7 @@ import { LayoutModule } from './layout.module';
 
 @Component({
   selector: 'orc-host-comp',
-  template: `
-    <orc-orchestrator [config]="config"></orc-orchestrator>
-  `,
+  template: ` <orc-orchestrator [config]="config"></orc-orchestrator> `,
 })
 class HostComponent {
   config: OrchestratorConfigItem;
@@ -38,6 +36,7 @@ describe('LayoutModule', () => {
         ]),
       ],
       declarations: [HostComponent, Dynamic1Component, Dynamic2Component],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

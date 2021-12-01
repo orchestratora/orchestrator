@@ -11,6 +11,7 @@ describe('UiWebHeadingHostComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UiWebHeadingHostComponent],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

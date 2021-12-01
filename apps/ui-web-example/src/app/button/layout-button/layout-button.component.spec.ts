@@ -12,6 +12,7 @@ xdescribe('LayoutButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [LayoutButtonComponent],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

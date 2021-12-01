@@ -13,6 +13,7 @@ describe('UiWebHeadingConfig', () => {
         ConfigurationService,
         { provide: ErrorStrategy, useClass: ThrowErrorStrategy },
       ],
+      teardown: { destroyAfterEach: false },
     });
   });
 

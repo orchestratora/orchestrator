@@ -7,6 +7,7 @@ describe('Service: ComponentsRegistry', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ComponentsRegistryService],
+      teardown: { destroyAfterEach: false },
     });
   });
 

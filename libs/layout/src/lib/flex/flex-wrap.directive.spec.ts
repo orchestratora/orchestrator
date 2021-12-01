@@ -6,9 +6,7 @@ import { FlexWrapDirective } from './flex-wrap.directive';
 
 @Component({
   selector: 'orc-host-wrap-cmp',
-  template: `
-    <div [orcFxWrap]="wrap">Host Component</div>
-  `,
+  template: ` <div [orcFxWrap]="wrap">Host Component</div> `,
 })
 class HostFlexWrapComponent {
   wrap = 'wrap';
@@ -20,6 +18,7 @@ describe('FlexWrapDirective', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HostFlexWrapComponent, FlexWrapDirective],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

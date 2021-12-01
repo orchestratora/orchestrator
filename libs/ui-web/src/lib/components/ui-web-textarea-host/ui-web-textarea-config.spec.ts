@@ -16,6 +16,7 @@ describe('UiWebTextAreaConfig', () => {
         ConfigurationService,
         { provide: ErrorStrategy, useClass: ThrowErrorStrategy },
       ],
+      teardown: { destroyAfterEach: false },
     });
   });
 

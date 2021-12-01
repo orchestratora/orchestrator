@@ -12,6 +12,7 @@ xdescribe('SimpleButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SimpleButtonComponent],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

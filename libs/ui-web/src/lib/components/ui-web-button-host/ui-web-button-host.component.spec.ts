@@ -10,6 +10,7 @@ describe('UiWebButtonHostComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UiWebButtonHostComponent],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

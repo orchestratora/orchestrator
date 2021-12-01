@@ -9,6 +9,7 @@ xdescribe('EditableComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EditableComponent],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 

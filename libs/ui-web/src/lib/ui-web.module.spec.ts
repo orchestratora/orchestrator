@@ -17,9 +17,7 @@ import { UiWebModule } from './ui-web.module';
 
 @Component({
   selector: 'orc-host-comp',
-  template: `
-    <orc-orchestrator [config]="config"></orc-orchestrator>
-  `,
+  template: ` <orc-orchestrator [config]="config"></orc-orchestrator> `,
 })
 class HostComponent {
   config: OrchestratorConfigItem;
@@ -44,6 +42,7 @@ describe('UiWebModule', () => {
         ]),
       ],
       declarations: [HostComponent],
+      teardown: { destroyAfterEach: false },
     }).compileComponents();
   }));
 
