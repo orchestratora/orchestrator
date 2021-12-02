@@ -5,5 +5,8 @@
     "types": []
   },
   "exclude": ["src/test-setup.ts", "**/*.spec.ts", "**/*.test.ts"],
-  "include": ["src/main.ts", "src/polyfills.ts"]
+  "include": ["src/main.ts", "src/polyfills.ts"],
+  "angularCompilerOptions": {
+    "compilationMode": "full"
+  }
 }

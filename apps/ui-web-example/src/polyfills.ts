@@ -43,7 +43,7 @@ import 'core-js/proposals/global-this';
 // import 'core-js/es6/array';
 
 /** IE10 and IE11 requires the following for the Reflect API. */
-// import 'core-js/es6/reflect';
+import 'core-js/features/reflect';
 
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
