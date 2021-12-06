@@ -39,7 +39,8 @@
     "release": "lerna publish --yes --conventional-graduate",
     "release:tag": "lerna publish --yes --conventional-prerelease --dist-tag $RELEASE_TAG --preid $RELEASE_TAG",
     "postversion": "npm run run:in:lib -- node ../../tools/scripts/version-lib.js",
-    "run:in:lib": "lerna exec --concurrency 1 --stream --"
+    "run:in:lib": "lerna exec --concurrency 1 --stream --",
+    "postinstall": "node ./decorate-angular-cli.js"
   },
   "private": true,
   "dependencies": {
