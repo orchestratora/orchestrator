@@ -11,17 +11,35 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/core"],
           "options": {
-            "tsConfig": "libs/core/tsconfig.lib.json",
             "project": "libs/core/ng-package.json"
-          }
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/core/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/core/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/core"],
           "options": {
             "jestConfig": "libs/core/jest.config.js",
-            "tsConfig": "libs/core/tsconfig.spec.json",
-            "setupFile": "libs/core/src/test-setup.ts"
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/core/src/**/*.ts",
+              "libs/core/src/**/*.html"
+            ]
           }
         }
       },

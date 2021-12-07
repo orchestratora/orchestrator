@@ -1,21 +1,12 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "target": "es2015",
-    "module": "es2015",
-    "moduleResolution": "node",
     "declaration": true,
-    "sourceMap": true,
+    "declarationMap": true,
     "inlineSources": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "types": [],
-    "lib": ["dom", "es2015"],
-    "paths": {
-      "@orchestrator/*": ["dist/libs/*"]
-    }
+    "types": []
   },
-  "include": ["src/public_api.ts"],
-  "exclude": ["src/test.ts", "**/*.spec.ts", "**/*.test.ts"]
+  "exclude": ["src/test-setup.ts", "**/*.spec.ts", "**/*.test.ts"],
+  "include": ["**/*.ts"]
 }

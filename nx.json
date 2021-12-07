@@ -31,7 +31,16 @@
   "generators": {
     "@nrwl/schematics:library": {
       "framework": "angular"
-    }
+    },
+    "@nrwl/angular:application": {
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {}
   },
   "affected": {
     "defaultBase": "master"

@@ -4,7 +4,7 @@ import {
   ComponentRef,
   InjectionToken,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   Dynamic1Component,
@@ -56,7 +56,7 @@ describe('RenderItemComponent', () => {
   let fixture: ComponentFixture<HostComponent>;
   let hostComp: HostComponent;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         DynamicModule,
@@ -79,17 +79,20 @@ describe('RenderItemComponent', () => {
       ],
       teardown: { destroyAfterEach: false },
     });
-  }));
-
-  const init = async(() => {
-    TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(HostComponent);
-      hostComp = fixture.componentInstance;
-    });
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const init = async () => {
+    await TestBed.compileComponents();
+    fixture = TestBed.createComponent(HostComponent);
+    hostComp = fixture.componentInstance;
+  };
+
   describe('with component types', () => {
-    beforeEach(init);
+    beforeEach(waitForAsync(init));
 
     it('should not render if item input is not set', () => {
       fixture.detectChanges();
@@ -97,7 +100,8 @@ describe('RenderItemComponent', () => {
       const comp = fixture.debugElement.query(
         By.directive(RenderItemComponent),
       );
-      expect(comp.childNodes.length).toBe(1);
+
+      expect(comp.children.length).toBe(1);
     });
 
     it('should render top level component', () => {
@@ -167,7 +171,7 @@ describe('RenderItemComponent', () => {
       const finalConfig = { default: true, myConfig: true };
 
       const cls = TestBed.inject(ComponentLocatorService);
-      spyOn(cls, 'getDefaultConfig').and.returnValue(configDefault);
+      jest.spyOn(cls, 'getDefaultConfig').mockReturnValue(configDefault);
       hostComp.item = { component: Dynamic1Component, config: config };
 
       fixture.detectChanges();
@@ -211,21 +215,21 @@ describe('RenderItemComponent', () => {
     });
 
     it('should emit `componentCreated` with `ComponentRef` when component instantiated', () => {
-      spyOn(hostComp, 'onComponentCreated');
+      jest.spyOn(hostComp, 'onComponentCreated');
       hostComp.item = { component: Dynamic1Component };
 
       fixture.detectChanges();
 
       expect(hostComp.onComponentCreated).toHaveBeenCalledWith(
-        jasmine.any(ComponentRef),
+        expect.any(ComponentRef),
       );
       expect(hostComp.onComponentCreated).toHaveBeenCalledWith(
-        jasmine.objectContaining({ instance: jasmine.any(Dynamic1Component) }),
+        expect.objectContaining({ instance: expect.any(Dynamic1Component) }),
       );
     });
 
     it('should emit `childComponentsCreated` with `ComponentRef[]` when all components instantiated', () => {
-      spyOn(hostComp, 'onChildComponentsCreated');
+      jest.spyOn(hostComp, 'onChildComponentsCreated');
       hostComp.item = {
         component: Dynamic1Component,
         items: [
@@ -241,14 +245,14 @@ describe('RenderItemComponent', () => {
 
       expect(hostComp.onChildComponentsCreated).toHaveBeenCalledTimes(1);
       expect(hostComp.onChildComponentsCreated).toHaveBeenCalledWith([
-        jasmine.any(ComponentRef),
-        jasmine.any(ComponentRef),
-        jasmine.any(ComponentRef),
+        expect.any(ComponentRef),
+        expect.any(ComponentRef),
+        expect.any(ComponentRef),
       ]);
       expect(hostComp.onChildComponentsCreated).toHaveBeenCalledWith([
-        jasmine.objectContaining({ instance: jasmine.any(Dynamic1Component) }),
-        jasmine.objectContaining({ instance: jasmine.any(Dynamic1Component) }),
-        jasmine.objectContaining({ instance: jasmine.any(Dynamic2Component) }),
+        expect.objectContaining({ instance: expect.any(Dynamic1Component) }),
+        expect.objectContaining({ instance: expect.any(Dynamic1Component) }),
+        expect.objectContaining({ instance: expect.any(Dynamic2Component) }),
       ]);
     });
 
@@ -332,7 +336,7 @@ describe('RenderItemComponent', () => {
       const comp2 = comp1.query(By.directive(Dynamic2Component));
 
       expect(comp2).toBeTruthy();
-      expect(comp2.componentInstance).toEqual(jasmine.any(Dynamic2Component));
+      expect(comp2.componentInstance).toEqual(expect.any(Dynamic2Component));
     });
 
     it('should provide itself under `RenderComponent` token', () => {
@@ -351,7 +355,7 @@ describe('RenderItemComponent', () => {
   });
 
   describe('context', () => {
-    beforeEach(init);
+    beforeEach(waitForAsync(init));
 
     it('should be passed to dynamic component', () => {
       hostComp.item = { component: Dynamic1Component };
@@ -384,7 +388,7 @@ describe('RenderItemComponent', () => {
   });
 
   describe('item.id', () => {
-    beforeEach(init);
+    beforeEach(waitForAsync(init));
 
     it('should set `id` attribute on dynamic component', () => {
       hostComp.item = { component: Dynamic1Component, id: 'my-id' };
@@ -427,7 +431,7 @@ describe('RenderItemComponent', () => {
   });
 
   describe('item.classes', () => {
-    beforeEach(init);
+    beforeEach(waitForAsync(init));
 
     describe('when string', () => {
       it('should set class on dynamic component', () => {
@@ -482,13 +486,15 @@ describe('RenderItemComponent', () => {
   });
 
   describe('item.handlers', () => {
-    beforeEach((done) => {
-      TestBed.configureTestingModule({
-        providers: [{ provide: ErrorStrategy, useClass: ThrowErrorStrategy }],
-        teardown: { destroyAfterEach: false },
-      });
-      init(done);
-    });
+    beforeEach(
+      waitForAsync(() => {
+        TestBed.configureTestingModule({
+          providers: [{ provide: ErrorStrategy, useClass: ThrowErrorStrategy }],
+          teardown: { destroyAfterEach: false },
+        });
+        init();
+      }),
+    );
 
     it('should attach listener to host element events', () => {
       const clickFn = (window['clickFn'] = jest.fn());
@@ -541,11 +547,12 @@ describe('RenderItemComponent', () => {
 
   describe('injector', () => {
     describe('mapped', () => {
-      beforeEach(init);
+      beforeEach(waitForAsync(init));
 
       it('should use local injector as parent', () => {
-        spyOn(localInjector, 'createLocalInjector').and.returnValue(
-          'local-injector',
+        const createLocalInjector = jest.spyOn(
+          localInjector,
+          'createLocalInjector',
         );
 
         const compElem = fixture.debugElement.query(
@@ -556,34 +563,36 @@ describe('RenderItemComponent', () => {
 
         const mappedInjectorFactory = compElem.injector.get(
           MappedInjectorFactory,
-        ) as MappedInjectorFactory;
+        );
 
-        spyOn(mappedInjectorFactory, 'create');
+        jest.spyOn(mappedInjectorFactory, 'create');
 
         hostComp.item = { component: Dynamic1Component };
 
         fixture.detectChanges();
 
+        const localInjectorValue = createLocalInjector.mock.results[0].value;
+
+        expect(createLocalInjector).toHaveBeenCalledTimes(1);
         expect(mappedInjectorFactory.create).toHaveBeenCalledWith(
-          'local-injector',
+          localInjectorValue,
         );
       });
     });
 
     describe('local', () => {
-      let createLocalInjector: jasmine.Spy;
+      let createLocalInjector: jest.SpyInstance;
 
-      beforeEach(init);
+      beforeEach(waitForAsync(init));
 
       beforeEach(() => {
         const injector = fixture.debugElement.query(
           By.directive(RenderItemComponent),
         ).injector;
 
-        createLocalInjector = spyOn(
-          localInjector,
-          'createLocalInjector',
-        ).and.returnValue(injector);
+        createLocalInjector = jest
+          .spyOn(localInjector, 'createLocalInjector')
+          .mockReturnValue(injector);
       });
 
       describe('parentInjector prop', () => {
@@ -613,8 +622,8 @@ describe('RenderItemComponent', () => {
           expect(compElem).toBeTruthy();
           expect(createLocalInjector).toHaveBeenCalled();
 
-          const { getComponent } = createLocalInjector.calls.mostRecent()
-            .args[0] as LocalInjectorParams;
+          const { getComponent } = createLocalInjector.mock
+            .calls[0][0] as LocalInjectorParams;
 
           expect(getComponent).toEqual(expect.any(Function));
           expect(getComponent()).toBe(compElem.componentInstance);
@@ -630,8 +639,8 @@ describe('RenderItemComponent', () => {
 
           expect(createLocalInjector).toHaveBeenCalled();
 
-          const { getConfig } = createLocalInjector.calls.mostRecent()
-            .args[0] as LocalInjectorParams;
+          const { getConfig } = createLocalInjector.mock
+            .calls[0][0] as LocalInjectorParams;
 
           expect(getConfig).toEqual(expect.any(Function));
           expect(getConfig()).toEqual(config);
@@ -647,8 +656,8 @@ describe('RenderItemComponent', () => {
 
           expect(createLocalInjector).toHaveBeenCalled();
 
-          const { updateConfig } = createLocalInjector.calls.mostRecent()
-            .args[0] as LocalInjectorParams;
+          const { updateConfig } = createLocalInjector.mock
+            .calls[0][0] as LocalInjectorParams;
 
           expect(updateConfig).toEqual(expect.any(Function));
           expect(updateConfig({ isConfig: false })).toEqual({
@@ -685,8 +694,8 @@ describe('RenderItemComponent', () => {
 
           expect(createLocalInjector).toHaveBeenCalled();
 
-          const { updateConfig } = createLocalInjector.calls.mostRecent()
-            .args[0] as LocalInjectorParams;
+          const { updateConfig } = createLocalInjector.mock
+            .calls[0][0] as LocalInjectorParams;
 
           updateConfig({});
 
@@ -702,7 +711,7 @@ describe('RenderItemComponent', () => {
           }
 
           const compLocator = TestBed.inject(ComponentLocatorService);
-          spyOn(compLocator, 'getConfigType').and.returnValue(Config);
+          jest.spyOn(compLocator, 'getConfigType').mockReturnValue(Config);
         });
 
         it('should return `true` when config valid', () => {
@@ -715,8 +724,8 @@ describe('RenderItemComponent', () => {
 
           expect(createLocalInjector).toHaveBeenCalled();
 
-          const { isConfigValid } = createLocalInjector.calls.mostRecent()
-            .args[0] as LocalInjectorParams;
+          const { isConfigValid } = createLocalInjector.mock
+            .calls[0][0] as LocalInjectorParams;
 
           expect(isConfigValid).toEqual(expect.any(Function));
           expect(isConfigValid()).toBe(true);
@@ -732,8 +741,8 @@ describe('RenderItemComponent', () => {
 
           expect(createLocalInjector).toHaveBeenCalled();
 
-          const { isConfigValid } = createLocalInjector.calls.mostRecent()
-            .args[0] as LocalInjectorParams;
+          const { isConfigValid } = createLocalInjector.mock
+            .calls[0][0] as LocalInjectorParams;
 
           expect(isConfigValid).toEqual(expect.any(Function));
           expect(isConfigValid()).toBe(false);
@@ -748,15 +757,17 @@ describe('RenderItemComponent', () => {
       dyn2: Dynamic2Component,
     };
 
-    beforeEach((done) => {
-      TestBed.configureTestingModule({
-        providers: [
-          { provide: COMPONENTS, useValue: componentMap, multi: true },
-        ],
-        teardown: { destroyAfterEach: false },
-      });
-      init(done);
-    });
+    beforeEach(
+      waitForAsync(() => {
+        TestBed.configureTestingModule({
+          providers: [
+            { provide: COMPONENTS, useValue: componentMap, multi: true },
+          ],
+          teardown: { destroyAfterEach: false },
+        });
+        init();
+      }),
+    );
 
     it('should render mapped component', () => {
       hostComp.item = { component: 'dyn1' };
@@ -780,7 +791,7 @@ describe('RenderItemComponent', () => {
   });
 
   describe('addItem() method', () => {
-    beforeEach(init);
+    beforeEach(waitForAsync(init));
 
     it('should add new item and render it', () => {
       hostComp.item = {
@@ -802,12 +813,12 @@ describe('RenderItemComponent', () => {
       const comp2 = comp1.query(By.directive(Dynamic2Component));
 
       expect(comp2).toBeTruthy();
-      expect(comp2.componentInstance).toEqual(jasmine.any(Dynamic2Component));
+      expect(comp2.componentInstance).toEqual(expect.any(Dynamic2Component));
     });
   });
 
   describe('removeItem() method', () => {
-    beforeEach(init);
+    beforeEach(waitForAsync(init));
 
     it('should remove item and render it', () => {
       hostComp.item = {
@@ -833,7 +844,7 @@ describe('RenderItemComponent', () => {
   });
 
   describe('clearItems() method', () => {
-    beforeEach(init);
+    beforeEach(waitForAsync(init));
 
     it('should remove all items and render none', () => {
       hostComp.item = {
