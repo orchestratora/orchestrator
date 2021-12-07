@@ -53,17 +53,35 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/layout"],
           "options": {
-            "tsConfig": "libs/layout/tsconfig.lib.json",
             "project": "libs/layout/ng-package.json"
-          }
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/layout/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/layout/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/layout"],
           "options": {
             "jestConfig": "libs/layout/jest.config.js",
-            "tsConfig": "libs/layout/tsconfig.spec.json",
-            "setupFile": "libs/layout/src/test-setup.ts"
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/layout/src/**/*.ts",
+              "libs/layout/src/**/*.html"
+            ]
           }
         }
       },

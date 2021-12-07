@@ -94,12 +94,12 @@ describe('LayoutFlatComponent', () => {
 
     expect(hostComp.onAfterItemsRendered).toHaveBeenCalledTimes(1);
     expect(hostComp.onAfterItemsRendered).toHaveBeenCalledWith([
-      jasmine.any(ComponentRef),
-      jasmine.any(ComponentRef),
+      expect.any(ComponentRef),
+      expect.any(ComponentRef),
     ]);
     expect(hostComp.onAfterItemsRendered).toHaveBeenCalledWith([
-      jasmine.objectContaining({ instance: jasmine.any(Dynamic1Component) }),
-      jasmine.objectContaining({ instance: jasmine.any(Dynamic2Component) }),
+      expect.objectContaining({ instance: expect.any(Dynamic1Component) }),
+      expect.objectContaining({ instance: expect.any(Dynamic2Component) }),
     ]);
   });
 
