@@ -1,10 +1,12 @@
 module.exports = {
-  name: 'stepper',
-  preset: '../../jest.config.js',
+  displayName: 'stepper',
+  preset: '../../jest.preset.js',
   coverageDirectory: '../../coverage/libs/stepper',
-  snapshotSerializers: [
-    'jest-preset-angular/build/serializers/no-ng-attributes',
-    'jest-preset-angular/build/serializers/ng-snapshot',
-    'jest-preset-angular/build/serializers/html-comment',
-  ],
+  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
+  globals: {
+    'ts-jest': {
+      tsconfig: '<rootDir>/tsconfig.spec.json',
+      stringifyContentPathRegex: '\\.(html|svg)$',
+    },
+  },
 };

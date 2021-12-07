@@ -501,7 +501,7 @@ describe('StepperComponent', () => {
 
           fixture.detectChanges();
 
-          const activateStep = spyOn(component, 'activateStep');
+          const activateStep = jest.spyOn(component, 'activateStep');
 
           component.goTo(1, 'data');
 
@@ -513,7 +513,7 @@ describe('StepperComponent', () => {
 
           fixture.detectChanges();
 
-          expect(activateStep).toHaveBeenCalledWith(0, 'data');
+          expect(activateStep).toHaveBeenCalledWith(1, 'data');
         });
       });
 
@@ -526,7 +526,7 @@ describe('StepperComponent', () => {
 
           fixture.detectChanges();
 
-          const activateStep = spyOn(component, 'activateStep');
+          const activateStep = jest.spyOn(component, 'activateStep');
 
           component.goTo('s2', 'data');
 
@@ -543,7 +543,7 @@ describe('StepperComponent', () => {
 
           fixture.detectChanges();
 
-          const activateStep = spyOn(component, 'activateStep');
+          const activateStep = jest.spyOn(component, 'activateStep');
 
           component.goTo('non-existing', 'data');
 
@@ -556,7 +556,7 @@ describe('StepperComponent', () => {
 
     describe('goNext() method', () => {
       it('should call `goTo` with `1` and extra params', () => {
-        const goTo = spyOn(component, 'goTo');
+        const goTo = jest.spyOn(component, 'goTo');
 
         component.goNext('data');
 
@@ -566,7 +566,7 @@ describe('StepperComponent', () => {
 
     describe('goBack() method', () => {
       it('should call `goTo` with `-1` and extra params', () => {
-        const goTo = spyOn(component, 'goTo');
+        const goTo = jest.spyOn(component, 'goTo');
 
         component.goBack('data');
 
@@ -576,7 +576,7 @@ describe('StepperComponent', () => {
 
     describe('goToStart() method', () => {
       it('should call `activateStep` with `0` and extra params', () => {
-        const activateStep = spyOn(component, 'activateStep');
+        const activateStep = jest.spyOn(component, 'activateStep');
 
         component.goToStart('data');
 
@@ -591,7 +591,7 @@ describe('StepperComponent', () => {
           { component: 'step2', config: { name: 'Step 2', id: 's2' } },
         ];
 
-        const activateStep = spyOn(component, 'activateStep');
+        const activateStep = jest.spyOn(component, 'activateStep');
 
         component.goToEnd('data');
 

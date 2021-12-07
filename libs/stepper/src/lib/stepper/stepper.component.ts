@@ -29,7 +29,7 @@ interface SectionAnimation {
   providers: [{ provide: Stepper, useExisting: StepperComponent }],
 })
 export class StepperComponent implements OnInit, OnChanges, Stepper {
-  @Input() steps: OrchestratorConfigItem<StepConfig>[];
+  @Input() steps: OrchestratorConfigItem<StepConfig>[] = [];
   @Input() header: OrchestratorConfigItem;
   @Input() footer: OrchestratorConfigItem;
 
@@ -40,7 +40,6 @@ export class StepperComponent implements OnInit, OnChanges, Stepper {
   get stepsCount() {
     return this.steps ? this.steps.length : 0;
   }
-  set stepsCount(value) {}
 
   currentStepIdx: number | undefined;
   currentStep: OrchestratorConfigItem<StepConfig> | undefined;

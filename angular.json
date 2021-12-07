@@ -95,17 +95,35 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/stepper"],
           "options": {
-            "tsConfig": "libs/stepper/tsconfig.lib.json",
             "project": "libs/stepper/ng-package.json"
-          }
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/stepper/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/stepper/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/stepper"],
           "options": {
             "jestConfig": "libs/stepper/jest.config.js",
-            "tsConfig": "libs/stepper/tsconfig.spec.json",
-            "setupFile": "libs/stepper/src/test-setup.ts"
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/stepper/src/**/*.ts",
+              "libs/stepper/src/**/*.html"
+            ]
           }
         }
       },
