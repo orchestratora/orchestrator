@@ -19,7 +19,9 @@
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^12.0.0 || ^13.0.0",
-    "@angular/core": "^12.0.0 || ^13.0.0"
+    "@angular/core": "^12.0.0 || ^13.0.0",
+    "@angular/platform-browser": "^12.0.0 || ^13.0.0",
+    "rxjs": "^6.0.0"
   },
   "dependencies": {
     "@orchestrator/gen-io-ts": "^3.0.0",
