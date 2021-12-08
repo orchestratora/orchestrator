@@ -138,17 +138,35 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/ui-web"],
           "options": {
-            "tsConfig": "libs/ui-web/tsconfig.lib.json",
             "project": "libs/ui-web/ng-package.json"
-          }
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/ui-web/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/ui-web/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui-web"],
           "options": {
             "jestConfig": "libs/ui-web/jest.config.js",
-            "tsConfig": "libs/ui-web/tsconfig.spec.json",
-            "setupFile": "libs/ui-web/src/test-setup.ts"
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui-web/src/**/*.ts",
+              "libs/ui-web/src/**/*.html"
+            ]
           }
         }
       },

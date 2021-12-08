@@ -31,14 +31,6 @@ describe('UiWebTextAreaConfig', () => {
     },
   ));
 
-  it('should set `cols` to `20`', () => {
-    expect(getConfig().cols).toBe(20);
-  });
-
-  it('should set `rows` to `2`', () => {
-    expect(getConfig().rows).toBe(2);
-  });
-
   describe('placeholder prop', () => {
     it('should allow any string value', () => {
       expect(() =>
