@@ -181,6 +181,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/ui-web-example",
             "index": "apps/ui-web-example/src/index.html",
@@ -196,50 +197,48 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "apps/ui-web-example/src/environments/environment.ts",
                   "with": "apps/ui-web-example/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                }
-              ]
+              "outputHashing": "all"
             },
-            "dev": {
+            "development": {
+              "buildOptimizer": false,
               "optimization": false,
-              "outputHashing": "none",
-              "sourceMap": true,
-              "namedChunks": true,
-              "aot": true,
-              "extractLicenses": false,
               "vendorChunk": true,
-              "buildOptimizer": false
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "ui-web-example:build:dev"
-          },
           "configurations": {
             "production": {
               "browserTarget": "ui-web-example:build:production"
+            },
+            "development": {
+              "browserTarget": "ui-web-example:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -247,12 +246,21 @@
             "browserTarget": "ui-web-example:build"
           }
         },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/ui-web-example/src/**/*.ts",
+              "apps/ui-web-example/src/**/*.html"
+            ]
+          }
+        },
         "test": {
           "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/test"],
           "options": {
-            "jestConfig": "apps/ui-web-example/jest.config.js",
-            "tsConfig": "apps/ui-web-example/tsconfig.spec.json",
-            "setupFile": "apps/ui-web-example/src/test-setup.ts"
+            "jestConfig": "apps/test/jest.config.js",
+            "passWithNoTests": true
           }
         }
       },
@@ -260,23 +268,30 @@
     },
     "ui-web-example-e2e": {
       "root": "apps/ui-web-example-e2e",
+      "sourceRoot": "apps/ui-web-example-e2e/src",
       "projectType": "application",
-      "prefix": "",
       "architect": {
         "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
+          "builder": "@nrwl/cypress:cypress",
           "options": {
-            "protractorConfig": "apps/ui-web-example-e2e/protractor.conf.js",
-            "devServerTarget": "ui-web-example:serve"
+            "cypressConfig": "apps/ui-web-example-e2e/cypress.json",
+            "devServerTarget": "test:serve:development"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ui-web-example:serve:production"
+              "devServerTarget": "test:serve:production"
             }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/ui-web-example-e2e/**/*.{js,ts}"]
           }
         }
       },
-      "tags": ["e2e", "ui"],
+      "tags": [],
       "implicitDependencies": ["ui-web-example"]
     }
   }

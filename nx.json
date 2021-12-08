@@ -33,14 +33,19 @@
       "framework": "angular"
     },
     "@nrwl/angular:application": {
+      "style": "css",
       "linter": "eslint",
-      "unitTestRunner": "jest"
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
     },
     "@nrwl/angular:library": {
+      "style": "css",
       "linter": "eslint",
       "unitTestRunner": "jest"
     },
-    "@nrwl/angular:component": {}
+    "@nrwl/angular:component": {
+      "style": "css"
+    }
   },
   "affected": {
     "defaultBase": "master"

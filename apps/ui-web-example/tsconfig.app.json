@@ -1,12 +1,10 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
     "types": []
   },
-  "exclude": ["src/test-setup.ts", "**/*.spec.ts", "**/*.test.ts"],
-  "include": ["src/main.ts", "src/polyfills.ts"],
-  "angularCompilerOptions": {
-    "compilationMode": "full"
-  }
+  "files": ["src/main.ts", "src/polyfills.ts"],
+  "include": ["src/**/*.d.ts"],
+  "exclude": ["**/*.test.ts", "**/*.spec.ts"]
 }
