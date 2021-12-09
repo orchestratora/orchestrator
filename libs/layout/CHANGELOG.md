@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.1](https://github.com/orchestratora/orchestrator/compare/@orchestrator/layout@2.0.0-next.0...@orchestrator/layout@2.0.0-next.1) (2021-12-09)
+
+
+### Bug Fixes
+
+* **layout:** update peer dependencies ([da40f81](https://github.com/orchestratora/orchestrator/commit/da40f81a5d884590a72ba6bbc129287f2ff17ebd))
+
+
+
+
+
 # [2.0.0-next.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/layout@1.0.0...@orchestrator/layout@2.0.0-next.0) (2021-12-06)
 
 
