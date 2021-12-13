@@ -15,7 +15,7 @@ describe('@Option', () => {
   });
 
   it('should call `Property`', () => {
-    const property = jest.spyOn(genIoTs, 'Property');
+    jest.spyOn(genIoTs, 'Property');
 
     class Test {
       @Option() prop!: string;

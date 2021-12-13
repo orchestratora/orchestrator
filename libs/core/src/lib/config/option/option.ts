@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Property } from '@orchestrator/gen-io-ts';
 
 import { OptionAllowedValues } from './allowed-values';

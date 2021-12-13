@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   Dynamic1Component,
@@ -10,7 +10,6 @@ import {
   DynamicDirectivesModule,
   DynamicModule,
 } from 'ng-dynamic-component';
-
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
 import { COMPONENTS } from '../component-map';
 import { ConfigurationService } from '../config/configuration.service';
@@ -24,30 +23,32 @@ describe('OrchestratorComponent', () => {
   let component: OrchestratorComponent;
   let fixture: ComponentFixture<OrchestratorComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        DynamicModule,
-        DynamicAttributesModule,
-        DynamicDirectivesModule,
-      ],
-      declarations: [
-        OrchestratorComponent,
-        RenderItemComponent,
-        Dynamic1Component,
-        Dynamic2Component,
-      ],
-      providers: [
-        provideDynamicComponents([Dynamic1Component, Dynamic2Component]),
-        { provide: COMPONENTS, useValue: null, multi: true },
-        ComponentLocatorService,
-        ConfigurationService,
-        { provide: ErrorStrategy, useClass: SuppressErrorStrategy },
-        provideInjectorMap({}),
-      ],
-      teardown: { destroyAfterEach: false },
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          DynamicModule,
+          DynamicAttributesModule,
+          DynamicDirectivesModule,
+        ],
+        declarations: [
+          OrchestratorComponent,
+          RenderItemComponent,
+          Dynamic1Component,
+          Dynamic2Component,
+        ],
+        providers: [
+          provideDynamicComponents([Dynamic1Component, Dynamic2Component]),
+          { provide: COMPONENTS, useValue: null, multi: true },
+          ComponentLocatorService,
+          ConfigurationService,
+          { provide: ErrorStrategy, useClass: SuppressErrorStrategy },
+          provideInjectorMap({}),
+        ],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrchestratorComponent);

@@ -48,8 +48,8 @@ import { RenderItemComponent } from './render-item.component';
 class HostComponent {
   item: OrchestratorConfigItem<any>;
   context: any;
-  onComponentCreated() {}
-  onChildComponentsCreated() {}
+  onComponentCreated = jest.fn();
+  onChildComponentsCreated = jest.fn();
 }
 
 describe('RenderItemComponent', () => {
@@ -215,7 +215,6 @@ describe('RenderItemComponent', () => {
     });
 
     it('should emit `componentCreated` with `ComponentRef` when component instantiated', () => {
-      jest.spyOn(hostComp, 'onComponentCreated');
       hostComp.item = { component: Dynamic1Component };
 
       fixture.detectChanges();
@@ -229,7 +228,6 @@ describe('RenderItemComponent', () => {
     });
 
     it('should emit `childComponentsCreated` with `ComponentRef[]` when all components instantiated', () => {
-      jest.spyOn(hostComp, 'onChildComponentsCreated');
       hostComp.item = {
         component: Dynamic1Component,
         items: [
