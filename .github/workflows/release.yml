@@ -10,9 +10,6 @@ on:
   # pull_request:
   #   branches:
   #     - '**'
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
   workflow_run:
     workflows: ['Test Workflow']
     types:
@@ -20,12 +17,15 @@ on:
     branches:
       - master
       - next
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   release:
     needs: test
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/setup-node@v2.5.0
       - uses: actions/checkout@v2.4.0
@@ -39,7 +39,7 @@ jobs:
             npm-node-
       - name: Install Deps
         run: npm ci --ignore-scripts
-      - name: Build libs
+      - name: Build Libs
         run: npm run build:all
       - name: Pack Libs
         run: npm run pack
