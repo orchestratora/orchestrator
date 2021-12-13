@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OrchestratorConfigItem } from '@orchestrator/core';
 import {
@@ -7,7 +7,6 @@ import {
   Dynamic2Component,
   OrchestratorCoreTestingModule,
 } from '@orchestrator/core/testing';
-
 import { LayoutFlatConfig } from './layout-flat-host/layout-flat-config';
 import { LayoutFlatHostComponent } from './layout-flat-host/layout-flat-host.component';
 import { LayoutFlatComponent } from './layout-flat/layout-flat.component';
@@ -25,20 +24,22 @@ describe('LayoutModule', () => {
   let fixture: ComponentFixture<HostComponent>;
   let hostComp: HostComponent;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        LayoutModule.forRoot(),
-        OrchestratorCoreTestingModule.withComponents([
-          LayoutFlatHostComponent,
-          Dynamic1Component,
-          Dynamic2Component,
-        ]),
-      ],
-      declarations: [HostComponent, Dynamic1Component, Dynamic2Component],
-      teardown: { destroyAfterEach: false },
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          LayoutModule.forRoot(),
+          OrchestratorCoreTestingModule.withComponents([
+            LayoutFlatHostComponent,
+            Dynamic1Component,
+            Dynamic2Component,
+          ]),
+        ],
+        declarations: [HostComponent, Dynamic1Component, Dynamic2Component],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HostComponent);

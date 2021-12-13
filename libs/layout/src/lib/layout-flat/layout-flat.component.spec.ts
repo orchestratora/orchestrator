@@ -1,5 +1,5 @@
 import { Component, ComponentRef } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OrchestratorConfigItem } from '@orchestrator/core';
 import {
@@ -7,7 +7,6 @@ import {
   Dynamic2Component,
   OrchestratorCoreTestingModule,
 } from '@orchestrator/core/testing';
-
 import { LayoutFlexModule } from '../flex';
 import { LayoutFlatComponent } from './layout-flat.component';
 
@@ -29,24 +28,26 @@ describe('LayoutFlatComponent', () => {
   let fixture: ComponentFixture<HostComponent>;
   let hostComp: HostComponent;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        LayoutFlexModule,
-        OrchestratorCoreTestingModule.withComponents([
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          LayoutFlexModule,
+          OrchestratorCoreTestingModule.withComponents([
+            Dynamic1Component,
+            Dynamic2Component,
+          ]),
+        ],
+        declarations: [
+          LayoutFlatComponent,
+          HostComponent,
           Dynamic1Component,
           Dynamic2Component,
-        ]),
-      ],
-      declarations: [
-        LayoutFlatComponent,
-        HostComponent,
-        Dynamic1Component,
-        Dynamic2Component,
-      ],
-      teardown: { destroyAfterEach: false },
-    }).compileComponents();
-  }));
+        ],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HostComponent);

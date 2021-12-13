@@ -1,7 +1,6 @@
 import { Component, DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import { LayoutFlatAlignContentOptions } from '../types';
 import { FlexAlignContentDirective } from './flex-align-content.directive';
 
@@ -18,12 +17,14 @@ describe('Directive: FlexAlignContentDirective', () => {
   let hostComp: HostComponent;
   let directiveElem: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [FlexAlignContentDirective, HostComponent],
-      teardown: { destroyAfterEach: false },
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [FlexAlignContentDirective, HostComponent],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HostComponent);
