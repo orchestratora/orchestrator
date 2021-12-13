@@ -22,11 +22,11 @@ jobs:
         stage: [Build, Test, Lint]
         include:
           - stage: Build
-            cmd: 'npm run affected:build -- --parallel --base=${{ steps.test.outputs.BASE }}'
+            cmd: 'build'
           - stage: Test
-            cmd: 'npm run affected:test -- --parallel --base=${{ steps.test.outputs.BASE }}'
+            cmd: 'test'
           - stage: Lint
-            cmd: 'npm run affected:lint -- --parallel --base=${{ steps.test.outputs.BASE }}'
+            cmd: 'lint'
     steps:
       - uses: actions/setup-node@v2.5.0
       - uses: actions/checkout@v2.4.0
@@ -43,11 +43,11 @@ jobs:
       - name: Get Latest Tag
         uses: WyriHaximus/github-action-get-previous-tag@v1
         id: previoustag
-      - name: Set base ref as last tag
+      - name: Set base ref to last tag
         run: echo '::set-output name=BASE::${{ steps.previoustag.outputs.tag }}'
         if: ${{ github.ref == 'refs/heads/master' }}
-      - name: Set base ref as master
+      - name: Set base ref to master
         run: echo '::set-output name=BASE::origin/master'
         if: ${{ github.ref != 'refs/heads/master' }}
       - name: ${{ matrix.stage }}
-        run: ${{ matrix.cmd }}
+        run: npm run affected:${{ matrix.cmd }} -- --parallel --base=${{ steps.test.outputs.BASE }}
