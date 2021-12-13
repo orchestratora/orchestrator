@@ -46,8 +46,10 @@ jobs:
       - name: Set base ref to last tag
         run: echo '::set-output name=BASE::${{ steps.previoustag.outputs.tag }}'
         if: ${{ github.ref == 'refs/heads/master' }}
+        id: base
       - name: Set base ref to master
         run: echo '::set-output name=BASE::origin/master'
         if: ${{ github.ref != 'refs/heads/master' }}
+        id: base
       - name: ${{ matrix.stage }}
-        run: npm run affected:${{ matrix.cmd }} -- --parallel --base=${{ steps.test.outputs.BASE }}
+        run: npm run affected:${{ matrix.cmd }} -- --parallel --base=${{ steps.base.outputs.BASE }}

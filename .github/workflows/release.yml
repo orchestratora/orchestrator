@@ -44,6 +44,10 @@ jobs:
         run: npm ci --ignore-scripts
       - name: Auth NPM
         run: echo "//registry.npmjs.org/:_authToken=${{ env.NPM_TOKEN }}" > ~/.npmrc
+      - name: Auth Git
+        run: |
+          git config user.email "orchestratora@gmail.com"
+          git config user.name "Orchestrator"
       - name: Build Libs
         run: npm run build:all
       - name: Pack Libs
