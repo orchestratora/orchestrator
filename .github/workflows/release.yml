@@ -1,0 +1,51 @@
+name: Release Workflow
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  # push:
+  #   branches:
+  #     - master
+  #     - next
+  # pull_request:
+  #   branches:
+  #     - '**'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['Test Workflow']
+    types:
+      - completed
+    branches:
+      - master
+      - next
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v2.5.0
+      - uses: actions/checkout@v2.4.0
+        with:
+          fetch-depth: 0
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-node-
+      - name: Install Deps
+        run: npm ci --ignore-scripts
+      - name: Build libs
+        run: npm run build:all
+      - name: Pack Libs
+        run: npm run pack
+      - name: Release Latest
+        if: ${{ github.ref == 'refs/heads/naster' }}
+        run: npm run release
+      - name: Release Next
+        if: ${{ github.ref == 'refs/heads/next' }}
+        run: RELEASE_TAG=next npm run release:tag
