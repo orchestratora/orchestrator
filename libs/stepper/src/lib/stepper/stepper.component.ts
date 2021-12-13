@@ -138,6 +138,7 @@ export class StepperComponent implements OnInit, OnChanges, Stepper {
     return await this.activateStep(this.steps.length - 1, stepData);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async activateStep(idx: number, stepData?: any) {
     // Bounds normalization
     if (idx >= this.steps.length) {
@@ -150,7 +151,7 @@ export class StepperComponent implements OnInit, OnChanges, Stepper {
       return;
     }
 
-    // TODO(gund): do something with data...
+    // TODO(gund): do something with stepData...
 
     this.goingBack = this.currentStepIdx > idx;
 
