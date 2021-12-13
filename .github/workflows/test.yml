@@ -22,11 +22,11 @@ jobs:
         stage: [Build, Test, Lint]
         include:
           - stage: Build
-            cmd: 'npm run affected:build -- --parallel --base=origin/master'
+            cmd: 'npm run affected:build -- --parallel --base=${{ steps.test.outputs.BASE }}'
           - stage: Test
-            cmd: 'npm run affected:test -- --parallel --base=origin/master'
+            cmd: 'npm run affected:test -- --parallel --base=${{ steps.test.outputs.BASE }}'
           - stage: Lint
-            cmd: 'npm run affected:lint -- --parallel --base=origin/master'
+            cmd: 'npm run affected:lint -- --parallel --base=${{ steps.test.outputs.BASE }}'
     steps:
       - uses: actions/setup-node@v2.5.0
       - uses: actions/checkout@v2.4.0
@@ -40,5 +40,14 @@ jobs:
             npm-node-
       - name: Install Deps
         run: npm ci --ignore-scripts
+      - name: Get Latest Tag
+        uses: WyriHaximus/github-action-get-previous-tag@v1
+        id: previoustag
+      - name: Set base ref as last tag
+        run: echo '::set-output name=BASE::${{ steps.previoustag.outputs.tag }}'
+        if: ${{ github.ref == 'refs/heads/master' }}
+      - name: Set base ref as master
+        run: echo '::set-output name=BASE::origin/master'
+        if: ${{ github.ref != 'refs/heads/master' }}
       - name: ${{ matrix.stage }}
         run: ${{ matrix.cmd }}
