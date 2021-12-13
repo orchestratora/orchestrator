@@ -3,6 +3,7 @@
 > Extensible orchestrator of the UI for Angular
 
 [![Test Workflow](https://github.com/orchestratora/orchestrator/actions/workflows/test.yml/badge.svg)](https://github.com/orchestratora/orchestrator/actions/workflows/test.yml)
+[![Release Workflow](https://github.com/orchestratora/orchestrator/actions/workflows/release.yml/badge.svg)](https://github.com/orchestratora/orchestrator/actions/workflows/release.yml)
 
 ## Packages
 
