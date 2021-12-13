@@ -257,9 +257,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/test"],
+          "outputs": ["coverage/apps/ui-web-example"],
           "options": {
-            "jestConfig": "apps/test/jest.config.js",
+            "jestConfig": "apps/ui-web-example/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -275,11 +275,11 @@
           "builder": "@nrwl/cypress:cypress",
           "options": {
             "cypressConfig": "apps/ui-web-example-e2e/cypress.json",
-            "devServerTarget": "test:serve:development"
+            "devServerTarget": "ui-web-example:serve:development"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "test:serve:production"
+              "devServerTarget": "ui-web-example:serve:production"
             }
           }
         },
