@@ -29,6 +29,8 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      GIT_USER: ${{ secrets.GIT_USER }}
+      GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
     steps:
       - uses: actions/setup-node@v2.5.0
       - uses: actions/checkout@v2.4.0
@@ -46,8 +48,8 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=${{ env.NPM_TOKEN }}" > ~/.npmrc
       - name: Auth Git
         run: |
-          git config user.email "orchestratora@gmail.com"
-          git config user.name "Orchestrator"
+          git config user.email "${{ env.GIT_EMAIL }}"
+          git config user.name "${{ env.GIT_USER }}"
       - name: Build Libs
         run: npm run build:all
       - name: Pack Libs
