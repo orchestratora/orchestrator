@@ -1,18 +1,19 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import { UiWebImageHostComponent } from './ui-web-image-host.component';
 
 describe('UiWebImageHostComponent', () => {
   let component: UiWebImageHostComponent;
   let fixture: ComponentFixture<UiWebImageHostComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [UiWebImageHostComponent],
-      teardown: { destroyAfterEach: false },
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UiWebImageHostComponent],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UiWebImageHostComponent);

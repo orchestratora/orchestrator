@@ -1,18 +1,19 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import { UiWebSelectComponent } from './ui-web-select.component';
 
 describe('UiWebSelectComponent', () => {
   let component: UiWebSelectComponent;
   let fixture: ComponentFixture<UiWebSelectComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [UiWebSelectComponent],
-      teardown: { destroyAfterEach: false },
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UiWebSelectComponent],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UiWebSelectComponent);

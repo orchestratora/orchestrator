@@ -254,10 +254,6 @@ describe('UiWebTextAreaConfig', () => {
   });
 });
 
-function getConfig(): UiWebTextAreaConfig {
-  return TestBed.inject(UiWebTextAreaConfig);
-}
-
 function getConfigSvc(): ConfigurationService {
   return TestBed.inject(ConfigurationService);
 }

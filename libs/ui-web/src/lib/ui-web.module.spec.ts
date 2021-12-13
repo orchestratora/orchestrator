@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OrchestratorConfigItem } from '@orchestrator/core';
 import { OrchestratorCoreTestingModule } from '@orchestrator/core/testing';
-
 import {
   UiWebButtonHostComponent,
   UiWebHeadingHostComponent,
@@ -27,24 +26,26 @@ describe('UiWebModule', () => {
   let fixture: ComponentFixture<HostComponent>;
   let hostComp: HostComponent;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        UiWebModule.forRoot(),
-        OrchestratorCoreTestingModule.withComponents([
-          UiWebButtonHostComponent,
-          UiWebHeadingHostComponent,
-          UiWebImageHostComponent,
-          UiWebInputHostComponent,
-          UiWebSelectHostComponent,
-          UiWebTextareaHostComponent,
-          UiWebTextHostComponent,
-        ]),
-      ],
-      declarations: [HostComponent],
-      teardown: { destroyAfterEach: false },
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          UiWebModule.forRoot(),
+          OrchestratorCoreTestingModule.withComponents([
+            UiWebButtonHostComponent,
+            UiWebHeadingHostComponent,
+            UiWebImageHostComponent,
+            UiWebInputHostComponent,
+            UiWebSelectHostComponent,
+            UiWebTextareaHostComponent,
+            UiWebTextHostComponent,
+          ]),
+        ],
+        declarations: [HostComponent],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HostComponent);

@@ -1,20 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-
-import { UiWebSelectHostComponent } from './ui-web-select-host.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { UiWebSelectHostComponent } from './ui-web-select-host.component';
 
 describe('UiWebSelectHostComponent', () => {
   let component: UiWebSelectHostComponent;
   let fixture: ComponentFixture<UiWebSelectHostComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [UiWebSelectHostComponent],
-      schemas: [NO_ERRORS_SCHEMA],
-      teardown: { destroyAfterEach: false },
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UiWebSelectHostComponent],
+        schemas: [NO_ERRORS_SCHEMA],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UiWebSelectHostComponent);

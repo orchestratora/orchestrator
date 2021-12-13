@@ -1,18 +1,19 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import { UiWebInputHostComponent } from './ui-web-input-host.component';
 
 describe('UiWebInputHostComponent', () => {
   let component: UiWebInputHostComponent;
   let fixture: ComponentFixture<UiWebInputHostComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [UiWebInputHostComponent],
-      teardown: { destroyAfterEach: false },
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UiWebInputHostComponent],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UiWebInputHostComponent);

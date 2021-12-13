@@ -1,19 +1,19 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import { UiWebTextHostComponent } from './ui-web-text-host.component';
-import { SimpleChange } from '@angular/core';
 
 describe('UiWebTextHostComponent', () => {
   let component: UiWebTextHostComponent;
   let fixture: ComponentFixture<UiWebTextHostComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [UiWebTextHostComponent],
-      teardown: { destroyAfterEach: false },
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UiWebTextHostComponent],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UiWebTextHostComponent);
