@@ -44,7 +44,7 @@ jobs:
       - name: Pack Libs
         run: npm run pack
       - name: Release Latest
-        if: ${{ github.ref == 'refs/heads/naster' }}
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: npm run release
       - name: Release Next
         if: ${{ github.ref == 'refs/heads/next' }}
