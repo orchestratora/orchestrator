@@ -43,13 +43,8 @@ jobs:
       - name: Get Latest Tag
         uses: WyriHaximus/github-action-get-previous-tag@v1
         id: previoustag
-      - name: Set base ref to last tag
-        run: echo '::set-output name=BASE::${{ steps.previoustag.outputs.tag }}'
-        if: ${{ github.ref == 'refs/heads/master' }}
-        id: base
-      - name: Set base ref to master
-        run: echo '::set-output name=BASE::origin/master'
-        if: ${{ github.ref != 'refs/heads/master' }}
-        id: base
+      - name: Set base ref
+        run: echo '::set-output name=BASE::${{ github.ref == 'refs/heads/master' && steps.previoustag.outputs.tag || 'origin/master' }}'
+        id: baseref
       - name: ${{ matrix.stage }}
-        run: npm run affected:${{ matrix.cmd }} -- --parallel --base=${{ steps.base.outputs.BASE }}
+        run: npm run affected:${{ matrix.cmd }} -- --parallel --base=${{ steps.baseref.outputs.BASE }}
