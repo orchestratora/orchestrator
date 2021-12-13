@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.2](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@2.0.0-next.1...@orchestrator/core@2.0.0-next.2) (2021-12-10)
+
+
+### Bug Fixes
+
+* **core:** re-export gen-io-ts lib ([34d2268](https://github.com/orchestratora/orchestrator/commit/34d2268414e8421d1f3b1d548f0e2802a731bbd2))
+
+
+
+
+
+# [2.0.0-next.1](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@2.0.0-next.0...@orchestrator/core@2.0.0-next.1) (2021-12-09)
+
+
+### Bug Fixes
+
+* **core:** replace deprecate pipe usage from fp-ts ([cc8f1a3](https://github.com/orchestratora/orchestrator/commit/cc8f1a37b5b7a446b46fa4da1ef5593d592783e0))
+* **core:** update peer dependencies ([b8927dd](https://github.com/orchestratora/orchestrator/commit/b8927dd7a6e09ff8f7a8b917860916d28a2f413c))
+
+
+
+
+
+# [2.0.0-next.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@1.0.0...@orchestrator/core@2.0.0-next.0) (2021-12-06)
+
+
+### Features
+
+* **ng:** update to Angular v13 ([a95e8d4](https://github.com/orchestratora/orchestrator/commit/a95e8d4848a29b123a2951407de7fb0e4cfda2d3))
+
+
+### BREAKING CHANGES
+
+* **ng:** Libraries updated to Angular v13 and compiled using partial compilation
+
+
+
+
+
 # [1.0.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@1.0.0-next.0...@orchestrator/core@1.0.0) (2020-08-15)
 
 **Note:** Version bump only for package @orchestrator/core

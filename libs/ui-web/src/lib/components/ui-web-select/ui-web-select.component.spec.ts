@@ -1,17 +1,19 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import { UiWebSelectComponent } from './ui-web-select.component';
 
 describe('UiWebSelectComponent', () => {
   let component: UiWebSelectComponent;
   let fixture: ComponentFixture<UiWebSelectComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [UiWebSelectComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UiWebSelectComponent],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UiWebSelectComponent);
@@ -206,7 +208,7 @@ describe('UiWebSelectComponent', () => {
 
       expect(groupsElem.length).toBe(2);
 
-      const [group1, group2] = groupsElem.map(group =>
+      const [group1, group2] = groupsElem.map((group) =>
         group.queryAll(By.css('option')),
       );
 
@@ -237,7 +239,7 @@ describe('UiWebSelectComponent', () => {
 
       expect(groupsElem.length).toBe(2);
 
-      const [group1, group2] = groupsElem.map(group =>
+      const [group1, group2] = groupsElem.map((group) =>
         group.queryAll(By.css('option')),
       );
 

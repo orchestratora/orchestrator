@@ -90,6 +90,7 @@ describe('Service: MappedInjectorFactory', () => {
 
       TestBed.configureTestingModule({
         providers: [MappedInjectorFactory, provideInjectorMap(injectorMap)],
+        teardown: { destroyAfterEach: false },
       });
 
       const factory = TestBed.inject(MappedInjectorFactory);

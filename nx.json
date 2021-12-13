@@ -7,33 +7,47 @@
     "tslint.json": "*",
     "nx.json": "*"
   },
-  "projects": {
-    "core": {
-      "tags": ["components", "core"]
-    },
-    "layout": {
-      "tags": ["components", "layout"]
-    },
-    "ui-web": {
-      "tags": ["components", "ui"]
-    },
-    "ui-web-example": {
-      "tags": ["example", "ui"]
-    },
-    "ui-web-example-e2e": {
-      "tags": ["e2e", "ui"],
-      "implicitDependencies": ["ui-web-example"]
-    },
-    "stepper": {
-      "tags": ["components", "ui"]
-    }
-  },
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "parallel": 1
       }
     }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "defaultProject": "core",
+  "generators": {
+    "@nrwl/schematics:library": {
+      "framework": "angular"
+    },
+    "@nrwl/angular:application": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "css"
+    }
+  },
+  "affected": {
+    "defaultBase": "master"
   }
 }

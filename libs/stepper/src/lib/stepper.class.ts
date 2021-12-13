@@ -5,10 +5,10 @@ export abstract class Stepper {
   currentStep: OrchestratorDynamicComponent | undefined;
   currentStepIdx: number | undefined;
   stepsCount: number;
-  abstract async goTo(offsetOrName: string | number, stepData?: any);
-  abstract async goNext(stepData?: any);
-  abstract async goBack(stepData?: any);
-  abstract async goToStart(stepData?: any);
-  abstract async goToEnd(stepData?: any);
-  abstract async activateStep(idx: number, stepData?: any);
+  abstract goTo(offsetOrName: string | number, stepData?: any): Promise<void>;
+  abstract goNext(stepData?: any): Promise<void>;
+  abstract goBack(stepData?: any): Promise<void>;
+  abstract goToStart(stepData?: any): Promise<void>;
+  abstract goToEnd(stepData?: any): Promise<void>;
+  abstract activateStep(idx: number, stepData?: any): Promise<void>;
 }

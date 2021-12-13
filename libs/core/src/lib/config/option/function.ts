@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { Property } from '@orchestrator/gen-io-ts';
 import { chain } from 'fp-ts/lib/Either';
-import { pipe } from 'fp-ts/lib/pipeable';
+import { pipe } from 'fp-ts/function';
 import * as t from 'io-ts';
 
 import { addConfig } from '../../metadata/configuration';
@@ -24,7 +24,7 @@ export const FunctionFromMeta = new t.Type<FunctionWithMeta, FunctionMeta>(
   (m, c) =>
     pipe(
       t.UnknownRecord.validate(m, c),
-      chain(obj => {
+      chain((obj) => {
         if (!hasFunctionMeta(obj)) {
           return t.failure(m, c);
         }
@@ -48,7 +48,7 @@ export const FunctionFromMeta = new t.Type<FunctionWithMeta, FunctionMeta>(
         return t.success(fn);
       }),
     ),
-  fn => ({ args: fn.args, body: fn.body }),
+  (fn) => ({ args: fn.args, body: fn.body }),
 );
 
 export const FunctionFromString = new t.Type<FunctionWithMeta, string>(
@@ -57,7 +57,7 @@ export const FunctionFromString = new t.Type<FunctionWithMeta, string>(
   (m, c) =>
     pipe(
       t.string.validate(m, c),
-      chain(str => {
+      chain((str) => {
         try {
           return FunctionFromMeta.validate(parseFunction(str), c);
         } catch {
@@ -65,16 +65,17 @@ export const FunctionFromString = new t.Type<FunctionWithMeta, string>(
         }
       }),
     ),
-  fn => fn.toString(),
+  (fn) => fn.toString(),
 );
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const FunctionWithMeta = new t.Type<FunctionWithMeta, Function>(
   'FunctionWithMeta',
   isFunctionWithMeta,
   (m, c) =>
     pipe(
       t.Function.validate(m, c),
-      chain(fn => {
+      chain((fn) => {
         try {
           // Reconstruct function from string to reorder arguments
           return FunctionFromString.validate(fn.toString(), c);
@@ -83,7 +84,7 @@ export const FunctionWithMeta = new t.Type<FunctionWithMeta, Function>(
         }
       }),
     ),
-  fn => fn,
+  (fn) => fn,
 );
 
 export function OptionFunction(

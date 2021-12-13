@@ -1,5 +1,5 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OrchestratorCoreTestingModule } from '@orchestrator/core/testing';
 
@@ -34,21 +34,21 @@ describe('LayoutFlatHostComponent', () => {
       ],
       declarations: [LayoutFlatHostComponent, HostComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      teardown: { destroyAfterEach: false },
     });
   });
 
-  const init = async(() => {
-    TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(HostComponent);
-      hostComp = fixture.componentInstance;
-      compElem = fixture.debugElement.query(
-        By.directive(LayoutFlatHostComponent),
-      );
-    });
-  });
+  const init = async () => {
+    await TestBed.compileComponents();
+    fixture = TestBed.createComponent(HostComponent);
+    hostComp = fixture.componentInstance;
+    compElem = fixture.debugElement.query(
+      By.directive(LayoutFlatHostComponent),
+    );
+  };
 
   describe('by default', () => {
-    beforeEach(init);
+    beforeEach(waitForAsync(init));
 
     it('should render `orc-layout-flat` component', () => {
       fixture.detectChanges();
@@ -103,24 +103,27 @@ describe('LayoutFlatHostComponent', () => {
   describe('default layout styles from DI `LayoutFlatConfig`', () => {
     let defaultConfig: LayoutFlatConfig;
 
-    beforeEach(done => {
-      defaultConfig = {
-        alignContent: 'space-around',
-        alignItems: 'flex-start',
-        direction: 'row',
-        justify: 'space-between',
-        wrap: 'nowrap',
-      };
+    beforeEach(
+      waitForAsync(() => {
+        defaultConfig = {
+          alignContent: 'space-around',
+          alignItems: 'flex-start',
+          direction: 'row',
+          justify: 'space-between',
+          wrap: 'nowrap',
+        };
 
-      TestBed.configureTestingModule({
-        providers: [{ provide: LayoutFlatConfig, useValue: defaultConfig }],
-      }).overrideTemplate(
-        HostComponent,
-        `<orc-orchestrator [config]="items"></orc-orchestrator>`,
-      );
+        TestBed.configureTestingModule({
+          providers: [{ provide: LayoutFlatConfig, useValue: defaultConfig }],
+          teardown: { destroyAfterEach: false },
+        }).overrideTemplate(
+          HostComponent,
+          `<orc-orchestrator [config]="items"></orc-orchestrator>`,
+        );
 
-      init(done);
-    });
+        init();
+      }),
+    );
 
     function updateCompElem() {
       fixture.detectChanges();

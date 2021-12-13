@@ -1,15 +1,12 @@
 import { Component, DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import { LayoutFlatAlignItemsOptions } from '../types';
 import { FlexAlignItemsDirective } from './flex-align-items.directive';
 
 @Component({
   selector: 'orc-host-comp',
-  template: `
-    <div [orcFxAlignItems]="alignItems"></div>
-  `,
+  template: ` <div [orcFxAlignItems]="alignItems"></div> `,
 })
 class HostComponent {
   alignItems: LayoutFlatAlignItemsOptions;
@@ -20,11 +17,14 @@ describe('Directive: FlexAlignItemsDirective', () => {
   let hostComp: HostComponent;
   let directiveElem: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [FlexAlignItemsDirective, HostComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [FlexAlignItemsDirective, HostComponent],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HostComponent);

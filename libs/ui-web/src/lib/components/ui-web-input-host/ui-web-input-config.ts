@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Option, OptionType } from '@orchestrator/core';
+import { Option } from '@orchestrator/core';
 
 import { FormAttributesConfig } from '../../form-attributes-config';
 

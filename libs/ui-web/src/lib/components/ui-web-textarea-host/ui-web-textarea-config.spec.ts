@@ -16,6 +16,7 @@ describe('UiWebTextAreaConfig', () => {
         ConfigurationService,
         { provide: ErrorStrategy, useClass: ThrowErrorStrategy },
       ],
+      teardown: { destroyAfterEach: false },
     });
   });
 
@@ -29,14 +30,6 @@ describe('UiWebTextAreaConfig', () => {
       expect(config).toEqual(expect.any(FormAttributesConfig));
     },
   ));
-
-  it('should set `cols` to `20`', () => {
-    expect(getConfig().cols).toBe(20);
-  });
-
-  it('should set `rows` to `2`', () => {
-    expect(getConfig().rows).toBe(2);
-  });
 
   describe('placeholder prop', () => {
     it('should allow any string value', () => {
@@ -260,10 +253,6 @@ describe('UiWebTextAreaConfig', () => {
     });
   });
 });
-
-function getConfig(): UiWebTextAreaConfig {
-  return TestBed.inject(UiWebTextAreaConfig);
-}
 
 function getConfigSvc(): ConfigurationService {
   return TestBed.inject(ConfigurationService);

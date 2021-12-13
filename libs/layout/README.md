@@ -1,25 +1,25 @@
-# Layout
+# @orchestrator/layout
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.0.
+> A set of simple layout components for Orchestrator library.
 
-## Code scaffolding
+![@orchestrator/layout](https://img.shields.io/npm/v/@orchestrator/layout)
 
-Run `ng generate component component-name --project layout` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project layout`.
+## Registration
 
-> Note: Don't forget to add `--project layout` or else it will be added to the default project in your `angular.json` file.
+```ts
+import { NgModule } from '@angular/core';
+import { OrchestratorCoreModule } from '@orchestrator/core';
+import { LayoutModule } from '@orchestrator/layout';
 
-## Build
+@NgModule({
+  imports: [OrchestratorCoreModule.forRoot(), LayoutModule.forRoot()],
+})
+export class AppModule {}
+```
 
-Run `ng build layout` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Components list
 
-## Publishing
-
-After building your library with `ng build layout`, go to the dist folder `cd dist/layout` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test layout` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+| Component                                                                           | Description                                                     |
+| ----------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| [orc-layout-flat-host](/libs/layout/src/lib/layout-flat-host/layout-flat-config.ts) | Allows to render components in a simple flat list using flexbox |
+|                                                                                     |                                                                 |

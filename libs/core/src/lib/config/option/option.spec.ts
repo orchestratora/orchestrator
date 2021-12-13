@@ -10,25 +10,29 @@ import * as required from './required';
 import * as type from './type';
 
 describe('@Option', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should call `Property`', () => {
-    const property = spyOn(genIoTs, 'Property').and.callThrough();
+    jest.spyOn(genIoTs, 'Property');
 
     class Test {
-      @Option() prop: string;
+      @Option() prop!: string;
     }
 
     genIoType(Test);
 
-    expect(property).toHaveBeenCalled();
+    expect(genIoTs.Property).toHaveBeenCalled();
   });
 
   describe('required config', () => {
     it('should call `OptionRequired` when set to `true`', () => {
-      const optionRequired = spyOn(required, 'OptionRequired');
+      const optionRequired = jest.spyOn(required, 'OptionRequired');
 
       class Test {
         @Option({ required: true })
-        prop: string;
+        prop!: string;
       }
 
       genIoType(Test);
@@ -37,11 +41,11 @@ describe('@Option', () => {
     });
 
     it('should NOT call `OptionRequired` if not set to `true`', () => {
-      const optionRequired = spyOn(required, 'OptionRequired');
+      const optionRequired = jest.spyOn(required, 'OptionRequired');
 
       class Test {
         @Option({ required: false })
-        prop: string;
+        prop!: string;
       }
 
       genIoType(Test);
@@ -52,11 +56,11 @@ describe('@Option', () => {
 
   describe('type config', () => {
     it('should call `OptionType` with `config.type`', () => {
-      const optionType = spyOn(type, 'OptionType');
+      const optionType = jest.spyOn(type, 'OptionType');
 
       class Test {
         @Option({ type: 'type' })
-        prop: string;
+        prop!: string;
       }
 
       genIoType(Test);
@@ -67,11 +71,11 @@ describe('@Option', () => {
 
   describe('range config', () => {
     it('should call `OptionRange` with `config.range.min, config.range.max, config.range.step`', () => {
-      const optionRange = spyOn(range, 'OptionRange');
+      const optionRange = jest.spyOn(range, 'OptionRange');
 
       class Test {
         @Option({ range: { min: 1, max: 2, step: 3 } })
-        prop: string;
+        prop!: string;
       }
 
       genIoType(Test);
@@ -82,11 +86,11 @@ describe('@Option', () => {
 
   describe('integer config', () => {
     it('should call `OptionInteger` if set to `true`', () => {
-      const optionInteger = spyOn(integer, 'OptionInteger');
+      const optionInteger = jest.spyOn(integer, 'OptionInteger');
 
       class Test {
         @Option({ integer: true })
-        prop: string;
+        prop!: string;
       }
 
       genIoType(Test);
@@ -95,11 +99,11 @@ describe('@Option', () => {
     });
 
     it('should NOT call `OptionInteger` if not set to `true`', () => {
-      const optionInteger = spyOn(integer, 'OptionInteger');
+      const optionInteger = jest.spyOn(integer, 'OptionInteger');
 
       class Test {
         @Option({ integer: false })
-        prop: string;
+        prop!: string;
       }
 
       genIoType(Test);
@@ -110,11 +114,14 @@ describe('@Option', () => {
 
   describe('allowedValues config', () => {
     it('should call `OptionAllowedValues` with `...config.allowedValues`', () => {
-      const optionAllowedValues = spyOn(allowedValues, 'OptionAllowedValues');
+      const optionAllowedValues = jest.spyOn(
+        allowedValues,
+        'OptionAllowedValues',
+      );
 
       class Test {
         @Option({ allowedValues: [1, 'two', true] })
-        prop: string;
+        prop!: string;
       }
 
       genIoType(Test);

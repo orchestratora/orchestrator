@@ -1,25 +1,31 @@
-# UiWeb
+# @orchestrator/ui-web
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.0.
+> A set of basic HTML elements as components for Orchestrator library.
 
-## Code scaffolding
+![@orchestrator/ui-web](https://img.shields.io/npm/v/@orchestrator/ui-web)
 
-Run `ng generate component component-name --project ui-web` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ui-web`.
+## Registration
 
-> Note: Don't forget to add `--project ui-web` or else it will be added to the default project in your `angular.json` file.
+```ts
+import { NgModule } from '@angular/core';
+import { OrchestratorCoreModule } from '@orchestrator/core';
+import { UiWebModule } from '@orchestrator/ui-web';
 
-## Build
+@NgModule({
+  imports: [OrchestratorCoreModule.forRoot(), UiWebModule.forRoot()],
+})
+export class AppModule {}
+```
 
-Run `ng build ui-web` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Components list
 
-## Publishing
-
-After building your library with `ng build ui-web`, go to the dist folder `cd dist/ui-web` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test ui-web` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+| Component                                                                                                  | Description              |
+| ---------------------------------------------------------------------------------------------------------- | ------------------------ |
+| [orc-ui-web-button-host](/libs/ui-web/src/lib/components/ui-web-button-host/ui-web-button-config.ts)       | Button element           |
+| [orc-ui-web-heading-host](/libs/ui-web/src/lib/components/ui-web-heading-host/ui-web-heading-config.ts)    | Heading element (h1..h6) |
+| [orc-ui-web-image-host](/libs/ui-web/src/lib/components/ui-web-image-host/ui-web-image-config.ts)          | Image element            |
+| [orc-ui-web-input-host](/libs/ui-web/src/lib/components/ui-web-input-host/ui-web-input-config.ts)          | Input element            |
+| [orc-ui-web-select-host](/libs/ui-web/src/lib/components/ui-web-select-host/ui-web-select-config.ts)       | Select element           |
+| [orc-ui-web-text-host](/libs/ui-web/src/lib/components/ui-web-text-host/ui-web-text-config.ts)             | Paragraph element        |
+| [orc-ui-web-textarea-host](/libs/ui-web/src/lib/components/ui-web-textarea-host/ui-web-textarea-config.ts) | Paragraph element        |
+|                                                                                                            |                          |

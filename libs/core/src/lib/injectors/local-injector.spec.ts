@@ -1,13 +1,13 @@
+import { Injector } from '@angular/core';
 import { createLocalInjector } from './local-injector';
 import * as localInjectorMap from './local-injector-map';
 
 describe('createLocalInjector()', () => {
   describe('get() method', () => {
     it('should create injector from `getLocalProviders()`', () => {
-      const getLocalProviders = spyOn(
-        localInjectorMap,
-        'getLocalProviders',
-      ).and.returnValue([]);
+      const getLocalProviders = jest
+        .spyOn(localInjectorMap, 'getLocalProviders')
+        .mockReturnValue([]);
 
       const parentGet = jest.fn();
       const localInjector = createLocalInjector({
@@ -30,7 +30,7 @@ describe('createLocalInjector()', () => {
         }),
       );
 
-      const { getInjector } = getLocalProviders.calls.mostRecent().args[0];
+      const { getInjector } = getLocalProviders.mock.calls[0][0];
 
       expect(getInjector).toEqual(expect.any(Function));
       expect(getInjector()).toBe(localInjector);
@@ -40,8 +40,7 @@ describe('createLocalInjector()', () => {
 
       expect(parentGet).toHaveBeenCalledWith(
         'something',
-        undefined,
-        expect.anything(),
+        Injector.THROW_IF_NOT_FOUND,
       );
     });
   });

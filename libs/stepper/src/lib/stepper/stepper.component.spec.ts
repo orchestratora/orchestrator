@@ -1,21 +1,23 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
 import { StepperComponent } from './stepper.component';
 
 describe('StepperComponent', () => {
   let component: StepperComponent;
   let fixture: ComponentFixture<StepperComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule],
-      declarations: [StepperComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [NoopAnimationsModule],
+        declarations: [StepperComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StepperComponent);
@@ -500,7 +502,7 @@ describe('StepperComponent', () => {
 
           fixture.detectChanges();
 
-          const activateStep = spyOn(component, 'activateStep');
+          const activateStep = jest.spyOn(component, 'activateStep');
 
           component.goTo(1, 'data');
 
@@ -512,7 +514,7 @@ describe('StepperComponent', () => {
 
           fixture.detectChanges();
 
-          expect(activateStep).toHaveBeenCalledWith(0, 'data');
+          expect(activateStep).toHaveBeenCalledWith(1, 'data');
         });
       });
 
@@ -525,7 +527,7 @@ describe('StepperComponent', () => {
 
           fixture.detectChanges();
 
-          const activateStep = spyOn(component, 'activateStep');
+          const activateStep = jest.spyOn(component, 'activateStep');
 
           component.goTo('s2', 'data');
 
@@ -542,7 +544,7 @@ describe('StepperComponent', () => {
 
           fixture.detectChanges();
 
-          const activateStep = spyOn(component, 'activateStep');
+          const activateStep = jest.spyOn(component, 'activateStep');
 
           component.goTo('non-existing', 'data');
 
@@ -555,7 +557,7 @@ describe('StepperComponent', () => {
 
     describe('goNext() method', () => {
       it('should call `goTo` with `1` and extra params', () => {
-        const goTo = spyOn(component, 'goTo');
+        const goTo = jest.spyOn(component, 'goTo');
 
         component.goNext('data');
 
@@ -565,7 +567,7 @@ describe('StepperComponent', () => {
 
     describe('goBack() method', () => {
       it('should call `goTo` with `-1` and extra params', () => {
-        const goTo = spyOn(component, 'goTo');
+        const goTo = jest.spyOn(component, 'goTo');
 
         component.goBack('data');
 
@@ -575,7 +577,7 @@ describe('StepperComponent', () => {
 
     describe('goToStart() method', () => {
       it('should call `activateStep` with `0` and extra params', () => {
-        const activateStep = spyOn(component, 'activateStep');
+        const activateStep = jest.spyOn(component, 'activateStep');
 
         component.goToStart('data');
 
@@ -590,7 +592,7 @@ describe('StepperComponent', () => {
           { component: 'step2', config: { name: 'Step 2', id: 's2' } },
         ];
 
-        const activateStep = spyOn(component, 'activateStep');
+        const activateStep = jest.spyOn(component, 'activateStep');
 
         component.goToEnd('data');
 

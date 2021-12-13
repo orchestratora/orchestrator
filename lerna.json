@@ -5,7 +5,7 @@
   "command": {
     "publish": {
       "conventionalCommits": true,
-      "gitRemote": "pub",
+      "gitRemote": "origin",
       "allowBranch": ["master", "next"],
       "contents": "dist",
       "ignoreChanges": ["**/*.spec.ts", "**/*.stories.ts"],

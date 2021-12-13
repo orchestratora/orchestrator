@@ -28,8 +28,8 @@ interface SectionAnimation {
   animations: [...getStepAnimation('stepAnimation')],
   providers: [{ provide: Stepper, useExisting: StepperComponent }],
 })
-export class StepperComponent extends Stepper implements OnInit, OnChanges {
-  @Input() steps: OrchestratorConfigItem<StepConfig>[];
+export class StepperComponent implements OnInit, OnChanges, Stepper {
+  @Input() steps: OrchestratorConfigItem<StepConfig>[] = [];
   @Input() header: OrchestratorConfigItem;
   @Input() footer: OrchestratorConfigItem;
 
@@ -98,9 +98,7 @@ export class StepperComponent extends Stepper implements OnInit, OnChanges {
     this.animationFooter,
   ];
 
-  constructor(private cdr: ChangeDetectorRef) {
-    super();
-  }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     if (this.steps) {
@@ -140,6 +138,7 @@ export class StepperComponent extends Stepper implements OnInit, OnChanges {
     return await this.activateStep(this.steps.length - 1, stepData);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async activateStep(idx: number, stepData?: any) {
     // Bounds normalization
     if (idx >= this.steps.length) {
@@ -152,7 +151,7 @@ export class StepperComponent extends Stepper implements OnInit, OnChanges {
       return;
     }
 
-    // TODO(gund): do something with data...
+    // TODO(gund): do something with stepData...
 
     this.goingBack = this.currentStepIdx > idx;
 
@@ -169,7 +168,7 @@ export class StepperComponent extends Stepper implements OnInit, OnChanges {
   }
 
   private async toStep(id: string, stepData?: any) {
-    const idx = this.steps.findIndex(step => step.config.id === id);
+    const idx = this.steps.findIndex((step) => step.config.id === id);
 
     if (idx !== -1) {
       return await this.activateStep(idx, stepData);
@@ -181,7 +180,7 @@ export class StepperComponent extends Stepper implements OnInit, OnChanges {
   }
 
   private updateAnimations() {
-    this.animations.forEach(animation => {
+    this.animations.forEach((animation) => {
       animation.animate = animation.shouldAnimate();
 
       if (animation.animate) {

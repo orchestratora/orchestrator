@@ -1,15 +1,12 @@
 import { Component, DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import { LayoutFlatJustifyOptions } from '../types';
 import { FlexJustifyContentDirective } from './flex-justify-content.directive';
 
 @Component({
   selector: 'orc-host-comp',
-  template: `
-    <div [orcFxJustifyContent]="justifyContent"></div>
-  `,
+  template: ` <div [orcFxJustifyContent]="justifyContent"></div> `,
 })
 class HostComponent {
   justifyContent: LayoutFlatJustifyOptions;
@@ -20,11 +17,14 @@ describe('Directive: FlexJustifyContent', () => {
   let hostComp: HostComponent;
   let directiveElem: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [FlexJustifyContentDirective, HostComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [FlexJustifyContentDirective, HostComponent],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HostComponent);

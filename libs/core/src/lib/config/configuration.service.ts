@@ -2,7 +2,7 @@ import { Injectable, Injector, Type } from '@angular/core';
 import { genIoType } from '@orchestrator/gen-io-ts';
 import { fold as foldEither, isLeft, left, map } from 'fp-ts/lib/Either';
 import { fold, none, Option, some } from 'fp-ts/lib/Option';
-import { pipe } from 'fp-ts/lib/pipeable';
+import { pipe } from 'fp-ts/function';
 import { Errors, Type as IoCodec, Validation } from 'io-ts';
 
 import { ErrorStrategy } from '../error-strategy/error-strategy';
@@ -125,7 +125,7 @@ export class ConfigurationService {
     fnBody: string,
     boundArgs: any[],
   ): FunctionWithMeta {
-    const guardedFn = (((...args: any[]) => {
+    const guardedFn = ((...args: any[]) => {
       try {
         return fn(...args);
       } catch (e) {
@@ -136,7 +136,7 @@ export class ConfigurationService {
           ]),
         );
       }
-    }) as unknown) as FunctionWithMeta;
+    }) as unknown as FunctionWithMeta;
 
     guardedFn.args = fn.args;
     guardedFn.body = fn.body;

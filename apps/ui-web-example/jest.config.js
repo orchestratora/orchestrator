@@ -1,5 +1,12 @@
 module.exports = {
-  name: 'ui-web-example',
-  preset: '../../jest.config.js',
-  coverageDirectory: '../../coverage/apps/ui-web-example/',
+  displayName: 'test',
+  preset: '../../jest.preset.js',
+  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
+  coverageDirectory: '../../coverage/apps/test',
+  globals: {
+    'ts-jest': {
+      tsconfig: '<rootDir>/tsconfig.spec.json',
+      stringifyContentPathRegex: '\\.(html|svg)$',
+    },
+  },
 };
