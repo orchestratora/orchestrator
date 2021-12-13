@@ -264,7 +264,7 @@
           }
         }
       },
-      "tags": ["example", "ui"]
+      "tags": ["example", "ui", "web"]
     },
     "ui-web-example-e2e": {
       "root": "apps/ui-web-example-e2e",
@@ -291,7 +291,7 @@
           }
         }
       },
-      "tags": [],
+      "tags": ["e2e", "ui", "web"],
       "implicitDependencies": ["ui-web-example"]
     }
   }

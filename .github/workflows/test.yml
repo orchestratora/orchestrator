@@ -17,6 +17,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     strategy:
       matrix:
         stage: [Build, Test, Lint]
