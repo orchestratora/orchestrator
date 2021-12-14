@@ -18,7 +18,7 @@ and pass an object with required class that describes it's configuration
 and use interface `OrchestratorDynamicComponent` that describes inputs:
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   DynamicComponent,
   OrchestratorDynamicComponent,
@@ -38,16 +38,19 @@ export class YourComponentConfig {
 export class YourDynamicComponent
   implements OrchestratorDynamicComponent<YourComponentConfig>
 {
+  @Input()
   items?: OrchestratorConfigItem<any>[];
+  @Input()
   config?: YourComponentConfig;
+  @Input()
   context?: any;
 }
 ```
 
-- `config` property is a config validated at runtime of your component
+- `config` input is a config validated at runtime of your component
   that is provided via the JSON like config for each component
-- `context` property is any object that is passed down as a context from the top
-- `items` property contains further children of a JSON like subtree
+- `context` input is any object that is passed down as a context from the top
+- `items` input contains further children of a JSON like subtree
   that your component may or may not decide to render
 
 ### Register dynamic component
