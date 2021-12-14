@@ -1,6 +1,6 @@
 const { execSync } = require('child_process');
 
-const IGNORE_TAGS = ['e2e'];
+const IGNORE_TAGS = ['e2e', 'example'];
 const projects = require('../../angular.json').projects;
 
 /**
@@ -8,7 +8,7 @@ const projects = require('../../angular.json').projects;
  * that do not have tags specified in {@link IGNORE_TAGS}
  *
  * ```
- *  npx nx run-many --target build --with-deps --projects [...projects]
+ *  npx nx run-many --target build --projects <...projects> [...extraArgs]
  * ```
  * @param {string[]} extraArgs Extra args to pass to the NX build command
  */
@@ -16,7 +16,7 @@ async function main(extraArgs) {
   /** @type {Record<string, boolean>} */
   const ignoreMap = IGNORE_TAGS.reduce(
     (acc, tag) => ({ ...acc, [tag]: true }),
-    {},
+    Object.create(null),
   );
 
   const projectsToBuild = Object.entries(projects)

@@ -54,6 +54,7 @@
     "@angular/platform-browser": "^13.1.0",
     "@angular/platform-browser-dynamic": "^13.1.0",
     "@angular/router": "^13.1.0",
+    "@nrwl/nx-cloud": "^13.0.0",
     "@orchestrator/gen-io-ts": "^3.0.1",
     "core-js": "^3.6.4",
     "fp-ts": "^2.5.4",
