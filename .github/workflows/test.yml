@@ -5,35 +5,30 @@ on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches:
-      - '**'
-  # pull_request:
-  #   branches:
-  #     - '**'
+      - master
+  pull_request:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+env:
+  NX_CLOUD_DISTRIBUTED_EXECUTION: true
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-    strategy:
-      matrix:
-        stage: [Build, Test, Lint]
-        include:
-          - stage: Build
-            cmd: 'build'
-          - stage: Test
-            cmd: 'test'
-          - stage: Lint
-            cmd: 'lint'
     steps:
-      - uses: actions/setup-node@v2.5.0
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v2
         with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
           fetch-depth: 0
+      - name: Setup NX
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: 'master'
       - uses: actions/cache@v2
         with:
           path: ~/.npm
@@ -42,11 +37,24 @@ jobs:
             npm-node-
       - name: Install Deps
         run: npm ci --ignore-scripts
-      - name: Get Latest Tag
-        uses: WyriHaximus/github-action-get-previous-tag@v1
-        id: previoustag
-      - name: Set base ref
-        run: echo '::set-output name=BASE::${{ github.ref == 'refs/heads/master' && steps.previoustag.outputs.tag || 'origin/master' }}'
-        id: baseref
-      - name: ${{ matrix.stage }}
-        run: npm run affected:${{ matrix.cmd }} -- --parallel --base=${{ steps.baseref.outputs.BASE }}
+      - run: npx nx-cloud start-ci-run
+      - name: Test
+        run: npm run affected:test -- --parallel
+      - name: Lint
+        run: npm run affected:lint -- --parallel
+      - name: Build
+        run: npm run affected:build -- --parallel
+      - run: npx nx-cloud stop-all-agents
+  agents:
+    runs-on: ubuntu-latest
+    name: Agents
+    timeout-minutes: 60
+    strategy:
+      matrix:
+        agent: [1, 2, 3]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - run: npm install
+      - name: Start Nx Agent ${{ matrix.agent }}
+        run: npx nx-cloud start-agent

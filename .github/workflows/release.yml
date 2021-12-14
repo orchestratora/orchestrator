@@ -20,6 +20,10 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  NX_CLOUD_DISTRIBUTED_EXECUTION: true
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   release:
@@ -31,10 +35,9 @@ jobs:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       GIT_USER: ${{ secrets.GIT_USER }}
       GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
-      - uses: actions/setup-node@v2.5.0
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
           token: ${{ env.GITHUB_TOKEN }}
