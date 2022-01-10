@@ -27,7 +27,7 @@
     "@orchestrator/gen-io-ts": "^3.0.0",
     "fp-ts": "^2.0.0",
     "io-ts": "^2.0.0",
-    "ng-dynamic-component": "^10.0.0-no-barrels.0",
+    "ng-dynamic-component": "^9.0.0",
     "tslib": "^2.0.0"
   }
 }
