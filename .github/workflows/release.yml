@@ -17,6 +17,7 @@ on:
     branches:
       - master
       - next
+      - 'release/*'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -66,6 +67,9 @@ jobs:
       - name: Release Next
         if: ${{ github.ref == 'refs/heads/next' }}
         run: RELEASE_TAG=next npm run release:tag
+      - name: Release Branch
+        if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
+        run: RELEASE_BRANCH=\"${{ github.ref }}\" npm run release:branch
       - run: npx nx-cloud stop-all-agents
   agents:
     runs-on: ubuntu-latest

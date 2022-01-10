@@ -38,6 +38,7 @@
     "pack:libs": "npm run run:in:lib -- node ../../tools/scripts/pack-lib.js",
     "release": "lerna publish --yes --conventional-graduate",
     "release:tag": "lerna publish --yes --conventional-prerelease --dist-tag $RELEASE_TAG --preid $RELEASE_TAG",
+    "release:branch": "export RELEASE_TAG=\"$(node tools/scripts/get-release-tag.js \"$RELEASE_BRANCH\")\" && npm run release:tag",
     "postversion": "npm run run:in:lib -- node ../../tools/scripts/version-lib.js",
     "run:in:lib": "lerna exec --concurrency 1 --stream --",
     "prepare": "husky install",
