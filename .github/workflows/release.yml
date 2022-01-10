@@ -36,12 +36,14 @@ jobs:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       GIT_USER: ${{ secrets.GIT_USER }}
       GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+      RELEASE_BRANCH: ${{ github.event.workflow_run.head_branch }}
     steps:
       - uses: actions/setup-node@v2
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
           token: ${{ env.GITHUB_TOKEN }}
+          ref: ${{ env.RELEASE_BRANCH }}
       - uses: actions/cache@v2
         with:
           path: ~/.npm
@@ -62,14 +64,14 @@ jobs:
       - name: Pack Libs
         run: npm run pack
       - name: Release Latest
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: ${{ env.RELEASE_BRANCH == 'master' }}
         run: npm run release
       - name: Release Next
-        if: ${{ github.ref == 'refs/heads/next' }}
+        if: ${{ env.RELEASE_BRANCH == 'next' }}
         run: RELEASE_TAG=next npm run release:tag
       - name: Release Branch
-        if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
-        run: RELEASE_BRANCH=\"${{ github.ref }}\" npm run release:branch
+        if: ${{ startsWith(env.RELEASE_BRANCH, 'release/') }}
+        run: RELEASE_BRANCH=\"${{ env.RELEASE_BRANCH }}\" npm run release:branch
       - run: npx nx-cloud stop-all-agents
   agents:
     runs-on: ubuntu-latest
