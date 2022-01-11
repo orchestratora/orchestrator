@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@2.0.2...@orchestrator/core@2.0.3) (2022-01-11)
+
+**Note:** Version bump only for package @orchestrator/core
+
+
+
+
+
 ## [2.0.2](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@2.0.1...@orchestrator/core@2.0.2) (2022-01-11)
 
 
