@@ -49,7 +49,8 @@ jobs:
           git config user.name "${{ env.GIT_USER }}"
       - name: Install Deps
         run: npm ci --ignore-scripts
-      - run: npx nx-cloud start-ci-run
+      - name: Start Agents
+        run: npx nx-cloud start-ci-run
       - name: Build Libs
         run: npm run build:all
       - name: Pack Libs
@@ -63,7 +64,9 @@ jobs:
       - name: Release Branch
         if: ${{ startsWith(env.RELEASE_BRANCH, 'release/') }}
         run: RELEASE_BRANCH=\"${{ env.RELEASE_BRANCH }}\" npm run release:branch
-      - run: npx nx-cloud stop-all-agents
+      - name: Stop Agents
+        if: always()
+        run: npx nx-cloud stop-all-agents
   agents:
     runs-on: ubuntu-latest
     name: Agents
