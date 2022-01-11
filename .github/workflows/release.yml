@@ -70,6 +70,7 @@ jobs:
   agents:
     runs-on: ubuntu-latest
     name: Agents
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     timeout-minutes: 60
     strategy:
       matrix:
