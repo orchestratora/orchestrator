@@ -24,6 +24,7 @@ jobs:
     environment: 'Release NPM'
     env:
       GITHUB_TOKEN: ${{ secrets.PRIVATE_GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.PRIVATE_GITHUB_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       GIT_USER: ${{ secrets.GIT_USER }}
       GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
@@ -51,10 +52,6 @@ jobs:
         run: npm ci --ignore-scripts
       - name: Start Agents
         run: npx nx-cloud start-ci-run
-      - name: Build Libs
-        run: npm run build:all
-      - name: Pack Libs
-        run: npm run pack
       - name: Release Latest
         if: ${{ env.RELEASE_BRANCH == 'master' }}
         run: npm run release
