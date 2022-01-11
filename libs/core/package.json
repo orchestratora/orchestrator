@@ -1,6 +1,6 @@
 {
   "name": "@orchestrator/core",
-  "version": "2.1.0-ng-12.1",
+  "version": "2.1.0-ng-12.2",
   "publishConfig": {
     "access": "public"
   },
