@@ -64,6 +64,9 @@ jobs:
       - name: Release Branch
         if: ${{ startsWith(env.RELEASE_BRANCH, 'release/') }}
         run: RELEASE_BRANCH=\"${{ env.RELEASE_BRANCH }}\" npm run release:branch
+      - name: Release Error Log
+        if: failure()
+        run: cat lerna-debug.log
       - name: Stop Agents
         if: always()
         run: npx nx-cloud stop-all-agents
