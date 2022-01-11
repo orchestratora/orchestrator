@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1-ng-12.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/stepper@2.0.0...@orchestrator/stepper@2.0.1-ng-12.0) (2022-01-11)
+
+
+### Bug Fixes
+
+* **deps:** update core peer dependency to v2.0.0 ([2d35d74](https://github.com/orchestratora/orchestrator/commit/2d35d7493331dd8004bd1fd1647c4fc9f0494300))
+
+
+
+
+
 # [2.0.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/stepper@2.0.0-next.1...@orchestrator/stepper@2.0.0) (2021-12-13)
 
 **Note:** Version bump only for package @orchestrator/stepper
