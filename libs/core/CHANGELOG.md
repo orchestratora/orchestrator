@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@2.0.1...@orchestrator/core@2.0.2) (2022-01-11)
+
+
+### Bug Fixes
+
+* **deps:** allow rxjs v7.0.0 to be used as peer dependency ([2689146](https://github.com/orchestratora/orchestrator/commit/26891468ccf11be6c5b4193bd01a29b278ffc0f9))
+
+
+
+
+
 ## [2.0.1](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@2.0.0...@orchestrator/core@2.0.1) (2021-12-14)
 
 **Note:** Version bump only for package @orchestrator/core
