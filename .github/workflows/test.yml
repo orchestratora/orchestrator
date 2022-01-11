@@ -28,7 +28,7 @@ jobs:
       - name: Setup NX
         uses: nrwl/nx-set-shas@v2
         with:
-          main-branch-name: 'master'
+          main-branch-name: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || github.ref }}
       - uses: actions/cache@v2
         with:
           path: ~/.npm
