@@ -1,15 +1,7 @@
 name: Release Workflow
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  # push:
-  #   branches:
-  #     - master
-  #     - next
-  # pull_request:
-  #   branches:
-  #     - '**'
+  # Triggers the workflow after the Test Workflow has completed
   workflow_run:
     workflows: ['Test Workflow']
     types:
@@ -25,7 +17,6 @@ env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: true
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -80,9 +71,20 @@ jobs:
     strategy:
       matrix:
         agent: [1, 2, 3]
+    env:
+      RELEASE_BRANCH: ${{ github.event.workflow_run.head_branch }}
     steps:
-      - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-      - run: npm install
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ env.RELEASE_BRANCH }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-node-
+      - name: Install Deps
+        run: npm ci --ignore-scripts
       - name: Start Nx Agent ${{ matrix.agent }}
         run: npx nx-cloud start-agent
