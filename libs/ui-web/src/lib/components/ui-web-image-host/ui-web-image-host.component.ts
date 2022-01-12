@@ -6,6 +6,10 @@ import {
 
 import { UiWebImageConfig } from './ui-web-image-config';
 
+/**
+ * @deprecated Use `orc-html-tag` component
+ * from `@orchestrator/html-tag` package instead.
+ */
 @Component({
   selector: 'orc-ui-web-image-host',
   templateUrl: './ui-web-image-host.component.html',
@@ -14,7 +18,8 @@ import { UiWebImageConfig } from './ui-web-image-config';
 })
 @DynamicComponent({ config: UiWebImageConfig })
 export class UiWebImageHostComponent
-  implements OrchestratorDynamicComponent<UiWebImageConfig> {
+  implements OrchestratorDynamicComponent<UiWebImageConfig>
+{
   @Input() config: UiWebImageConfig;
 
   get width() {

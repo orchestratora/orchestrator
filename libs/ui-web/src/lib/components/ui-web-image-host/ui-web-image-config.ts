@@ -5,6 +5,9 @@ import {
   Option,
 } from '@orchestrator/core';
 
+/**
+ * @deprecated Use `@orchestrator/html-tag` package instead.
+ */
 @Injectable()
 export class UiWebImageConfig {
   @OptionRequired()

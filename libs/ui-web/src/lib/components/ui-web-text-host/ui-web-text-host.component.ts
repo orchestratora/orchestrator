@@ -13,6 +13,10 @@ import {
 
 import { UiWebTextConfig, UiWebTextFn } from './ui-web-text-config';
 
+/**
+ * @deprecated Use `orc-html-text` component
+ * from `@orchestrator/html-tag` package instead.
+ */
 @Component({
   selector: 'orc-ui-web-text-host',
   templateUrl: './ui-web-text-host.component.html',
@@ -21,7 +25,8 @@ import { UiWebTextConfig, UiWebTextFn } from './ui-web-text-config';
 })
 @DynamicComponent({ config: UiWebTextConfig })
 export class UiWebTextHostComponent
-  implements OrchestratorDynamicComponent<UiWebTextConfig>, OnInit, OnChanges {
+  implements OrchestratorDynamicComponent<UiWebTextConfig>, OnInit, OnChanges
+{
   @Input() config: UiWebTextConfig;
   @Input() context: any;
 

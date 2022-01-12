@@ -7,6 +7,9 @@ import {
 } from '@orchestrator/core';
 import { array, string, union } from 'io-ts';
 
+/**
+ * @deprecated Use `@orchestrator/html-tag` package instead.
+ */
 export class UiWebSelectOptionPair {
   @OptionRequired()
   label: string;
@@ -24,6 +27,9 @@ export class UiWebSelectOptionPair {
   children?: null | undefined;
 }
 
+/**
+ * @deprecated Use `@orchestrator/html-tag` package instead.
+ */
 export const UiWebSelectOptionPairType = classToType(UiWebSelectOptionPair);
 
 /**
@@ -33,6 +39,9 @@ export function uiWebSelectOptionGroupFactory() {
   return array(union([string, UiWebSelectOptionPairType]));
 }
 
+/**
+ * @deprecated Use `@orchestrator/html-tag` package instead.
+ */
 export class UiWebSelectOptionGroup {
   @OptionRequired()
   @OptionTypeFactory(uiWebSelectOptionGroupFactory)
@@ -45,8 +54,14 @@ export class UiWebSelectOptionGroup {
   disabled?: boolean;
 }
 
+/**
+ * @deprecated Use `@orchestrator/html-tag` package instead.
+ */
 export const UiWebSelectOptionGroupType = classToType(UiWebSelectOptionGroup);
 
+/**
+ * @deprecated Use `@orchestrator/html-tag` package instead.
+ */
 export type UiWebSelectOption =
   | string
   | UiWebSelectOptionPair

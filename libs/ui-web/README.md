@@ -4,6 +4,11 @@
 
 ![@orchestrator/ui-web](https://img.shields.io/npm/v/@orchestrator/ui-web)
 
+**DEPRECATED!**
+
+> Please use [`@orchestrator/html-tag`](/libs/html-tag) package instead
+> which has more streamlined API and allows to render any HTML tags available in the Web.
+
 ## Registration
 
 ```ts

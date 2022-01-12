@@ -6,6 +6,10 @@ import {
   UiWebSelectOptionPair,
 } from './types';
 
+/**
+ * @deprecated Use `orc-html-tag` component
+ * from `@orchestrator/html-tag` package instead.
+ */
 @Component({
   selector: 'orc-ui-web-select',
   templateUrl: './ui-web-select.component.html',
