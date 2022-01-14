@@ -3,6 +3,174 @@
   "version": 1,
   "newProjectRoot": "",
   "projects": {
+    "composer": {
+      "root": "libs/composer",
+      "sourceRoot": "libs/composer/src",
+      "projectType": "library",
+      "prefix": "orc",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/composer"],
+          "options": {
+            "project": "libs/composer/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/composer/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/composer/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/composer"],
+          "options": {
+            "jestConfig": "libs/composer/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/composer/src/**/*.ts",
+              "libs/composer/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": ["utility", "ui"]
+    },
+    "composer-example": {
+      "root": "apps/composer-example/",
+      "sourceRoot": "apps/composer-example/src",
+      "projectType": "application",
+      "prefix": "orc",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/composer-example",
+            "index": "apps/composer-example/src/index.html",
+            "main": "apps/composer-example/src/main.ts",
+            "polyfills": "apps/composer-example/src/polyfills.ts",
+            "tsConfig": "apps/composer-example/tsconfig.app.json",
+            "assets": [
+              "apps/composer-example/src/favicon.ico",
+              "apps/composer-example/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
+            ],
+            "styles": ["apps/composer-example/src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/composer-example/src/environments/environment.ts",
+                  "with": "apps/composer-example/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "composer-example:build:production"
+            },
+            "development": {
+              "browserTarget": "composer-example:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "composer-example:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/composer-example/src/**/*.ts",
+              "apps/composer-example/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/composer-example"],
+          "options": {
+            "jestConfig": "apps/composer-example/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": ["example", "ui", "utility"]
+    },
+    "composer-example-e2e": {
+      "root": "apps/composer-example-e2e",
+      "sourceRoot": "apps/composer-example-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/composer-example-e2e/cypress.json",
+            "devServerTarget": "ui-web-example:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ui-web-example:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/composer-example-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": ["e2e", "utility"],
+      "implicitDependencies": ["composer-example"]
+    },
     "core": {
       "root": "libs/core",
       "sourceRoot": "libs/core/src",
@@ -293,178 +461,6 @@
       },
       "tags": ["e2e", "ui", "web"],
       "implicitDependencies": ["ui-web-example"]
-    },
-    "composer": {
-      "root": "libs/composer",
-      "sourceRoot": "libs/composer/src",
-      "projectType": "library",
-      "prefix": "orc",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/composer"],
-          "options": {
-            "project": "libs/composer/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/composer/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/composer/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/composer"],
-          "options": {
-            "jestConfig": "libs/composer/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/composer/src/**/*.ts",
-              "libs/composer/src/**/*.html"
-            ]
-          }
-        }
-      },
-      "tags": ["utility", "ui"]
-    },
-    "composer-example": {
-      "root": "apps/composer-example/",
-      "sourceRoot": "apps/composer-example/src",
-      "projectType": "application",
-      "prefix": "orc",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist/apps/composer-example",
-            "index": "apps/composer-example/src/index.html",
-            "main": "apps/composer-example/src/main.ts",
-            "polyfills": "apps/composer-example/src/polyfills.ts",
-            "tsConfig": "apps/composer-example/tsconfig.app.json",
-            "assets": [
-              "apps/composer-example/src/favicon.ico",
-              "apps/composer-example/src/assets",
-              {
-                "glob": "**/*",
-                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
-                "output": "/assets/"
-              }
-            ],
-            "styles": [
-              "apps/composer-example/src/styles.css",
-              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
-            ],
-            "styles": ["apps/composer-example/src/styles.css"],
-            "scripts": []
-          },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "apps/composer-example/src/environments/environment.ts",
-                  "with": "apps/composer-example/src/environments/environment.prod.ts"
-                }
-              ],
-              "outputHashing": "all"
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "browserTarget": "composer-example:build:production"
-            },
-            "development": {
-              "browserTarget": "composer-example:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "composer-example:build"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "apps/composer-example/src/**/*.ts",
-              "apps/composer-example/src/**/*.html"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/composer-example"],
-          "options": {
-            "jestConfig": "apps/composer-example/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "tags": ["example", "ui", "utility"]
-    },
-    "composer-example-e2e": {
-      "root": "apps/composer-example-e2e",
-      "sourceRoot": "apps/composer-example-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/composer-example-e2e/cypress.json",
-            "devServerTarget": "ui-web-example:serve:development"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "ui-web-example:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": ["apps/composer-example-e2e/**/*.{js,ts}"]
-          }
-        }
-      },
-      "tags": ["e2e", "utility"],
-      "implicitDependencies": ["composer-example"]
     }
   }
 }
