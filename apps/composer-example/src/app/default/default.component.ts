@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'orc-default',
@@ -6,8 +6,4 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./default.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DefaultComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
-}
+export class DefaultComponent {}

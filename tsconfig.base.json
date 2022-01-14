@@ -18,6 +18,7 @@
     "baseUrl": ".",
     "rootDir": ".",
     "paths": {
+      "@orchestrator/composer": ["libs/composer/src/public_api.ts"],
       "@orchestrator/core": ["libs/core/src/public_api.ts"],
       "@orchestrator/core/testing": ["libs/core/testing/src/public_api.ts"],
       "@orchestrator/layout": ["libs/layout/src/public_api.ts"],
