@@ -1,4 +1,3 @@
-/* tslint:disable */
 import { Directive, Input } from '@angular/core';
 import { ControlContainer, FormControlName } from '@angular/forms';
 
