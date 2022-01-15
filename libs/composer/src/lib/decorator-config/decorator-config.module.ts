@@ -49,7 +49,7 @@ import { SwitchComponent, switchProvider } from './switch';
   ],
 })
 export class DecoratorConfigModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<DecoratorConfigModule> {
     return {
       ngModule: DecoratorConfigModule,
       providers: [

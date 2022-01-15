@@ -29,7 +29,7 @@ import { ComposerConfiguratorService } from './composer-configurator.service';
 export class ComposerConfiguratorComponent implements OnChanges {
   setFormChanges$ = new Subject<Observable<any>>();
 
-  @Input() component: OrchestratorDynamicComponentType;
+  @Input() component: string | OrchestratorDynamicComponentType;
   @Input() config: any;
 
   @Output() configUpdate = this.setFormChanges$.pipe(switchAll());
@@ -39,6 +39,8 @@ export class ComposerConfiguratorComponent implements OnChanges {
   componentDefaultConfig: any;
   defaultConfig: any;
 
+  private componentType: OrchestratorDynamicComponentType;
+
   constructor(
     private componentLocatorService: ComponentLocatorService,
     private composerConfiguratorService: ComposerConfiguratorService,
@@ -46,6 +48,7 @@ export class ComposerConfiguratorComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if ('component' in changes) {
+      this.updateComponent();
       this.updateDefaultConfig();
       this.updateForm();
     } else if ('config' in changes) {
@@ -56,9 +59,13 @@ export class ComposerConfiguratorComponent implements OnChanges {
     }
   }
 
+  private updateComponent() {
+    this.componentType = this.componentLocatorService.resolve(this.component);
+  }
+
   private updateDefaultConfig() {
     this.componentDefaultConfig = this.componentLocatorService.getDefaultConfig(
-      this.component,
+      this.componentType,
     );
     this.updateConfig();
   }
@@ -72,7 +79,7 @@ export class ComposerConfiguratorComponent implements OnChanges {
 
   private updateForm() {
     const info = this.composerConfiguratorService.genFormAndConfigFor(
-      this.component,
+      this.componentType,
       this.defaultConfig,
     );
 

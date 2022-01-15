@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'orc-composer-controls',
@@ -6,8 +6,4 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./composer-controls.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ComposerControlsComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
-}
+export class ComposerControlsComponent {}

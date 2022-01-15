@@ -2,8 +2,8 @@
   class="rendered-item"
   *ngIf="fullConfig?.item?.component; else dropTpl"
   nz-popover
-  [nzContent]="controlsTpl"
-  [(nzVisible)]="controlsVisible"
+  [nzPopoverContent]="controlsTpl"
+  [(nzPopoverVisible)]="controlsVisible"
   (mouseover)="hover(true)"
   (mouseout)="hover(false)"
 >
@@ -63,7 +63,7 @@
     </button>
     <button
       nz-button
-      [nzType]="showConfig ? 'primary' : ''"
+      [nzType]="showConfig ? 'primary' : null"
       nzSize="small"
       nz-tooltip
       nzTitle="Edit configuration"
@@ -73,7 +73,7 @@
     </button>
     <button
       nz-button
-      nzType="danger"
+      nzDanger
       nzSize="small"
       nz-tooltip
       nzTitle="Remove item"

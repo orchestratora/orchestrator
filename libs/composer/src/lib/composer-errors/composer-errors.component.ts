@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'orc-composer-errors',
@@ -6,8 +6,4 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./composer-errors.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ComposerErrorsComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
-}
+export class ComposerErrorsComponent {}
