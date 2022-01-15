@@ -4,5 +4,6 @@
   "lib": {
     "entryFile": "src/public_api.ts"
   },
+  "allowedNonPeerDependencies": ["ng-zorro-antd"],
   "assets": ["src/styles.css"]
 }
