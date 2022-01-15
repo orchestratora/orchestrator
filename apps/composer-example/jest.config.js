@@ -1,8 +1,8 @@
 module.exports = {
-  displayName: 'test',
+  displayName: 'composer-example',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/test',
+  coverageDirectory: '../../coverage/apps/composer-example',
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
