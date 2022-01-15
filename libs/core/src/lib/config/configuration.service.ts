@@ -148,7 +148,6 @@ export class ConfigurationService {
     const isOptional = isArgOptional(argExpr);
 
     // Dynamically resolve function arguments - no type info available
-    // tslint:disable-next-line: deprecation
     const res = injector.get(
       arg,
       isOptional ? null : Injector.THROW_IF_NOT_FOUND,
