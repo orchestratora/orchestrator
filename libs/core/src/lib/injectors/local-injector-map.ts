@@ -67,10 +67,6 @@ export function getLocalProviders(data: LocalProvidersData): StaticProvider[] {
       useValue: data.getConfig,
     },
     {
-      provide: LOCAL_GET_CONTEXT,
-      useValue: data.getContext,
-    },
-    {
       provide: LOCAL_UPDATE_CONFIG,
       useValue: data.updateConfig,
     },
