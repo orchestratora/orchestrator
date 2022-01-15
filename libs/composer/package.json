@@ -31,8 +31,8 @@
     "prepare": "node ../../tools/scripts/prepare-lib.js"
   },
   "exports": {
-    "style": {
-      "default": "./src/styles.css"
+    "./styles": {
+      "style": "./src/styles.css"
     }
   }
 }
