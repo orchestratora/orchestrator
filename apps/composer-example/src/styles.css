@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Angular CDK Styles */
+@import '@angular/cdk/overlay-prebuilt.css';
+
+/* Ant Styles */
+/* NOTE: When used from NPM import as `@orchestrator/composer/src/styles.css` */
+@import '../../../libs/composer/src/styles.css';
