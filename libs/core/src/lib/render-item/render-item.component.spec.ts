@@ -17,7 +17,8 @@ import {
   DynamicDirectivesModule,
 } from 'ng-dynamic-component';
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
-import { ComponentMap, COMPONENTS } from '../component-map';
+import { COMPONENTS } from '../components-token';
+import { ComponentMap } from '../component-registry';
 import { Option } from '../config';
 import { ConfigurationService } from '../config/configuration.service';
 import { ErrorStrategy } from '../error-strategy/error-strategy';

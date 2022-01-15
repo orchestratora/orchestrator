@@ -5,7 +5,7 @@ import {
   Type,
 } from '@angular/core';
 
-import { COMPONENTS } from '../component-map';
+import { COMPONENTS } from '../components-token';
 import {
   ComponentMap,
   ComponentRegistry,
@@ -31,7 +31,7 @@ export class ComponentLocatorService {
     .reduce((arr, reg) => [...arr, ...reg], []);
 
   private componentArrayMap = this.componentArray
-    .map(type => this.cfr.resolveComponentFactory(type))
+    .map((type) => this.cfr.resolveComponentFactory(type))
     .reduce(
       (map, compFactory) => ({
         ...map,
@@ -47,7 +47,7 @@ export class ComponentLocatorService {
   );
 
   private components = Object.keys(this.componentMap).map(
-    key => this.componentMap[key],
+    (key) => this.componentMap[key],
   );
 
   constructor(

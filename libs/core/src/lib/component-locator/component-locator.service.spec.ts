@@ -1,7 +1,7 @@
 import { Component, NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { COMPONENTS } from '../component-map';
+import { COMPONENTS } from '../components-token';
 import { DynamicComponent } from '../metadata';
 import { ComponentLocatorService } from './component-locator.service';
 

@@ -7,7 +7,7 @@ import {
 } from 'ng-dynamic-component';
 
 import { ComponentLocatorService } from './component-locator/component-locator.service';
-import { COMPONENTS } from './component-map';
+import { COMPONENTS } from './components-token';
 import { ComponentRegistry } from './component-registry';
 import { ConfigurationService } from './config/configuration.service';
 import { ErrorStrategy } from './error-strategy/error-strategy';

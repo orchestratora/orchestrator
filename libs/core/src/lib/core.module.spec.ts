@@ -1,4 +1,4 @@
-import { COMPONENTS } from './component-map';
+import { COMPONENTS } from './components-token';
 import { OrchestratorCoreModule } from './core.module';
 import { ErrorStrategy } from './error-strategy/error-strategy';
 import { ThrowErrorStrategy } from './error-strategy/throw-error-strategy';
