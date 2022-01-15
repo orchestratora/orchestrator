@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import {
   ANALYZE_FOR_ENTRY_COMPONENTS,
   Component,
@@ -13,7 +14,6 @@ import { OrchestratorDynamicComponent } from '@orchestrator/core';
  */
 export function provideDynamicComponents(comps: any): Provider {
   return {
-    // tslint:disable-next-line: deprecation
     provide: ANALYZE_FOR_ENTRY_COMPONENTS,
     useValue: comps,
     multi: true,
@@ -24,7 +24,7 @@ export function provideDynamicComponents(comps: any): Provider {
 export class DynamicBaseComponent implements OrchestratorDynamicComponent {
   @Input() items;
   @Input() config;
-  // tslint:disable-next-line: no-output-rename
+  // eslint-disable-next-line @angular-eslint/no-output-rename
   @Output('customEvent') customEvt = new EventEmitter<any>();
 }
 
