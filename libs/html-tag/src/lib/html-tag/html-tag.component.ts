@@ -33,11 +33,11 @@ export class HtmlTagComponent
 
   /** @internal */
   @ViewChild('tagContentAnchor', { static: true, read: ViewContainerRef })
-  tagContentVcr?: ViewContainerRef;
+  _tagContentVcr?: ViewContainerRef;
 
   /** @internal */
   @ViewChild('contentTpl', { static: true })
-  contentTpl?: TemplateRef<void>;
+  _contentTpl?: TemplateRef<void>;
 
   private attrsDiffer = this.keyValDiffers.find({}).create<string, string>();
   private hostElement: unknown = this.vcr.element.nativeElement;
@@ -100,7 +100,7 @@ export class HtmlTagComponent
 
     this.renderer.appendChild(
       this.tagElement,
-      this.tagContentVcr?.element.nativeElement,
+      this._tagContentVcr?.element.nativeElement,
     );
 
     this.renderer.appendChild(this.hostElement, this.tagElement);
@@ -160,8 +160,8 @@ export class HtmlTagComponent
   private updateItems() {
     if (
       this.tagElement === undefined ||
-      !this.tagContentVcr ||
-      !this.contentTpl
+      !this._tagContentVcr ||
+      !this._contentTpl
     ) {
       return;
     }
@@ -169,10 +169,10 @@ export class HtmlTagComponent
     const item = this.items?.[0];
 
     if (!item) {
-      this.tagContentVcr.clear();
+      this._tagContentVcr.clear();
       return;
     }
 
-    this.tagContentVcr.createEmbeddedView(this.contentTpl);
+    this._tagContentVcr.createEmbeddedView(this._contentTpl);
   }
 }
