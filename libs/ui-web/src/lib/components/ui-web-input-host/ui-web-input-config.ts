@@ -3,6 +3,9 @@ import { Option } from '@orchestrator/core';
 
 import { FormAttributesConfig } from '../../form-attributes-config';
 
+/**
+ * @deprecated Use `@orchestrator/html-tag` package instead.
+ */
 @Injectable()
 export class UiWebInputConfig extends FormAttributesConfig {
   @Option()

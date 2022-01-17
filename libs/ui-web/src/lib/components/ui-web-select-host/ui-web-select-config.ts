@@ -18,6 +18,9 @@ export function uiWebSelectOptionFactory() {
   );
 }
 
+/**
+ * @deprecated Use `@orchestrator/html-tag` package instead.
+ */
 @Injectable()
 export class UiWebSelectConfig extends FormAttributesConfig {
   @OptionTypeFactory(uiWebSelectOptionFactory)

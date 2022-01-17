@@ -10,6 +10,9 @@ import {
 } from './components';
 import { UiWebButtonHostModule } from './components/ui-web-button-host';
 
+/**
+ * @deprecated Use `@orchestrator/html-tag` package instead.
+ */
 @NgModule({
   exports: [
     UiWebButtonHostModule,

@@ -7,12 +7,13 @@
 
 ## Packages
 
-| Name                     | Package               | NPM                                                                          |
-| ------------------------ | --------------------- | ---------------------------------------------------------------------------- |
-| [Core](/libs/core)       | @orchestrator/core    | ![@orchestrator/core](https://img.shields.io/npm/v/@orchestrator/core)       |
-| [Layout](/libs/layout)   | @orchestrator/layout  | ![@orchestrator/layout](https://img.shields.io/npm/v/@orchestrator/layout)   |
-| [UiWeb](/libs/ui-web)    | @orchestrator/ui-web  | ![npm](https://img.shields.io/npm/v/@orchestrator/ui-web)                    |
-| [Stepper](/libs/stepper) | @orchestrator/stepper | ![@orchestrator/stepper](https://img.shields.io/npm/v/@orchestrator/stepper) |
+| Name                      | Package                | NPM                                                                            |
+| ------------------------- | ---------------------- | ------------------------------------------------------------------------------ |
+| [Core](/libs/core)        | @orchestrator/core     | ![@orchestrator/core](https://img.shields.io/npm/v/@orchestrator/core)         |
+| [Layout](/libs/layout)    | @orchestrator/layout   | ![@orchestrator/layout](https://img.shields.io/npm/v/@orchestrator/layout)     |
+| [UiWeb](/libs/ui-web)     | @orchestrator/ui-web   | ![npm](https://img.shields.io/npm/v/@orchestrator/ui-web)                      |
+| [Stepper](/libs/stepper)  | @orchestrator/stepper  | ![@orchestrator/stepper](https://img.shields.io/npm/v/@orchestrator/stepper)   |
+| [HtmlTag](/libs/html-tag) | @orchestrator/html-tag | ![@orchestrator/html-tag](https://img.shields.io/npm/v/@orchestrator/html-tag) |
 
 ### Installation
 

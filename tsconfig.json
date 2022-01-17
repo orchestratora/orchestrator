@@ -39,6 +39,12 @@
     },
     {
       "path": "./libs/stepper/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/html-tag/tsconfig.lib.json"
+    },
+    {
+      "path": "./libs/html-tag/tsconfig.spec.json"
     }
   ],
   "angularCompilerOptions": {

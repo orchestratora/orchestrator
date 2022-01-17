@@ -8,6 +8,9 @@ import {
 
 import { FormAttributesConfig } from '../../form-attributes-config';
 
+/**
+ * @deprecated Use `@orchestrator/html-tag` package instead.
+ */
 @Injectable()
 export class UiWebTextAreaConfig extends FormAttributesConfig {
   @Option()

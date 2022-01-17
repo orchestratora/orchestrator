@@ -6,6 +6,10 @@ import {
 
 import { UiWebButtonConfig } from './ui-web-button-config';
 
+/**
+ * @deprecated Use `orc-html-tag` component
+ * from `@orchestrator/html-tag` package instead.
+ */
 @Component({
   selector: 'orc-ui-web-button-host',
   templateUrl: './ui-web-button-host.component.html',
@@ -14,6 +18,7 @@ import { UiWebButtonConfig } from './ui-web-button-config';
 })
 @DynamicComponent({ config: UiWebButtonConfig })
 export class UiWebButtonHostComponent
-  implements OrchestratorDynamicComponent<UiWebButtonConfig> {
+  implements OrchestratorDynamicComponent<UiWebButtonConfig>
+{
   @Input() config: UiWebButtonConfig;
 }

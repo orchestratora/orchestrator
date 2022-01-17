@@ -6,6 +6,10 @@ import {
 
 import { UiWebHeadingConfig, UiWebHeadingLevel } from './ui-web-heading-config';
 
+/**
+ * @deprecated Use `orc-html-tag` component
+ * from `@orchestrator/html-tag` package instead.
+ */
 @Component({
   selector: 'orc-ui-web-heading-host',
   templateUrl: './ui-web-heading-host.component.html',
@@ -14,7 +18,8 @@ import { UiWebHeadingConfig, UiWebHeadingLevel } from './ui-web-heading-config';
 })
 @DynamicComponent({ config: UiWebHeadingConfig })
 export class UiWebHeadingHostComponent
-  implements OrchestratorDynamicComponent<UiWebHeadingConfig> {
+  implements OrchestratorDynamicComponent<UiWebHeadingConfig>
+{
   @Input() config: UiWebHeadingConfig;
 
   level = UiWebHeadingLevel;
