@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3](https://github.com/orchestratora/orchestrator/compare/@orchestrator/ui-web@2.0.2...@orchestrator/ui-web@2.0.3) (2022-01-17)
+
+
+### Bug Fixes
+
+* **ui-web:** deprecate `ui-web` package in favor of new `html-tag` package ([0b171f7](https://github.com/orchestratora/orchestrator/commit/0b171f754bdce2debe3421b30c48702d0005b888))
+
+
+
+
+
 ## [2.0.2](https://github.com/orchestratora/orchestrator/compare/@orchestrator/ui-web@2.0.1...@orchestrator/ui-web@2.0.2) (2022-01-11)
 
 **Note:** Version bump only for package @orchestrator/ui-web
