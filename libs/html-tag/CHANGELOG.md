@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2-ng-12.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/html-tag@0.1.1...@orchestrator/html-tag@0.1.2-ng-12.0) (2022-01-20)
+
+
+### Bug Fixes
+
+* **ng:** downgrade to Angular v12 ([f80549e](https://github.com/orchestratora/orchestrator/commit/f80549e5dbfdf26962ab8fd773dc91ea464e93b8))
+
+
+
+
+
 ## [0.1.1](https://github.com/orchestratora/orchestrator/compare/@orchestrator/html-tag@0.1.0...@orchestrator/html-tag@0.1.1) (2022-01-19)
 
 

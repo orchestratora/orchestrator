@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4-ng-12.3](https://github.com/orchestratora/orchestrator/compare/@orchestrator/stepper@2.0.3...@orchestrator/stepper@2.0.4-ng-12.3) (2022-01-20)
+
+
+### Bug Fixes
+
+* **deps:** allow rxjs v7.0.0 to be used as peer dependency ([a73f962](https://github.com/orchestratora/orchestrator/commit/a73f962b7228b0919ba9ca8e37d5eef1fecc6df2))
+* **deps:** update core peer dependency to v2.0.0 ([2d35d74](https://github.com/orchestratora/orchestrator/commit/2d35d7493331dd8004bd1fd1647c4fc9f0494300))
+* **ng:** downgrade to Angular v12 ([f80549e](https://github.com/orchestratora/orchestrator/commit/f80549e5dbfdf26962ab8fd773dc91ea464e93b8))
+
+
+
+
+
 ## [2.0.1-ng-12.2](https://github.com/orchestratora/orchestrator/compare/@orchestrator/stepper@2.0.1-ng-12.1...@orchestrator/stepper@2.0.1-ng-12.2) (2022-01-11)
 
 **Note:** Version bump only for package @orchestrator/stepper
