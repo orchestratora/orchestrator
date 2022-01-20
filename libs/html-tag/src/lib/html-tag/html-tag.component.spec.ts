@@ -1,4 +1,4 @@
-import { Component, DebugElement, Injectable } from '@angular/core';
+import { Component, DebugElement, Injectable, NgModule } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -34,6 +34,13 @@ describe('HtmlTagComponent', () => {
     config?: TextComponentConfig;
   }
 
+  @NgModule({
+    exports: [TextComponent],
+    declarations: [TextComponent],
+    entryComponents: [TextComponent],
+  })
+  class TestModule {}
+
   let component: TestComponent;
   let fixture: ComponentFixture<TestComponent>;
 
@@ -42,6 +49,7 @@ describe('HtmlTagComponent', () => {
       imports: [
         OrchestratorCoreModule.forRoot(),
         OrchestratorCoreModule.withComponents([TextComponent]),
+        TestModule,
       ],
       declarations: [HtmlTagComponent, TestComponent],
     }).compileComponents();

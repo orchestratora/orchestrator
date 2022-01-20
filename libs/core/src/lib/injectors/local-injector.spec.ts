@@ -40,7 +40,8 @@ describe('createLocalInjector()', () => {
 
       expect(parentGet).toHaveBeenCalledWith(
         'something',
-        Injector.THROW_IF_NOT_FOUND,
+        undefined,
+        expect.anything(),
       );
     });
   });

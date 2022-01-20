@@ -27,8 +27,8 @@ describe('UiWebTextareaHostComponent', () => {
 
   testConfigProp('name', 'my-name');
   testConfigProp('placeholder', 'description');
-  testConfigProp('cols', 10);
-  testConfigProp('rows', 15);
+  testConfigAttr('cols', 10);
+  testConfigAttr('rows', 15);
   testConfigProp('maxlength', 50, 'maxLength');
   testConfigProp('minlength', 5, 'minLength');
   testConfigAttr('spellcheck', true);

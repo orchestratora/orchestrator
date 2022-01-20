@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Option, OptionTypeFactory } from '@orchestrator/core';
 import { record, string } from 'io-ts';
 
+// @dynamic
 @Injectable({ providedIn: 'root' })
 export class HtmlTagConfig {
   @Option()

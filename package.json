@@ -36,7 +36,9 @@
     "release:tag": "lerna publish --yes --conventional-prerelease --dist-tag $RELEASE_TAG --preid $RELEASE_TAG",
     "release:branch": "export RELEASE_TAG=\"$(node tools/scripts/get-release-tag.js \"$RELEASE_BRANCH\")\" && npm run release:tag",
     "prepare": "husky install",
-    "postinstall": "node ./tools/scripts/decorate-angular-cli.js && ngcc --properties es2015 browser module main"
+    "postinstall": "run-s postinstall:*",
+    "postinstall:nx": "node ./tools/scripts/decorate-angular-cli.js",
+    "postinstall:ngcc": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
   },
   "private": true,
   "dependencies": {
