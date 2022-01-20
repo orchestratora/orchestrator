@@ -11,6 +11,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+## [2.0.4](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@2.0.3...@orchestrator/core@2.0.4) (2022-01-15)
+
+**Note:** Version bump only for package @orchestrator/core
+
+
+
+
+
 # [2.1.0-ng-12.1](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@2.1.0-ng-12.0...@orchestrator/core@2.1.0-ng-12.1) (2022-01-11)
 
 
@@ -22,12 +30,31 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+## [2.0.3](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@2.0.2...@orchestrator/core@2.0.3) (2022-01-11)
+
+**Note:** Version bump only for package @orchestrator/core
+
+
+
+
+
 # [2.1.0-ng-12.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@2.0.1...@orchestrator/core@2.1.0-ng-12.0) (2022-01-11)
 
 
 ### Features
 
 * **ng:** downgrade to Angular v12 ([86b559b](https://github.com/orchestratora/orchestrator/commit/86b559bc5731f521ff90a15b1db27b12e3dafc78))
+
+
+
+
+
+## [2.0.2](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@2.0.1...@orchestrator/core@2.0.2) (2022-01-11)
+
+
+### Bug Fixes
+
+* **deps:** allow rxjs v7.0.0 to be used as peer dependency ([2689146](https://github.com/orchestratora/orchestrator/commit/26891468ccf11be6c5b4193bd01a29b278ffc0f9))
 
 
 

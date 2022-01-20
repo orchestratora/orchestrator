@@ -1,6 +1,6 @@
 {
   "name": "@orchestrator/ui-web",
-  "version": "2.0.1-ng-12.2",
+  "version": "2.0.4-ng-12.2",
   "publishConfig": {
     "access": "public"
   },

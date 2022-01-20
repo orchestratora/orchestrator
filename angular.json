@@ -45,6 +45,53 @@
       },
       "tags": ["components", "core"]
     },
+    "html-tag": {
+      "projectType": "library",
+      "root": "libs/html-tag",
+      "sourceRoot": "libs/html-tag/src",
+      "prefix": "orc",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/html-tag"],
+          "options": {
+            "project": "libs/html-tag/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/html-tag/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/html-tag/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/html-tag"],
+          "options": {
+            "jestConfig": "libs/html-tag/jest.config.js",
+            "passWithNoTests": true
+          },
+          "configurations": {
+            "watch": {
+              "watch": true
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/html-tag/src/**/*.ts",
+              "libs/html-tag/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": ["components", "ui"]
+    },
     "layout": {
       "root": "libs/layout",
       "sourceRoot": "libs/layout/src",

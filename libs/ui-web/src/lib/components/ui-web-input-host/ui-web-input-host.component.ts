@@ -6,6 +6,10 @@ import {
 
 import { UiWebInputConfig } from './ui-web-input-config';
 
+/**
+ * @deprecated Use `orc-html-tag` component
+ * from `@orchestrator/html-tag` package instead.
+ */
 @Component({
   selector: 'orc-ui-web-input-host',
   templateUrl: './ui-web-input-host.component.html',
@@ -14,6 +18,7 @@ import { UiWebInputConfig } from './ui-web-input-config';
 })
 @DynamicComponent({ config: UiWebInputConfig })
 export class UiWebInputHostComponent
-  implements OrchestratorDynamicComponent<UiWebInputConfig> {
+  implements OrchestratorDynamicComponent<UiWebInputConfig>
+{
   @Input() config: UiWebInputConfig;
 }

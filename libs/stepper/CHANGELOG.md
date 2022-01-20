@@ -11,6 +11,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+## [2.0.3](https://github.com/orchestratora/orchestrator/compare/@orchestrator/stepper@2.0.2...@orchestrator/stepper@2.0.3) (2022-01-15)
+
+**Note:** Version bump only for package @orchestrator/stepper
+
+
+
+
+
 ## [2.0.1-ng-12.1](https://github.com/orchestratora/orchestrator/compare/@orchestrator/stepper@2.0.1-ng-12.0...@orchestrator/stepper@2.0.1-ng-12.1) (2022-01-11)
 
 
@@ -22,12 +30,32 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+## [2.0.2](https://github.com/orchestratora/orchestrator/compare/@orchestrator/stepper@2.0.1...@orchestrator/stepper@2.0.2) (2022-01-11)
+
+**Note:** Version bump only for package @orchestrator/stepper
+
+
+
+
+
 ## [2.0.1-ng-12.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/stepper@2.0.0...@orchestrator/stepper@2.0.1-ng-12.0) (2022-01-11)
 
 
 ### Bug Fixes
 
 * **deps:** update core peer dependency to v2.0.0 ([2d35d74](https://github.com/orchestratora/orchestrator/commit/2d35d7493331dd8004bd1fd1647c4fc9f0494300))
+
+
+
+
+
+## [2.0.1](https://github.com/orchestratora/orchestrator/compare/@orchestrator/stepper@2.0.0...@orchestrator/stepper@2.0.1) (2022-01-11)
+
+
+### Bug Fixes
+
+* **deps:** allow rxjs v7.0.0 to be used as peer dependency ([2689146](https://github.com/orchestratora/orchestrator/commit/26891468ccf11be6c5b4193bd01a29b278ffc0f9))
+* **deps:** update core peer dependency to v2.0.0 ([1bc6eab](https://github.com/orchestratora/orchestrator/commit/1bc6eabe4a212f2b3b443451df6f1e1b4d0d09ce))
 
 
 
