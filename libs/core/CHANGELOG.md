@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.5](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@2.0.4...@orchestrator/core@2.0.5) (2022-01-21)
+
+
+### Bug Fixes
+
+* **core:** update fp-ts and io-ts to minimum compatible versions ([44fb079](https://github.com/orchestratora/orchestrator/commit/44fb079a1a1b6b0d7f2a8f1ef620ba2c60b01417))
+
+
+
+
+
 ## [2.0.4](https://github.com/orchestratora/orchestrator/compare/@orchestrator/core@2.0.3...@orchestrator/core@2.0.4) (2022-01-15)
 
 **Note:** Version bump only for package @orchestrator/core
