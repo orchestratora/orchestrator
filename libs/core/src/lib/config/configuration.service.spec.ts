@@ -1,7 +1,8 @@
 import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Property } from '@orchestrator/gen-io-ts';
-import { left, right } from 'fp-ts/lib/Either';
+import { chain, left, right } from 'fp-ts/lib/Either';
+import { pipe } from 'fp-ts/lib/pipeable';
 import { failure, string, success, Type } from 'io-ts';
 
 import { ErrorStrategy } from '../error-strategy/error-strategy';
@@ -30,20 +31,26 @@ describe('Service: Configuration', () => {
           useClass: MockConfigurationErrorStrategy,
         },
       ],
+      teardown: { destroyAfterEach: false },
     });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   describe('validate() method', () => {
     it('should return `left([])` when no type provided', () => {
-      const res = getService().validate(null, {});
+      const res = getService().validate(null as any, {});
 
       expect(res).toEqual(left([]));
     });
 
     it('should return `right(config)` for correct config', () => {
       class Test {
-        @Option() prop1: string;
-        @Option() prop2: boolean;
+        @Option() prop1!: string;
+        @Option() prop2!: boolean;
       }
 
       const config = { prop1: 'ok', prop2: null };
@@ -55,8 +62,8 @@ describe('Service: Configuration', () => {
     it('should NOT call `ConfigurationErrorStrategy.handle()` when config correct', () => {
       const errorStrategy = getErrorStrategy();
       class Test {
-        @Option() prop1: string;
-        @Option() prop2: boolean;
+        @Option() prop1!: string;
+        @Option() prop2!: boolean;
       }
 
       const config = { prop1: 'ok', prop2: null };
@@ -67,8 +74,8 @@ describe('Service: Configuration', () => {
 
     it('should return `left(Validation)` for incorrect config', () => {
       class Test {
-        @Option() prop1: string;
-        @Option() prop2: boolean;
+        @Option() prop1!: string;
+        @Option() prop2!: boolean;
       }
 
       const config = { prop1: 'ok', prop2: 'not ok!' };
@@ -80,8 +87,8 @@ describe('Service: Configuration', () => {
     it('should call `ConfigurationErrorStrategy.handle(new InvalidConfigurationError(Validation, type, config))` when incorrect config', () => {
       const errorStrategy = getErrorStrategy();
       class Test {
-        @Option() prop1: string;
-        @Option() prop2: boolean;
+        @Option() prop1!: string;
+        @Option() prop2!: boolean;
       }
 
       const config = { prop1: 'ok', prop2: 'not ok!' };
@@ -100,15 +107,15 @@ describe('Service: Configuration', () => {
   describe('decode() method', () => {
     it('should return `config` when no type provided', () => {
       const config = { config: true };
-      const res = getService().decode(null, config);
+      const res = getService().decode(null as any, config);
 
       expect(res).toEqual(config);
     });
 
     it('should return `config` when invalid', () => {
       class Test {
-        @Option() prop1: string;
-        @Option() prop2: boolean;
+        @Option() prop1!: string;
+        @Option() prop2!: boolean;
       }
 
       const config = { prop1: 'ok', prop2: 'not ok' };
@@ -119,8 +126,8 @@ describe('Service: Configuration', () => {
 
     it('should return decoded `config` when valid', () => {
       class Test {
-        @Option() prop1: string;
-        @Option() prop2: boolean;
+        @Option() prop1!: string;
+        @Option() prop2!: boolean;
       }
 
       const config = { prop1: 'ok', prop2: null };
@@ -134,19 +141,22 @@ describe('Service: Configuration', () => {
         'FnFromString',
         (fn): fn is Function => typeof fn === 'function',
         (m, c) =>
-          string.validate(m, c).chain(s => {
-            try {
-              return success(new Function(s));
-            } catch {
-              return failure(s, c);
-            }
-          }),
-        a => a.toString(),
+          pipe(
+            string.validate(m, c),
+            chain((str) => {
+              try {
+                return success(new Function(str));
+              } catch {
+                return failure(str, c);
+              }
+            }),
+          ),
+        (a) => a.toString(),
       );
 
       class Test {
         @Property({ typeFactory: () => FnFromString })
-        prop1: Function;
+        prop1!: Function;
       }
 
       const config = { prop1: 'return "hi from prop1"' };
@@ -161,11 +171,13 @@ describe('Service: Configuration', () => {
 
     it('should bind `OptionFunction` functions in config via `Injector`', () => {
       const service = getService();
-      const injector = TestBed.get(Injector) as Injector;
-      const injectorGet = spyOn(injector, 'get');
+      const injector = TestBed.inject(Injector);
+      const injectorGet = jest
+        .spyOn((injector as any)._parent, 'get')
+        .mockReturnValue(undefined);
 
       class Test {
-        @OptionFunction() prop1: Function;
+        @OptionFunction() prop1!: Function;
       }
 
       const config = { prop1: '(arg1, arg2 = 1) => [arg1, arg2]' };
@@ -179,7 +191,7 @@ describe('Service: Configuration', () => {
       expect(injectorGet).toHaveBeenCalledWith('arg2', null);
       expect(res.prop1()).toEqual([undefined, 1]);
 
-      injectorGet.and.returnValue('resolved');
+      injectorGet.mockReturnValue('resolved');
       const res2 = service.decode(Test, config as any);
 
       expect(res2.prop1()).toEqual(['resolved', 'resolved']);
@@ -189,7 +201,7 @@ describe('Service: Configuration', () => {
       const injector = { get: jest.fn().mockReturnValue('resolved') };
 
       class Test {
-        @OptionFunction() prop1: Function;
+        @OptionFunction() prop1!: Function;
       }
 
       const config = { prop1: '(arg1, arg2 = 1) => [arg1, arg2]' };
@@ -209,7 +221,7 @@ describe('Service: Configuration', () => {
 
       class Test {
         @OptionFunction(() => injector)
-        prop1: Function;
+        prop1!: Function;
       }
 
       const config = { prop1: '(arg1, arg2 = 1) => [arg1, arg2]' };
@@ -226,7 +238,7 @@ describe('Service: Configuration', () => {
 
     it('should not throw any errors from `OptionFunction`', () => {
       class Test {
-        @OptionFunction() prop1: Function;
+        @OptionFunction() prop1!: Function;
       }
 
       const config = { prop1: '() => {throw Error("reason")}' };
@@ -240,7 +252,7 @@ describe('Service: Configuration', () => {
       const injector = { get: jest.fn().mockReturnValue('resolved') };
 
       class Test {
-        @OptionFunction() prop1: Function;
+        @OptionFunction() prop1!: Function;
       }
 
       const config = { prop1: '(arg) => {throw Error("reason")}' };
@@ -249,9 +261,8 @@ describe('Service: Configuration', () => {
       expect(() => res.prop1()).not.toThrowError();
       expect(getErrorStrategy().handle).toHaveBeenCalled();
 
-      const error = getErrorStrategy().handle.mock.calls[0][0] as FunctionError<
-        any
-      >;
+      const error = getErrorStrategy().handle.mock
+        .calls[0][0] as FunctionError<any>;
 
       expect(error.config).toBe(Test);
       expect(error.error).toEqual(new Error('reason'));
@@ -263,14 +274,14 @@ describe('Service: Configuration', () => {
 
   describe('getMetaOf() method', () => {
     it('should return `getConfigs(type.prototype)`', () => {
-      const getConfigs = spyOn(configuration, 'getConfigs').and.returnValue(
-        'configs',
-      );
+      const getConfigs = jest
+        .spyOn(configuration, 'getConfigs')
+        .mockReturnValue('configs' as any);
 
       class Test {
         @OptionRequired()
         @OptionInteger()
-        prop1: number;
+        prop1!: number;
       }
 
       const res = getService().getMetaOf(Test);
@@ -282,9 +293,9 @@ describe('Service: Configuration', () => {
 });
 
 function getService(): ConfigurationService {
-  return TestBed.get(ConfigurationService);
+  return TestBed.inject(ConfigurationService);
 }
 
 function getErrorStrategy(): MockConfigurationErrorStrategy {
-  return TestBed.get(ErrorStrategy);
+  return TestBed.inject(ErrorStrategy) as MockConfigurationErrorStrategy;
 }

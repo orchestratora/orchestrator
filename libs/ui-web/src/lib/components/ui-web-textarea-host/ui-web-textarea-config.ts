@@ -18,11 +18,11 @@ export class UiWebTextAreaConfig extends FormAttributesConfig {
 
   @OptionRange(0, Infinity, 1)
   @OptionInteger()
-  cols? = 20;
+  cols?: number;
 
   @OptionRange(0, Infinity, 1)
   @OptionInteger()
-  rows? = 2;
+  rows?: number;
 
   @OptionRange(0, Infinity, 1)
   @OptionInteger()

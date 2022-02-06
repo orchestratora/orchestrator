@@ -9,7 +9,7 @@ import { UiWebTextareaHostComponent } from './ui-web-textarea-host.component';
   exports: [UiWebTextareaHostComponent],
 })
 export class UiWebTextareaHostModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<UiWebTextareaHostModule> {
     return {
       ngModule: UiWebTextareaHostModule,
       providers: [

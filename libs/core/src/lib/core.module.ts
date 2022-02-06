@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import {
-  ANALYZE_FOR_ENTRY_COMPONENTS,
-  ModuleWithProviders,
-  NgModule,
-  Provider,
-} from '@angular/core';
-import { DynamicModule } from 'ng-dynamic-component';
+  DynamicAttributesModule,
+  DynamicDirectivesModule,
+  DynamicModule,
+} from 'ng-dynamic-component';
 
 import { ComponentLocatorService } from './component-locator/component-locator.service';
-import { COMPONENTS } from './component-map';
+import { COMPONENTS } from './components-token';
 import { ComponentRegistry } from './component-registry';
 import { ConfigurationService } from './config/configuration.service';
 import { ErrorStrategy } from './error-strategy/error-strategy';
@@ -19,7 +18,12 @@ import { RenderItemComponent } from './render-item/render-item.component';
 import { OrchestratorDynamicComponentType } from './types';
 
 @NgModule({
-  imports: [CommonModule, DynamicModule.withComponents([])],
+  imports: [
+    CommonModule,
+    DynamicModule,
+    DynamicAttributesModule,
+    DynamicDirectivesModule,
+  ],
   declarations: [OrchestratorComponent, RenderItemComponent],
   exports: [OrchestratorComponent, RenderItemComponent],
 })
@@ -27,7 +31,7 @@ export class OrchestratorCoreModule {
   /**
    * Use this to import module in root application only once
    */
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<OrchestratorCoreModule> {
     return {
       ngModule: OrchestratorCoreModule,
       providers: [...OrchestratorCoreModule.getRootProviders()],
@@ -39,7 +43,7 @@ export class OrchestratorCoreModule {
    */
   static withComponents(
     components: ComponentRegistry<OrchestratorDynamicComponentType>,
-  ): ModuleWithProviders {
+  ): ModuleWithProviders<OrchestratorCoreModule> {
     return {
       ngModule: OrchestratorCoreModule,
       providers: [
@@ -55,14 +59,7 @@ export class OrchestratorCoreModule {
   static registerComponents(
     components: ComponentRegistry<OrchestratorDynamicComponentType>,
   ): Provider[] {
-    return [
-      {
-        provide: ANALYZE_FOR_ENTRY_COMPONENTS,
-        useValue: components,
-        multi: true,
-      },
-      { provide: COMPONENTS, useValue: components, multi: true },
-    ];
+    return [{ provide: COMPONENTS, useValue: components, multi: true }];
   }
 
   private static getRootProviders(): Provider[] {

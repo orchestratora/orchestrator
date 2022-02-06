@@ -1,12 +1,12 @@
 import { Component, ComponentRef } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { OrchestratorConfigItem } from '@orchestrator/core';
 import {
-  OrchestratorConfigItem,
-  OrchestratorCoreModule,
-} from '@orchestrator/core';
-import { Dynamic1Component, Dynamic2Component } from '@testing';
-
+  Dynamic1Component,
+  Dynamic2Component,
+  OrchestratorCoreTestingModule,
+} from '@orchestrator/core/testing';
 import { LayoutFlexModule } from '../flex';
 import { LayoutFlatComponent } from './layout-flat.component';
 
@@ -28,23 +28,26 @@ describe('LayoutFlatComponent', () => {
   let fixture: ComponentFixture<HostComponent>;
   let hostComp: HostComponent;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        OrchestratorCoreModule.withComponents([
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          LayoutFlexModule,
+          OrchestratorCoreTestingModule.withComponents([
+            Dynamic1Component,
+            Dynamic2Component,
+          ]),
+        ],
+        declarations: [
+          LayoutFlatComponent,
+          HostComponent,
           Dynamic1Component,
           Dynamic2Component,
-        ]),
-        LayoutFlexModule,
-      ],
-      declarations: [
-        LayoutFlatComponent,
-        HostComponent,
-        Dynamic1Component,
-        Dynamic2Component,
-      ],
-    }).compileComponents();
-  }));
+        ],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HostComponent);
@@ -81,7 +84,7 @@ describe('LayoutFlatComponent', () => {
     );
 
     expect(compElem.children.length).toBe(2);
-    compElem.children.forEach(child =>
+    compElem.children.forEach((child) =>
       expect(child.attributes['class']).toBe('layout-flat-orc-item'),
     );
   });
@@ -92,12 +95,12 @@ describe('LayoutFlatComponent', () => {
 
     expect(hostComp.onAfterItemsRendered).toHaveBeenCalledTimes(1);
     expect(hostComp.onAfterItemsRendered).toHaveBeenCalledWith([
-      jasmine.any(ComponentRef),
-      jasmine.any(ComponentRef),
+      expect.any(ComponentRef),
+      expect.any(ComponentRef),
     ]);
     expect(hostComp.onAfterItemsRendered).toHaveBeenCalledWith([
-      jasmine.objectContaining({ instance: jasmine.any(Dynamic1Component) }),
-      jasmine.objectContaining({ instance: jasmine.any(Dynamic2Component) }),
+      expect.objectContaining({ instance: expect.any(Dynamic1Component) }),
+      expect.objectContaining({ instance: expect.any(Dynamic2Component) }),
     ]);
   });
 

@@ -16,6 +16,7 @@ import {
   Renderer2,
   SimpleChanges,
 } from '@angular/core';
+import { isRight } from 'fp-ts/lib/Either';
 import {
   AttributesMap,
   DynamicDirectiveDef,
@@ -54,8 +55,10 @@ class Handler {
     MappedInjectorFactory,
   ],
 })
-export class RenderItemComponent extends RenderComponent
-  implements OnInit, OnChanges, OnDestroy {
+export class RenderItemComponent
+  extends RenderComponent
+  implements OnInit, OnChanges, OnDestroy
+{
   @Input() item: OrchestratorConfigItem<any> | undefined;
   @Input() context: any;
 
@@ -103,7 +106,7 @@ export class RenderItemComponent extends RenderComponent
   ngOnInit() {
     this.componentsRegistryService.componentsReady$
       .pipe(takeUntil(this.destroyed$))
-      .subscribe(compRefs => {
+      .subscribe((compRefs) => {
         this.childComponentsCreated.emit(compRefs);
         this.componentsRegistryService.addChildren(compRefs);
       });
@@ -112,9 +115,9 @@ export class RenderItemComponent extends RenderComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ('item' in changes) {
+    if ('item' in changes && !changes.item.firstChange) {
       this.update();
-    } else if ('context' in changes) {
+    } else if ('context' in changes && !changes.context.firstChange) {
       this.updateContextInput();
     }
   }
@@ -165,7 +168,9 @@ export class RenderItemComponent extends RenderComponent
       return;
     }
 
-    this.inputs.items = this.inputs.items.map(i => (i === item ? newItem : i));
+    this.inputs.items = this.inputs.items.map((i) =>
+      i === item ? newItem : i,
+    );
 
     this.cdr.markForCheck();
   }
@@ -283,18 +288,18 @@ export class RenderItemComponent extends RenderComponent
       getInjector,
       getComponent: () => this.compRef.instance,
       getConfig: () => this.inputs.config,
-      getContext: () => this.context,
-      updateConfig: config => {
+      updateConfig: (config) => {
         this.markForCheck();
         return (this.inputs.config = { ...this.inputs.config, ...config });
       },
       isConfigValid: () =>
-        this.configurationService
-          .validate(
+        isRight(
+          this.configurationService.validate(
             this.componentLocatorService.getConfigType(this.componentType),
             this.inputs.config,
-          )
-          .isRight(),
+          ),
+        ),
+      getContext: () => this.context,
     });
   }
 
@@ -308,7 +313,7 @@ export class RenderItemComponent extends RenderComponent
     const { handlers } = this.item;
 
     this.disposableHandlers = Object.keys(handlers)
-      .map(event => ({
+      .map((event) => ({
         event,
         handler: this.decodeHandler(handlers[event]),
       }))
@@ -327,13 +332,13 @@ export class RenderItemComponent extends RenderComponent
 
   private attachHandler(event: string, handler: Function): Function {
     const outputInfo = this.compFactory.outputs.find(
-      output => output.templateName === event,
+      (output) => output.templateName === event,
     );
 
     if (outputInfo) {
-      const output = this.compRef.instance[outputInfo.propName] as Observable<
-        any
-      >;
+      const output = this.compRef.instance[
+        outputInfo.propName
+      ] as Observable<any>;
       const sub = output.subscribe(handler as any);
       return () => sub.unsubscribe();
     }
@@ -346,7 +351,7 @@ export class RenderItemComponent extends RenderComponent
   }
 
   private disposeHandlers() {
-    this.disposableHandlers.forEach(disposeHandler => disposeHandler());
+    this.disposableHandlers.forEach((disposeHandler) => disposeHandler());
     this.disposableHandlers = [];
   }
 

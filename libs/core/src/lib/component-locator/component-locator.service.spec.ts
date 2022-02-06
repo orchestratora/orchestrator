@@ -1,7 +1,7 @@
 import { Component, NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { COMPONENTS } from '../component-map';
+import { COMPONENTS } from '../components-token';
 import { DynamicComponent } from '../metadata';
 import { ComponentLocatorService } from './component-locator.service';
 
@@ -25,6 +25,7 @@ describe('ComponentLocatorService', () => {
         ComponentLocatorService,
         { provide: COMPONENTS, useValue: [], multi: true },
       ],
+      teardown: { destroyAfterEach: false },
     });
   });
 
@@ -44,6 +45,7 @@ describe('ComponentLocatorService', () => {
           providers: [
             { provide: COMPONENTS, useValue: [TestComponent], multi: true },
           ],
+          teardown: { destroyAfterEach: false },
         }),
       );
 
@@ -62,6 +64,7 @@ describe('ComponentLocatorService', () => {
               multi: true,
             },
           ],
+          teardown: { destroyAfterEach: false },
         }),
       );
 
@@ -95,6 +98,7 @@ describe('ComponentLocatorService', () => {
 
       TestBed.configureTestingModule({
         providers: [MyConfig],
+        teardown: { destroyAfterEach: false },
       });
 
       expect(getService().getDefaultConfig(MyComp)).toEqual(
@@ -128,5 +132,5 @@ describe('ComponentLocatorService', () => {
 });
 
 function getService(): ComponentLocatorService {
-  return TestBed.get(ComponentLocatorService);
+  return TestBed.inject(ComponentLocatorService);
 }

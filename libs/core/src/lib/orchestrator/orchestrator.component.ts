@@ -4,7 +4,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentRef } from '@angular/core/src/render3';
+import { ComponentRef } from '@angular/core';
 import { combineLatest, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -17,15 +17,16 @@ import { OrchestratorConfigItem } from '../types';
 })
 export class OrchestratorComponent {
   @Input() config: OrchestratorConfigItem<any>;
+  @Input() context?: any;
 
   private compCreated$ = new Subject<ComponentRef<any>>();
   private childCompsCreated$ = new Subject<ComponentRef<any>[]>();
 
   @Output()
-  componentsCreated = combineLatest(
+  componentsCreated = combineLatest([
     this.compCreated$,
     this.childCompsCreated$,
-  ).pipe(map(([comp, comps]) => [comp, ...comps]));
+  ]).pipe(map(([comp, comps]) => [comp, ...comps]));
 
   compCreated(compRef: ComponentRef<any>) {
     this.compCreated$.next(compRef);

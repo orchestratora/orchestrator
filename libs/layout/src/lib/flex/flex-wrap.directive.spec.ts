@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import { FlexWrapDirective } from './flex-wrap.directive';
 
 @Component({
   selector: 'orc-host-wrap-cmp',
-  template: `
-    <div [orcFxWrap]="wrap">Host Component</div>
-  `,
+  template: ` <div [orcFxWrap]="wrap">Host Component</div> `,
 })
 class HostFlexWrapComponent {
   wrap = 'wrap';
@@ -17,11 +14,14 @@ class HostFlexWrapComponent {
 describe('FlexWrapDirective', () => {
   let fixture: ComponentFixture<HostFlexWrapComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [HostFlexWrapComponent, FlexWrapDirective],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [HostFlexWrapComponent, FlexWrapDirective],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   it('should apply correct `wrap` style to host', () => {
     fixture = TestBed.createComponent(HostFlexWrapComponent);

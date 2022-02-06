@@ -13,6 +13,7 @@ describe('UiWebImageConfig', () => {
         ConfigurationService,
         { provide: ErrorStrategy, useClass: ThrowErrorStrategy },
       ],
+      teardown: { destroyAfterEach: false },
     });
   });
 
@@ -93,5 +94,5 @@ function invalidConfig(config: any) {
 }
 
 function getConfigSvc(): ConfigurationService {
-  return TestBed.get(ConfigurationService);
+  return TestBed.inject(ConfigurationService);
 }

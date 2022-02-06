@@ -2,11 +2,8 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/libs/composer",
   "lib": {
-    "entryFile": "src/public_api.ts",
-    "umdId": "orchestrator.composer",
-    "umdModuleIds": {
-      "@orchestrator/core": "orchestrator.core",
-      "ng-zorro-antd": "ngZorroAntd"
-    }
-  }
+    "entryFile": "src/public_api.ts"
+  },
+  "allowedNonPeerDependencies": ["ng-zorro-antd"],
+  "assets": ["src/styles.css"]
 }

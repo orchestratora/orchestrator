@@ -25,24 +25,23 @@ export class UiWebTextHostComponent
   @Input() config: UiWebTextConfig;
   @Input() context: any;
 
-  textGetter: () => string;
+  text: string;
 
   ngOnInit(): void {
-    this.updateTextGetter();
+    this.updateText();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('config' in changes || 'context' in changes) {
-      this.updateTextGetter();
+      this.updateText();
     }
   }
 
-  private updateTextGetter() {
-    if (this.config.textWithCtx) {
-      this.textGetter = () =>
-        (this.config.textWithCtx as UiWebTextFn<any>)(this.context);
+  private updateText() {
+    if (this.config.textFn) {
+      this.text = (this.config.textFn as UiWebTextFn<any>)(this.context);
     } else {
-      this.textGetter = () => this.config.text;
+      this.text = this.config.text;
     }
   }
 }

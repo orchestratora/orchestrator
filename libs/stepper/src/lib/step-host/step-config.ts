@@ -1,6 +1,6 @@
 import { Option, OrchestratorConfigItem } from '@orchestrator/core';
 
-import { StepperContext } from '../stepper-host';
+export interface StepperContext extends OrchestratorConfigItem<StepConfig> {}
 
 export class StepConfig {
   @Option({ required: true })

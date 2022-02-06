@@ -1,6 +1,6 @@
 {
   "name": "@orchestrator/ui-web",
-  "version": "0.0.0",
+  "version": "2.0.2",
   "publishConfig": {
     "access": "public"
   },
@@ -19,8 +19,16 @@
   "author": "Orchestrator <orchestratora@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": "^7.0.0",
-    "@angular/core": "^7.0.0",
-    "@orchestrator/core": "^0.0.0"
+    "@angular/common": "^12.0.0 || ^13.0.0",
+    "@angular/core": "^12.0.0 || ^13.0.0",
+    "@angular/platform-browser": "^12.0.0 || ^13.0.0",
+    "@orchestrator/core": "^2.0.0",
+    "rxjs": "^6.0.0 || ^7.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "scripts": {
+    "prepare": "node ../../tools/scripts/prepare-lib.js"
   }
 }

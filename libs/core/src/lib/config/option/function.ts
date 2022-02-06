@@ -1,5 +1,7 @@
 import { Injector } from '@angular/core';
 import { Property } from '@orchestrator/gen-io-ts';
+import { chain } from 'fp-ts/lib/Either';
+import { pipe } from 'fp-ts/function';
 import * as t from 'io-ts';
 
 import { addConfig } from '../../metadata/configuration';
@@ -14,69 +16,75 @@ export interface FunctionMeta {
 
 export interface FunctionWithMeta extends Function, FunctionMeta {}
 
-export function isFunctionWithMeta(fn: Function): fn is FunctionWithMeta {
-  return typeof fn === 'function' && 'args' in fn && 'body' in fn;
-}
+export const CUSTOM_FUNCTION_ARGUMENT_PREFIX = '$';
 
 export const FunctionFromMeta = new t.Type<FunctionWithMeta, FunctionMeta>(
   'FunctionFromMeta',
   isFunctionWithMeta,
   (m, c) =>
-    t.UnknownRecord.validate(m, c).chain((obj: FunctionMeta) => {
-      if (
-        obj === null ||
-        !Array.isArray(obj.args) ||
-        typeof obj.body !== 'string'
-      ) {
-        return t.failure(m, c);
-      }
-
-      obj.args.sort((arg1, arg2) => {
-        const is1Custom = arg1.startsWith('$');
-        const is2Custom = arg2.startsWith('$');
-
-        if (is1Custom === is2Custom) {
-          return 0;
+    pipe(
+      t.UnknownRecord.validate(m, c),
+      chain((obj) => {
+        if (!hasFunctionMeta(obj)) {
+          return t.failure(m, c);
         }
 
-        return is1Custom ? 1 : -1;
-      });
+        // Move custom arguments to the end
+        obj.args.sort((arg1, arg2) => {
+          const is1Custom = arg1.startsWith(CUSTOM_FUNCTION_ARGUMENT_PREFIX);
+          const is2Custom = arg2.startsWith(CUSTOM_FUNCTION_ARGUMENT_PREFIX);
 
-      const fn = new Function(...obj.args, obj.body) as FunctionWithMeta;
-      fn.args = obj.args;
-      fn.body = obj.body;
+          if (is1Custom === is2Custom) {
+            return 0;
+          }
 
-      return t.success(fn);
-    }),
-  fn => ({ args: fn.args, body: fn.body }),
+          return is1Custom ? 1 : -1;
+        });
+
+        const fn = new Function(...obj.args, obj.body) as FunctionWithMeta;
+        fn.args = obj.args;
+        fn.body = obj.body;
+
+        return t.success(fn);
+      }),
+    ),
+  (fn) => ({ args: fn.args, body: fn.body }),
 );
 
 export const FunctionFromString = new t.Type<FunctionWithMeta, string>(
   'FunctionFromString',
   isFunctionWithMeta,
   (m, c) =>
-    t.string.validate(m, c).chain(s => {
-      try {
-        return FunctionFromMeta.validate(parseFunction(s), c);
-      } catch {
-        return t.failure(s, c);
-      }
-    }),
-  fn => fn.toString(),
+    pipe(
+      t.string.validate(m, c),
+      chain((str) => {
+        try {
+          return FunctionFromMeta.validate(parseFunction(str), c);
+        } catch {
+          return t.failure(str, c);
+        }
+      }),
+    ),
+  (fn) => fn.toString(),
 );
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const FunctionWithMeta = new t.Type<FunctionWithMeta, Function>(
   'FunctionWithMeta',
   isFunctionWithMeta,
   (m, c) =>
-    t.Function.validate(m, c).chain(f => {
-      try {
-        return FunctionFromMeta.validate(parseFunction(f.toString()), c);
-      } catch {
-        return t.failure(f, c);
-      }
-    }),
-  fn => fn,
+    pipe(
+      t.Function.validate(m, c),
+      chain((fn) => {
+        try {
+          // Reconstruct function from string to reorder arguments
+          return FunctionFromString.validate(fn.toString(), c);
+        } catch {
+          return t.failure(fn, c);
+        }
+      }),
+    ),
+  (fn) => fn,
 );
 
 export function OptionFunction(
@@ -94,4 +102,12 @@ export function OptionFunction(
       args: [customInjector],
     });
   };
+}
+
+function hasFunctionMeta(obj: any): obj is FunctionMeta {
+  return obj && Array.isArray(obj.args) && typeof obj.body === 'string';
+}
+
+function isFunctionWithMeta(fn: any): fn is FunctionWithMeta {
+  return typeof fn === 'function' && hasFunctionMeta(fn);
 }

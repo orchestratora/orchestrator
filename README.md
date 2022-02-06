@@ -1,68 +1,38 @@
 # Orchestrator
 
-> Extensible orchestrator for UI and forms for Angular
+> Extensible orchestrator of the UI for Angular
 
-Current state: `Alpha v0.0.1`
+[![Test Workflow](https://github.com/orchestratora/orchestrator/actions/workflows/test.yml/badge.svg)](https://github.com/orchestratora/orchestrator/actions/workflows/test.yml)
+[![Release Workflow](https://github.com/orchestratora/orchestrator/actions/workflows/release.yml/badge.svg)](https://github.com/orchestratora/orchestrator/actions/workflows/release.yml)
 
-## Installation
+## Packages
 
-### Core
+| Name                     | Package               | NPM                                                                          |
+| ------------------------ | --------------------- | ---------------------------------------------------------------------------- |
+| [Core](/libs/core)       | @orchestrator/core    | ![@orchestrator/core](https://img.shields.io/npm/v/@orchestrator/core)       |
+| [Layout](/libs/layout)   | @orchestrator/layout  | ![@orchestrator/layout](https://img.shields.io/npm/v/@orchestrator/layout)   |
+| [UiWeb](/libs/ui-web)    | @orchestrator/ui-web  | ![npm](https://img.shields.io/npm/v/@orchestrator/ui-web)                    |
+| [Stepper](/libs/stepper) | @orchestrator/stepper | ![@orchestrator/stepper](https://img.shields.io/npm/v/@orchestrator/stepper) |
+
+### Installation
 
 ```bash
 $ npm install @orchestrator/core
 ```
 
-### Layout
-
-```bash
-$ npm install @orchestrator/layout
-```
-
-### UiWeb
-
-```bash
-$ npm install @orchestrator/ui-web
-```
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) using [Nrwl Nx](https://nrwl.io/nx).
-
-## Nrwl Extensions for Angular (Nx)
-
-<a href="https://nrwl.io/nx"><img src="https://preview.ibb.co/mW6sdw/nx_logo.png"></a>
-
-Nx is an open source toolkit for enterprise Angular applications.
-
-Nx is designed to help you create and build enterprise grade Angular applications. It provides an opinionated approach to application project structure and patterns.
-
-## Quick Start & Documentation
-
-[Watch a 5-minute video on how to get started with Nx.](http://nrwl.io/nx)
-
-## Generate your first application
-
-Run `ng generate app myapp` to generate an application. When using Nx, you can create multiple applications and libraries in the same CLI workspace. Read more [here](http://nrwl.io/nx).
-
-## Development server
-
-Run `ng serve --project=myapp` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name --project=myapp` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
 ## Build
 
-Run `ng build --project=myapp` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `nx build <package>` to build the project. The build artifacts will be stored in the `dist/` directory.
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `nx test <package>` to execute the unit tests via Jest. The test coverage will be stored in the `coverage/` directory.
+
+## Running lint
+
+Run `nx lint <package>` to execute the unit tests via Jest.
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Run `nx e2e <package>` to execute the end-to-end tests via Cypress.
 Before running the tests make sure you are serving the app via `ng serve`.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

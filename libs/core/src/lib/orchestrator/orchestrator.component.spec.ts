@@ -1,10 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Dynamic1Component, Dynamic2Component } from '@testing';
-import { DynamicModule } from 'ng-dynamic-component';
-
+import {
+  Dynamic1Component,
+  Dynamic2Component,
+  provideDynamicComponents,
+} from '@orchestrator/core/testing';
+import {
+  DynamicAttributesModule,
+  DynamicDirectivesModule,
+  DynamicModule,
+} from 'ng-dynamic-component';
 import { ComponentLocatorService } from '../component-locator/component-locator.service';
-import { COMPONENTS } from '../component-map';
+import { COMPONENTS } from '../components-token';
 import { ConfigurationService } from '../config/configuration.service';
 import { ErrorStrategy } from '../error-strategy/error-strategy';
 import { SuppressErrorStrategy } from '../error-strategy/suppress-error-strategy';
@@ -16,26 +23,32 @@ describe('OrchestratorComponent', () => {
   let component: OrchestratorComponent;
   let fixture: ComponentFixture<OrchestratorComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        DynamicModule.withComponents([Dynamic1Component, Dynamic2Component]),
-      ],
-      declarations: [
-        OrchestratorComponent,
-        RenderItemComponent,
-        Dynamic1Component,
-        Dynamic2Component,
-      ],
-      providers: [
-        { provide: COMPONENTS, useValue: null, multi: true },
-        ComponentLocatorService,
-        ConfigurationService,
-        { provide: ErrorStrategy, useClass: SuppressErrorStrategy },
-        provideInjectorMap({}),
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          DynamicModule,
+          DynamicAttributesModule,
+          DynamicDirectivesModule,
+        ],
+        declarations: [
+          OrchestratorComponent,
+          RenderItemComponent,
+          Dynamic1Component,
+          Dynamic2Component,
+        ],
+        providers: [
+          provideDynamicComponents([Dynamic1Component, Dynamic2Component]),
+          { provide: COMPONENTS, useValue: null, multi: true },
+          ComponentLocatorService,
+          ConfigurationService,
+          { provide: ErrorStrategy, useClass: SuppressErrorStrategy },
+          provideInjectorMap({}),
+        ],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrchestratorComponent);
@@ -53,6 +66,19 @@ describe('OrchestratorComponent', () => {
 
     expect(renderItem).toBeTruthy();
     expect(renderItem.componentInstance.item).toBe('my-config');
+  });
+
+  it('should render `orc-render-item` with context => context prop', () => {
+    component.context = 'some-context';
+
+    fixture.detectChanges();
+
+    const renderItem = fixture.debugElement.query(
+      By.directive(RenderItemComponent),
+    );
+
+    expect(renderItem).toBeTruthy();
+    expect(renderItem.componentInstance.context).toBe('some-context');
   });
 
   it('should emit `componentsCreated` with all dynamic component refs', () => {

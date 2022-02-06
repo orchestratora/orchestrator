@@ -15,11 +15,13 @@ import { AppComponent } from './app.component';
       { path: '', redirectTo: '/home', pathMatch: 'full' },
       {
         path: 'home',
-        loadChildren: './home/home.module#HomeModule',
+        loadChildren: () =>
+          import('./home/home.module').then((m) => m.HomeModule),
       },
       {
         path: 'default',
-        loadChildren: './default/default.module#DefaultModule',
+        loadChildren: () =>
+          import('./default/default.module').then((m) => m.DefaultModule),
       },
     ]),
   ],

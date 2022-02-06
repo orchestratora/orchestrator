@@ -1,25 +1,26 @@
-# Stepper
+# @orchestrator/stepper
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.0.
+> A stepper component for Orchestrator library.
 
-## Code scaffolding
+![@orchestrator/stepper](https://img.shields.io/npm/v/@orchestrator/stepper)
 
-Run `ng generate component component-name --project stepper` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project stepper`.
+## Registration
 
-> Note: Don't forget to add `--project stepper` or else it will be added to the default project in your `angular.json` file.
+```ts
+import { NgModule } from '@angular/core';
+import { OrchestratorCoreModule } from '@orchestrator/core';
+import { StepperModule } from '@orchestrator/stepper';
 
-## Build
+@NgModule({
+  imports: [OrchestratorCoreModule.forRoot(), StepperModule.forRoot()],
+})
+export class AppModule {}
+```
 
-Run `ng build stepper` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Components list
 
-## Publishing
-
-After building your library with `ng build stepper`, go to the dist folder `cd dist/stepper` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test stepper` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+| Component                                                                | Description                     |
+| ------------------------------------------------------------------------ | ------------------------------- |
+| [orc-stepper-host](/libs/stepper/src/lib/stepper-host/stepper-config.ts) | Allows to render multiple steps |
+| [orc-step-host](/libs/stepper/src/lib/step-host/step-config.ts)          | Allows to render a single step  |
+|                                                                          |                                 |

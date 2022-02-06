@@ -1,6 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import { UiWebHeadingLevel } from './ui-web-heading-config';
 import { UiWebHeadingHostComponent } from './ui-web-heading-host.component';
 
@@ -8,11 +7,14 @@ describe('UiWebHeadingHostComponent', () => {
   let component: UiWebHeadingHostComponent;
   let fixture: ComponentFixture<UiWebHeadingHostComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [UiWebHeadingHostComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UiWebHeadingHostComponent],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UiWebHeadingHostComponent);
@@ -28,9 +30,7 @@ describe('UiWebHeadingHostComponent', () => {
   testHeading('h6', UiWebHeadingLevel.Six);
 
   function testHeading(tag: string, level?: UiWebHeadingLevel) {
-    it(`should render ${tag} with text from 'config.text' when 'config.level' is ${
-      UiWebHeadingLevel[level]
-    }`, () => {
+    it(`should render ${tag} with text from 'config.text' when 'config.level' is ${UiWebHeadingLevel[level]}`, () => {
       component.config = { text: 'my text', level };
 
       fixture.detectChanges();

@@ -1,29 +1,61 @@
+/*
+  This is a "Solution Style" tsconfig.json file, and is used by editors and TypeScript’s language server to improve development experience.
+  It is not intended to be used to perform a compilation.
+
+  To learn more about this file see: https://angular.io/config/solution-tsconfig.
+*/
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "noEmitHelpers": true,
-    "importHelpers": true,
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "target": "es5",
-    "module": "es2015",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["esnext", "dom"],
-    "baseUrl": ".",
-    "paths": {
-      "@testing": ["libs/core/testing/src/public_api.ts"],
-      "@orchestrator/core": ["libs/core/src/public_api.ts"],
-      "@orchestrator/core/*": ["libs/core/*/src/public_api.ts"],
-      "@orchestrator/layout": ["libs/layout/src/public_api.ts"],
-      "@orchestrator/ui-web": ["libs/ui-web/src/public_api.ts"],
-      "@orchestrator/stepper": ["libs/stepper/src/public_api.ts"],
-      "@orchestrator/composer": ["libs/composer/src/public_api.ts"]
+  "files": [],
+  "references": [
+    {
+      "path": "./libs/core/tsconfig.lib.json"
+    },
+    {
+      "path": "./libs/core/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/layout/tsconfig.lib.json"
+    },
+    {
+      "path": "./libs/layout/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/ui-web/tsconfig.lib.json"
+    },
+    {
+      "path": "./libs/ui-web/tsconfig.spec.json"
+    },
+    {
+      "path": "./apps/ui-web-example/tsconfig.app.json"
+    },
+    {
+      "path": "./apps/ui-web-example/tsconfig.spec.json"
+    },
+    {
+      "path": "./apps/ui-web-example-e2e/tsconfig.json"
+    },
+    {
+      "path": "./libs/stepper/tsconfig.lib.json"
+    },
+    {
+      "path": "./libs/stepper/tsconfig.spec.json"
+    },
+    {
+      "path": "./libs/composer/tsconfig.lib.json"
+    },
+    {
+      "path": "./libs/composer/tsconfig.spec.json"
     }
-  },
-  "exclude": ["node_modules", "tmp", "dist"]
+  ],
+  "angularCompilerOptions": {
+    "compilationMode": "partial",
+    "annotateForClosureCompiler": true,
+    "skipTemplateCodegen": true,
+    "strictMetadataEmit": true,
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "enableResourceInlining": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
 }

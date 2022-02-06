@@ -23,8 +23,8 @@ export class ComponentsRegistryService implements OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    this.childComponents = null;
-    this.subChildComponents = null;
+    this.childComponents = [];
+    this.subChildComponents = [];
   }
 
   waitFor(count: number) {

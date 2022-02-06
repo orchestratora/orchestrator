@@ -14,6 +14,7 @@ describe('FormAttributesConfig', () => {
         ConfigurationService,
         { provide: ErrorStrategy, useClass: ThrowErrorStrategy },
       ],
+      teardown: { destroyAfterEach: false },
     });
   });
 
@@ -173,5 +174,5 @@ describe('FormAttributesConfig', () => {
 });
 
 function getConfigService(): ConfigurationService {
-  return TestBed.get(ConfigurationService);
+  return TestBed.inject(ConfigurationService);
 }

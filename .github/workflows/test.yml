@@ -1,0 +1,72 @@
+name: Test Workflow
+
+on:
+  # Triggers the workflow on push events
+  push:
+    branches:
+      - master
+      - next
+      - 'release/*'
+  # Triggers the workflow on pull request events
+  pull_request:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  NX_CLOUD_DISTRIBUTED_EXECUTION: true
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
+          fetch-depth: 0
+      - name: Setup NX
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || github.ref }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-node-
+      - name: Install Deps
+        run: npm ci --ignore-scripts
+      - name: Start Agents
+        run: npx nx-cloud start-ci-run
+      - name: Test
+        run: npm run affected:test -- --parallel
+      - name: Lint
+        run: npm run affected:lint -- --parallel
+      - name: Build
+        run: npm run affected:build -- --parallel
+      - name: Stop Agents
+        if: always()
+        run: npx nx-cloud stop-all-agents
+  agents:
+    runs-on: ubuntu-latest
+    name: Agents
+    timeout-minutes: 60
+    strategy:
+      matrix:
+        agent: [1, 2, 3]
+    steps:
+      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-node-
+      - name: Install Deps
+        run: npm ci --ignore-scripts
+      - name: Start Nx Agent ${{ matrix.agent }}
+        run: npx nx-cloud start-agent

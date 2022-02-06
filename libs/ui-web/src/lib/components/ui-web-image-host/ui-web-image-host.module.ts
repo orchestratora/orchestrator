@@ -9,7 +9,7 @@ import { UiWebImageHostComponent } from './ui-web-image-host.component';
   declarations: [UiWebImageHostComponent],
 })
 export class UiWebImageHostModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<UiWebImageHostModule> {
     return {
       ngModule: UiWebImageHostModule,
       providers: [

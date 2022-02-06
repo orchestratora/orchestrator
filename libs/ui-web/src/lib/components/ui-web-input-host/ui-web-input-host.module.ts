@@ -11,7 +11,7 @@ import { UiWebInputHostComponent } from './ui-web-input-host.component';
   declarations: [UiWebInputHostComponent],
 })
 export class UiWebInputHostModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<UiWebInputHostModule> {
     return {
       ngModule: UiWebInputHostModule,
       providers: [

@@ -1,0 +1,17 @@
+/* Ant Styles */
+@import '~ng-zorro-antd/style/index.css';
+@import '~ng-zorro-antd/layout/style/index.css';
+@import '~ng-zorro-antd/button/style/index.css';
+@import '~ng-zorro-antd/card/style/index.css';
+@import '~ng-zorro-antd/collapse/style/index.css';
+@import '~ng-zorro-antd/divider/style/index.css';
+@import '~ng-zorro-antd/form/style/index.css';
+@import '~ng-zorro-antd/icon/style/index.css';
+@import '~ng-zorro-antd/input/style/index.css';
+@import '~ng-zorro-antd/input-number/style/index.css';
+@import '~ng-zorro-antd/list/style/index.css';
+@import '~ng-zorro-antd/popover/style/index.css';
+@import '~ng-zorro-antd/select/style/index.css';
+@import '~ng-zorro-antd/slider/style/index.css';
+@import '~ng-zorro-antd/switch/style/index.css';
+@import '~ng-zorro-antd/tooltip/style/index.css';

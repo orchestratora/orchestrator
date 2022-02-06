@@ -1,6 +1,4 @@
-import { ANALYZE_FOR_ENTRY_COMPONENTS } from '@angular/core';
-
-import { COMPONENTS } from './component-map';
+import { COMPONENTS } from './components-token';
 import { OrchestratorCoreModule } from './core.module';
 import { ErrorStrategy } from './error-strategy/error-strategy';
 import { ThrowErrorStrategy } from './error-strategy/throw-error-strategy';
@@ -51,20 +49,6 @@ describe('OrchestratorCoreModule', () => {
   });
 
   describe('withComponents() static method', () => {
-    it('should provide `ANALYZE_FOR_ENTRY_COMPONENTS` multi token with `components` array', () => {
-      const comps = ['comp1', 'comp2'] as any;
-
-      const res = OrchestratorCoreModule.withComponents(comps);
-
-      expect(res.providers).toContainEqual(
-        expect.objectContaining({
-          provide: ANALYZE_FOR_ENTRY_COMPONENTS,
-          useValue: comps,
-          multi: true,
-        }),
-      );
-    });
-
     it('should provide `COMPONENTS` multi token with `components` array', () => {
       const comps = ['comp1', 'comp2'] as any;
 
@@ -134,20 +118,6 @@ describe('OrchestratorCoreModule', () => {
   });
 
   describe('registerComponents() static method', () => {
-    it('should provide `ANALYZE_FOR_ENTRY_COMPONENTS` multi token with `components` array', () => {
-      const comps = ['comp1', 'comp2'] as any;
-
-      const res = OrchestratorCoreModule.registerComponents(comps);
-
-      expect(res).toContainEqual(
-        expect.objectContaining({
-          provide: ANALYZE_FOR_ENTRY_COMPONENTS,
-          useValue: comps,
-          multi: true,
-        }),
-      );
-    });
-
     it('should provide `COMPONENTS` multi token with `components` array', () => {
       const comps = ['comp1', 'comp2'] as any;
 

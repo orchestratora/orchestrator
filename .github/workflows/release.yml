@@ -1,0 +1,94 @@
+name: Release Workflow
+
+on:
+  # Triggers the workflow after the Test Workflow has completed
+  workflow_run:
+    workflows: ['Test Workflow']
+    types:
+      - completed
+    branches:
+      - master
+      - next
+      - 'release/*'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  NX_CLOUD_DISTRIBUTED_EXECUTION: true
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    environment: 'Release NPM'
+    env:
+      GITHUB_TOKEN: ${{ secrets.PRIVATE_GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.PRIVATE_GITHUB_TOKEN }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      GIT_USER: ${{ secrets.GIT_USER }}
+      GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+      RELEASE_BRANCH: ${{ github.event.workflow_run.head_branch }}
+    steps:
+      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ env.GITHUB_TOKEN }}
+          ref: ${{ env.RELEASE_BRANCH }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-node-
+      - name: Auth NPM
+        run: echo "//registry.npmjs.org/:_authToken=${{ env.NPM_TOKEN }}" > ~/.npmrc
+      - name: Auth Git
+        run: |
+          git config user.email "${{ env.GIT_EMAIL }}"
+          git config user.name "${{ env.GIT_USER }}"
+      - name: Install Deps
+        run: npm ci --ignore-scripts
+      - name: Start Agents
+        run: npx nx-cloud start-ci-run
+      - name: Release Latest
+        if: ${{ env.RELEASE_BRANCH == 'master' }}
+        run: npm run release
+      - name: Release Next
+        if: ${{ env.RELEASE_BRANCH == 'next' }}
+        run: RELEASE_TAG=next npm run release:tag
+      - name: Release Branch
+        if: ${{ startsWith(env.RELEASE_BRANCH, 'release/') }}
+        run: RELEASE_BRANCH=\"${{ env.RELEASE_BRANCH }}\" npm run release:branch
+      - name: Release Error Log
+        if: failure()
+        run: cat lerna-debug.log
+      - name: Stop Agents
+        if: always()
+        run: npx nx-cloud stop-all-agents
+  agents:
+    runs-on: ubuntu-latest
+    name: Agents
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    timeout-minutes: 60
+    strategy:
+      matrix:
+        agent: [1, 2, 3]
+    env:
+      RELEASE_BRANCH: ${{ github.event.workflow_run.head_branch }}
+    steps:
+      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ env.RELEASE_BRANCH }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-node-
+      - name: Install Deps
+        run: npm ci --ignore-scripts
+      - name: Start Nx Agent ${{ matrix.agent }}
+        run: npx nx-cloud start-agent

@@ -14,6 +14,7 @@ describe('UiWebButtonConfig', () => {
         ConfigurationService,
         { provide: ErrorStrategy, useClass: ThrowErrorStrategy },
       ],
+      teardown: { destroyAfterEach: false },
     });
   });
 
@@ -149,5 +150,5 @@ describe('UiWebButtonConfig', () => {
 });
 
 function getConfigService(): ConfigurationService {
-  return TestBed.get(ConfigurationService);
+  return TestBed.inject(ConfigurationService);
 }

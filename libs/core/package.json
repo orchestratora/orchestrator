@@ -1,7 +1,6 @@
 {
-  "$schema": "./../../node_modules/ng-packagr/package.schema.json",
   "name": "@orchestrator/core",
-  "version": "0.0.0",
+  "version": "2.0.3",
   "publishConfig": {
     "access": "public"
   },
@@ -19,13 +18,19 @@
   "author": "Orchestrator <orchestratora@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/core": "^7.0.0",
-    "@angular/common": "^7.0.0"
+    "@angular/common": "^12.0.0 || ^13.0.0",
+    "@angular/core": "^12.0.0 || ^13.0.0",
+    "@angular/platform-browser": "^12.0.0 || ^13.0.0",
+    "rxjs": "^6.0.0 || ^7.0.0"
   },
   "dependencies": {
-    "@orchestrator/gen-io-ts": "^2.0.2",
-    "fp-ts": "^1.13.0",
-    "io-ts": "^1.8.2",
-    "ng-dynamic-component": "^4.0.3"
+    "@orchestrator/gen-io-ts": "^3.0.0",
+    "fp-ts": "^2.0.0",
+    "io-ts": "^2.0.0",
+    "ng-dynamic-component": "^10.0.0-no-barrels.0",
+    "tslib": "^2.0.0"
+  },
+  "scripts": {
+    "prepare": "node ../../tools/scripts/prepare-lib.js"
   }
 }

@@ -1,4 +1,4 @@
-import * as core from '@orchestrator/core';
+import { INJECTOR_MAP_TOKEN } from '@orchestrator/core';
 
 import { Stepper } from './stepper.class';
 import { StepperModule } from './stepper.module';
@@ -12,15 +12,15 @@ describe('StepperModule', () => {
     });
 
     it('should provide `provideInjectorMap` with `Stepper: Stepper`', () => {
-      const provideInjectorMap = spyOn(
-        core,
-        'provideInjectorMap',
-      ).and.returnValue('stepper-map');
-
       const res = StepperModule.forRoot();
 
-      expect(provideInjectorMap).toHaveBeenCalledWith({ Stepper: Stepper });
-      expect(res.providers).toContainEqual('stepper-map');
+      expect(res.providers).toContainEqual(
+        expect.objectContaining({
+          provide: INJECTOR_MAP_TOKEN,
+          useValue: { Stepper: Stepper },
+          multi: true,
+        }),
+      );
     });
   });
 });

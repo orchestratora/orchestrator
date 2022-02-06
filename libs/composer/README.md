@@ -1,25 +1,24 @@
-# Composer
+# @orchestrator/composer
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.0.
+> Allows to visually create and validate JSON UIs for Orchestrator.
 
-## Code scaffolding
+![@orchestrator/composer](https://img.shields.io/npm/v/@orchestrator/composer)
 
-Run `ng generate component component-name --project composer` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project composer`.
+## Registration
 
-> Note: Don't forget to add `--project composer` or else it will be added to the default project in your `angular.json` file.
+```ts
+import { NgModule } from '@angular/core';
+import { OrchestratorCoreModule } from '@orchestrator/core';
+import { ComposerModule } from '@orchestrator/composer';
 
-## Build
+@NgModule({
+  imports: [OrchestratorCoreModule.forRoot(), ComposerModule.forRoot()],
+})
+export class AppModule {}
+```
 
-Run `ng build composer` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Components list
 
-## Publishing
-
-After building your library with `ng build composer`, go to the dist folder `cd dist/composer` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test composer` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+| Component | Description |
+| --------- | ----------- |
+|           |             |

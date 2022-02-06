@@ -14,6 +14,7 @@ describe('LayoutFlatConfig', () => {
         ConfigurationService,
         { provide: ErrorStrategy, useClass: ThrowErrorStrategy },
       ],
+      teardown: { destroyAfterEach: false },
     });
   });
 
@@ -127,5 +128,5 @@ function testConfigProp(prop: string) {
 }
 
 function getConfigService(): ConfigurationService {
-  return TestBed.get(ConfigurationService);
+  return TestBed.inject(ConfigurationService);
 }

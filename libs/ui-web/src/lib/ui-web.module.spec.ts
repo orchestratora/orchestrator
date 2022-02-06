@@ -1,27 +1,22 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  OrchestratorConfigItem,
-  OrchestratorCoreModule,
-} from '@orchestrator/core';
-
+import { OrchestratorConfigItem } from '@orchestrator/core';
+import { OrchestratorCoreTestingModule } from '@orchestrator/core/testing';
 import {
   UiWebButtonHostComponent,
   UiWebHeadingHostComponent,
   UiWebImageHostComponent,
   UiWebInputHostComponent,
-  UiWebTextHostComponent,
   UiWebSelectHostComponent,
   UiWebTextareaHostComponent,
+  UiWebTextHostComponent,
 } from './components';
 import { UiWebModule } from './ui-web.module';
 
 @Component({
   selector: 'orc-host-comp',
-  template: `
-    <orc-orchestrator [config]="config"></orc-orchestrator>
-  `,
+  template: ` <orc-orchestrator [config]="config"></orc-orchestrator> `,
 })
 class HostComponent {
   config: OrchestratorConfigItem;
@@ -31,12 +26,26 @@ describe('UiWebModule', () => {
   let fixture: ComponentFixture<HostComponent>;
   let hostComp: HostComponent;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [UiWebModule.forRoot(), OrchestratorCoreModule.forRoot()],
-      declarations: [HostComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          UiWebModule.forRoot(),
+          OrchestratorCoreTestingModule.withComponents([
+            UiWebButtonHostComponent,
+            UiWebHeadingHostComponent,
+            UiWebImageHostComponent,
+            UiWebInputHostComponent,
+            UiWebSelectHostComponent,
+            UiWebTextareaHostComponent,
+            UiWebTextHostComponent,
+          ]),
+        ],
+        declarations: [HostComponent],
+        teardown: { destroyAfterEach: false },
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HostComponent);

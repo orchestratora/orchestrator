@@ -1,5 +1,5 @@
 export * from './dynamic-components';
+export * from './orchestrator.module';
 
-// This is private module that should not be used
-// Here only for compilation purposes
-// export * from './sink.module';
+// HACK: Reference the module to ensure it's picked up by NGC
+export {} from './sink.module';

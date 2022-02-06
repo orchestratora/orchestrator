@@ -1,7 +1,8 @@
 import { Injectable, Injector, Type } from '@angular/core';
 import { genIoType } from '@orchestrator/gen-io-ts';
-import { left } from 'fp-ts/lib/Either';
-import { none, Option, some } from 'fp-ts/lib/Option';
+import { fold as foldEither, isLeft, left, map } from 'fp-ts/lib/Either';
+import { fold, none, Option, some } from 'fp-ts/lib/Option';
+import { pipe } from 'fp-ts/function';
 import { Errors, Type as IoCodec, Validation } from 'io-ts';
 
 import { ErrorStrategy } from '../error-strategy/error-strategy';
@@ -27,18 +28,26 @@ export class ConfigurationService {
   decode<T>(type: Type<T>, config: T, injector?: Injector): T;
   decode<T, C>(type: Type<T>, config: C, injector?: Injector): T | C;
   decode<T, C>(type: Type<T>, config: C, injector?: Injector): T | C {
-    return this.validate(type, config)
-      .map(c => this.processFunctions(type, c, config, injector))
-      .fold<T | C>(() => config, decodedConfig => decodedConfig);
+    return pipe(
+      this.validate(type, config),
+      map((c) => this.processFunctions(type, c, config, injector)),
+      foldEither(
+        () => config,
+        (decodedConfig) => decodedConfig,
+      ),
+    );
   }
 
-  validate<T, C>(type: Type<T>, config: C): Validation<T> {
-    const validation = this.getCodecFor(type).foldL(
-      () => left<Errors, T>([]),
-      codec => codec.decode(config),
+  validate<T, C>(type: Type<T>, config: C): Validation<T | C> {
+    const validation = pipe(
+      this.getCodecFor(type),
+      fold(
+        () => left<Errors, T>([]),
+        (codec) => codec.decode(config),
+      ),
     );
 
-    if (validation.isLeft() && type) {
+    if (isLeft(validation) && type) {
       this.errorStrategy.handle(
         new InvalidConfigurationError(type, validation, config),
       );
@@ -56,13 +65,9 @@ export class ConfigurationService {
       return none;
     }
 
-    try {
-      const codec = this.codecMap.get(type) || genIoType(type);
-      this.codecMap.set(type, codec); // Set codec back to cache
-      return some(codec);
-    } catch {
-      return none;
-    }
+    const codec = this.codecMap.get(type) || genIoType(type);
+    this.codecMap.set(type, codec); // Set codec back to cache
+    return some(codec);
   }
 
   private processFunctions<T>(
@@ -74,8 +79,8 @@ export class ConfigurationService {
     const meta = this.getMetaOf(type);
 
     meta
-      .filter(m => m.decorator === OptionFunction && config[m.prop])
-      .forEach(m => {
+      .filter((m) => m.decorator === OptionFunction && config[m.prop])
+      .forEach((m) => {
         const customInjectorFactory = m.args[0] as CustomInjectorFactory;
         const customInjector = customInjectorFactory
           ? customInjectorFactory(injector)
@@ -102,8 +107,8 @@ export class ConfigurationService {
     const { args, body } = fn;
 
     const resolvedArgs = args
-      .filter(arg => !arg.startsWith('$'))
-      .map(arg => this.resolveArg(arg, injector));
+      .filter((arg) => !arg.startsWith('$'))
+      .map((arg) => this.resolveArg(arg, injector));
 
     const boundFn = fn.bind(null, ...resolvedArgs) as FunctionWithMeta;
     boundFn.args = args;
@@ -119,7 +124,7 @@ export class ConfigurationService {
     fnBody: string,
     boundArgs: any[],
   ): FunctionWithMeta {
-    const guardedFn = (((...args: any[]) => {
+    const guardedFn = ((...args: any[]) => {
       try {
         return fn(...args);
       } catch (e) {
@@ -130,7 +135,7 @@ export class ConfigurationService {
           ]),
         );
       }
-    }) as unknown) as FunctionWithMeta;
+    }) as unknown as FunctionWithMeta;
 
     guardedFn.args = fn.args;
     guardedFn.body = fn.body;
@@ -141,10 +146,13 @@ export class ConfigurationService {
   private resolveArg(argExpr: string, injector: Injector): any {
     const arg = getArgName(argExpr);
     const isOptional = isArgOptional(argExpr);
+
+    // Dynamically resolve function arguments - no type info available
     const res = injector.get(
       arg,
       isOptional ? null : Injector.THROW_IF_NOT_FOUND,
     );
+
     return res === null && isOptional ? undefined : res;
   }
 }
