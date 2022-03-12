@@ -78,7 +78,7 @@ describe('HtmlTagConfig', () => {
         attr3: true,
         attr4: [],
         attr5: {},
-        attr6: () => {},
+        attr6: () => null,
       },
       'object records of unknown',
     );

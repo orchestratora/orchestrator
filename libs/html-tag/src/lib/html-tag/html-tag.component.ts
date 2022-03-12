@@ -17,7 +17,6 @@ import {
   OrchestratorConfigItem,
   OrchestratorDynamicComponent,
 } from '@orchestrator/core';
-import { string } from 'fp-ts';
 import { HtmlTagConfig } from './html-tag-config';
 
 interface TrackRecord<T> {
