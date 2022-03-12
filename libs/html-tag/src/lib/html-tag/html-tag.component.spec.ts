@@ -73,6 +73,24 @@ describe('HtmlTagComponent', () => {
     expect(componentElem.children[0].name.toLowerCase()).toBe('div');
   });
 
+  it('should not re-render when config.tag is same', () => {
+    component.config = { tag: 'div' };
+
+    fixture.detectChanges();
+
+    const componentElem1 = getComponentElem();
+    const divElem1 = componentElem1.children[0];
+
+    component.config = { tag: 'div' };
+
+    fixture.detectChanges();
+
+    const componentElem2 = getComponentElem();
+    const divElem2 = componentElem2.children[0];
+
+    expect(divElem1).toBe(divElem2);
+  });
+
   it('should clear tag after config.tag is unset', () => {
     component.config = { tag: 'div' };
 
@@ -99,43 +117,132 @@ describe('HtmlTagComponent', () => {
     expect(divElem.nativeElement.namespaceURI).toBe('xxx');
   });
 
-  it('should render attributes from config.attributes', () => {
-    component.config = {
-      tag: 'div',
-      attributes: { attr1: 'value1', attr2: 'value2' },
-    };
+  describe('attributes', () => {
+    it('should render from config.attributes', () => {
+      component.config = {
+        tag: 'div',
+        attributes: { attr1: 'value1', attr2: 'value2' },
+      };
 
-    fixture.detectChanges();
+      fixture.detectChanges();
 
-    const componentElem = getComponentElem();
-    const divElem = componentElem.children[0];
+      const componentElem = getComponentElem();
+      const divElem = componentElem.children[0];
 
-    expect(divElem.nativeElement.getAttribute('attr1')).toBe('value1');
-    expect(divElem.nativeElement.getAttribute('attr2')).toBe('value2');
+      expect(divElem.nativeElement.getAttribute('attr1')).toBe('value1');
+      expect(divElem.nativeElement.getAttribute('attr2')).toBe('value2');
+    });
+
+    it('should update when config.attributes changed', () => {
+      component.config = {
+        tag: 'div',
+        attributes: { attr1: 'value1', attr2: 'value2', attr3: 'value3' },
+      };
+
+      fixture.detectChanges();
+
+      component.config = {
+        tag: 'div',
+        attributes: { attr1: 'value1', attr2: 'value22', attr4: 'value4' },
+      };
+
+      fixture.detectChanges();
+
+      const componentElem = getComponentElem();
+      const divElem = componentElem.children[0];
+
+      expect(divElem.nativeElement.getAttribute('attr1')).toBe('value1');
+      expect(divElem.nativeElement.getAttribute('attr2')).toBe('value22');
+      expect(divElem.nativeElement.getAttribute('attr3')).toBe(null);
+      expect(divElem.nativeElement.getAttribute('attr4')).toBe('value4');
+    });
+
+    it('should clear when config.attributes is empty object', () => {
+      component.config = {
+        tag: 'div',
+        attributes: { attr1: 'value1', attr2: 'value2' },
+      };
+
+      fixture.detectChanges();
+
+      component.config = {
+        tag: 'div',
+        attributes: {},
+      };
+
+      fixture.detectChanges();
+
+      const componentElem = getComponentElem();
+      const divElem = componentElem.children[0];
+
+      expect(divElem.nativeElement.getAttribute('attr1')).toBe(null);
+      expect(divElem.nativeElement.getAttribute('attr2')).toBe(null);
+    });
   });
 
-  it('should update attributes when config.attributes changed', () => {
-    component.config = {
-      tag: 'div',
-      attributes: { attr1: 'value1', attr2: 'value2', attr3: 'value3' },
-    };
+  describe('properties', () => {
+    it('should render from config.properties', () => {
+      component.config = {
+        tag: 'div',
+        properties: { prop1: 'value1', prop2: true, prop3: 3 },
+      };
 
-    fixture.detectChanges();
+      fixture.detectChanges();
 
-    component.config = {
-      tag: 'div',
-      attributes: { attr1: 'value1', attr2: 'value22', attr4: 'value4' },
-    };
+      const componentElem = getComponentElem();
+      const divElem = componentElem.children[0];
 
-    fixture.detectChanges();
+      expect(divElem.nativeElement.prop1).toBe('value1');
+      expect(divElem.nativeElement.prop2).toBe(true);
+      expect(divElem.nativeElement.prop3).toBe(3);
+    });
 
-    const componentElem = getComponentElem();
-    const divElem = componentElem.children[0];
+    it('should update when config.properties changed', () => {
+      component.config = {
+        tag: 'div',
+        properties: { prop1: 'value1', prop2: true, prop3: 3 },
+      };
 
-    expect(divElem.nativeElement.getAttribute('attr1')).toBe('value1');
-    expect(divElem.nativeElement.getAttribute('attr2')).toBe('value22');
-    expect(divElem.nativeElement.getAttribute('attr3')).toBe(null);
-    expect(divElem.nativeElement.getAttribute('attr4')).toBe('value4');
+      fixture.detectChanges();
+
+      component.config = {
+        tag: 'div',
+        properties: { prop1: 'value1', prop2: false, prop4: { prop4: true } },
+      };
+
+      fixture.detectChanges();
+
+      const componentElem = getComponentElem();
+      const divElem = componentElem.children[0];
+
+      expect(divElem.nativeElement.prop1).toBe('value1');
+      expect(divElem.nativeElement.prop2).toBe(false);
+      expect(divElem.nativeElement.prop3).toBe(undefined);
+      expect(divElem.nativeElement.prop4).toEqual({ prop4: true });
+    });
+
+    it('should clear when config.properties is empty object', () => {
+      component.config = {
+        tag: 'div',
+        properties: { prop1: 'value1', prop2: true, prop3: 3 },
+      };
+
+      fixture.detectChanges();
+
+      component.config = {
+        tag: 'div',
+        properties: {},
+      };
+
+      fixture.detectChanges();
+
+      const componentElem = getComponentElem();
+      const divElem = componentElem.children[0];
+
+      expect(divElem.nativeElement.prop1).toBe(undefined);
+      expect(divElem.nativeElement.prop2).toBe(undefined);
+      expect(divElem.nativeElement.prop3).toBe(undefined);
+    });
   });
 
   it('should render items inside of the tag from items', () => {

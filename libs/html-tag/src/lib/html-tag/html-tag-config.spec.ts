@@ -22,7 +22,7 @@ describe('HtmlTagConfig', () => {
   });
 
   describe('tag prop', () => {
-    const { testValid, testInvalid } = testValidProp('tag');
+    const { testValid, testInvalid } = testProp('tag');
 
     testValid(undefined);
     testValid(null);
@@ -34,7 +34,7 @@ describe('HtmlTagConfig', () => {
   });
 
   describe('namespace prop', () => {
-    const { testValid, testInvalid } = testValidProp('namespace');
+    const { testValid, testInvalid } = testProp('namespace');
 
     testValid(undefined);
     testValid(null);
@@ -46,7 +46,7 @@ describe('HtmlTagConfig', () => {
   });
 
   describe('attributes prop', () => {
-    const { testValid, testInvalid } = testValidProp('attributes');
+    const { testValid, testInvalid } = testProp('attributes');
 
     testValid(undefined);
     testValid(null);
@@ -65,9 +65,33 @@ describe('HtmlTagConfig', () => {
     testInvalid({ attr1: [] }, 'object records of arrays');
     testInvalid({ attr1: {} }, 'object records of objects');
   });
+
+  describe('properties prop', () => {
+    const { testValid, testInvalid } = testProp('properties');
+
+    testValid(undefined);
+    testValid(null);
+    testValid(
+      {
+        attr1: 'value1',
+        attr2: 2,
+        attr3: true,
+        attr4: [],
+        attr5: {},
+        attr6: () => {},
+      },
+      'object records of unknown',
+    );
+    testValid({}, 'empty objects');
+
+    testInvalid('value', 'strings');
+    testInvalid(123, 'numbers');
+    testInvalid(true, 'booleans');
+    testInvalid([], 'arrays');
+  });
 });
 
-function testValidProp(prop: string) {
+function testProp(prop: string) {
   const testValid = (val: unknown, name?: string) =>
     it(`should allow ${name || val}`, () => {
       expect(() =>
