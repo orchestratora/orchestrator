@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  KeyValueDiffer,
   KeyValueDiffers,
   OnChanges,
   OnDestroy,
@@ -18,6 +19,13 @@ import {
 } from '@orchestrator/core';
 import { HtmlTagConfig } from './html-tag-config';
 
+interface TrackRecord<T> {
+  differ: KeyValueDiffer<string, T>;
+  getRecord(): Record<string, T> | undefined;
+  set(name: string, value: T): void;
+  remove(name: string): void;
+}
+
 @Component({
   selector: 'orc-html-tag',
   templateUrl: './html-tag.component.html',
@@ -33,21 +41,38 @@ export class HtmlTagComponent
 
   /** @internal */
   @ViewChild('tagContentAnchor', { static: true, read: ViewContainerRef })
-  _tagContentVcr?: ViewContainerRef;
+  readonly _tagContentVcr?: ViewContainerRef;
 
   /** @internal */
   @ViewChild('contentTpl', { static: true })
-  _contentTpl?: TemplateRef<void>;
+  readonly _contentTpl?: TemplateRef<void>;
 
-  private attrsDiffer = this.keyValDiffers.find({}).create<string, string>();
-  private hostElement: unknown = this.vcr.element.nativeElement;
+  private readonly objectDiffer = this.keyValDiffers.find({});
+
+  private readonly hostElement: unknown = this.vcr.element.nativeElement;
+
+  private readonly trackRecordsMap = {
+    attributes: {
+      differ: this.objectDiffer.create<string, string>(),
+      getRecord: () => this.config?.attributes,
+      set: (name, value) => this.setAttr(name, value),
+      remove: (name) => this.removeAttr(name),
+    } as TrackRecord<string>,
+    properties: {
+      differ: this.objectDiffer.create<string, unknown>(),
+      getRecord: () => this.config?.properties,
+      set: (name, value) => this.setProp(name, value),
+      remove: (name) => this.setProp(name, undefined),
+    } as TrackRecord<unknown>,
+  };
+
   private tagName?: string;
   private tagElement?: unknown;
 
   constructor(
-    private vcr: ViewContainerRef,
-    private renderer: Renderer2,
-    private keyValDiffers: KeyValueDiffers,
+    private readonly vcr: ViewContainerRef,
+    private readonly renderer: Renderer2,
+    private readonly keyValDiffers: KeyValueDiffers,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -84,6 +109,7 @@ export class HtmlTagComponent
     }
 
     this.updateAttrs();
+    this.updateProps();
     this.updateContent();
   }
 
@@ -116,21 +142,29 @@ export class HtmlTagComponent
   }
 
   private updateAttrs() {
-    const changes = this.attrsDiffer.diff(this.config?.attributes ?? {});
+    this.updateRecord(this.trackRecordsMap.attributes);
+  }
+
+  private updateProps() {
+    this.updateRecord(this.trackRecordsMap.properties);
+  }
+
+  private updateRecord<T>(trackMap: TrackRecord<T>) {
+    const changes = trackMap.differ.diff(trackMap.getRecord());
 
     if (!changes || this.tagElement === undefined) {
       return;
     }
 
     changes.forEachAddedItem((change) =>
-      this.setAttr(change.key, change.currentValue),
+      trackMap.set(change.key, change.currentValue),
     );
 
     changes.forEachChangedItem((change) =>
-      this.setAttr(change.key, change.currentValue),
+      trackMap.set(change.key, change.currentValue),
     );
 
-    changes.forEachRemovedItem((change) => this.removeAttr(change.key));
+    changes.forEachRemovedItem((change) => trackMap.remove(change.key));
   }
 
   private setAttr(key: string, value?: string | null) {
@@ -139,6 +173,10 @@ export class HtmlTagComponent
 
   private removeAttr(key: string) {
     this.renderer.removeAttribute(this.tagElement, key);
+  }
+
+  private setProp(key: string, value: unknown) {
+    this.renderer.setProperty(this.tagElement, key, value);
   }
 
   private updateContent() {

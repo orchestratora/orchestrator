@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Option, OptionTypeFactory } from '@orchestrator/core';
-import { record, string } from 'io-ts';
+import { record, string, unknown } from 'io-ts';
 
 @Injectable({ providedIn: 'root' })
 export class HtmlTagConfig {
@@ -11,7 +11,10 @@ export class HtmlTagConfig {
   namespace?: string;
 
   @OptionTypeFactory(() => record(string, string))
-  attributes?: { [attr: string]: string };
+  attributes?: Record<string, string>;
+
+  @OptionTypeFactory(() => record(string, unknown))
+  properties?: Record<string, unknown>;
 
   @Option()
   text?: string;
