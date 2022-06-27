@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/html-tag@0.1.1...@orchestrator/html-tag@0.2.0) (2022-06-27)
+
+
+### Features
+
+* **html-tag:** add properties to html-tag configuration ([f259524](https://github.com/orchestratora/orchestrator/commit/f25952480afad9df187601ba2b6f881c85d8bd65))
+
+
+
+
+
 ## [0.1.1](https://github.com/orchestratora/orchestrator/compare/@orchestrator/html-tag@0.1.0...@orchestrator/html-tag@0.1.1) (2022-01-19)
 
 
