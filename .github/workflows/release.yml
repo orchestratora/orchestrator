@@ -23,8 +23,8 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     environment: 'Release NPM'
     env:
-      GITHUB_TOKEN: ${{ secrets.PRIVATE_GITHUB_TOKEN }}
-      GH_TOKEN: ${{ secrets.PRIVATE_GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       GIT_USER: ${{ secrets.GIT_USER }}
       GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
