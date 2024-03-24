@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/orchestratora/orchestrator/compare/@orchestrator/stepper@2.0.3...@orchestrator/stepper@2.0.4) (2024-03-24)
+
+
+### Bug Fixes
+
+* **deps:** allow angular peer deps until v17 ([#82](https://github.com/orchestratora/orchestrator/issues/82)) ([fe24b5c](https://github.com/orchestratora/orchestrator/commit/fe24b5c05c0b5ef87d2c4e238971a6b7b0468350))
+
+
+
+
+
 ## [2.0.3](https://github.com/orchestratora/orchestrator/compare/@orchestrator/stepper@2.0.2...@orchestrator/stepper@2.0.3) (2022-01-15)
 
 **Note:** Version bump only for package @orchestrator/stepper

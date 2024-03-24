@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/orchestratora/orchestrator/compare/@orchestrator/html-tag@0.2.0...@orchestrator/html-tag@0.2.1) (2024-03-24)
+
+
+### Bug Fixes
+
+* **deps:** allow angular peer deps until v17 ([#82](https://github.com/orchestratora/orchestrator/issues/82)) ([fe24b5c](https://github.com/orchestratora/orchestrator/commit/fe24b5c05c0b5ef87d2c4e238971a6b7b0468350))
+
+
+
+
+
 # [0.2.0](https://github.com/orchestratora/orchestrator/compare/@orchestrator/html-tag@0.1.1...@orchestrator/html-tag@0.2.0) (2022-06-27)
 
 
