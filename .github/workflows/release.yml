@@ -26,8 +26,6 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      GIT_USER: ${{ secrets.GIT_USER }}
-      GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
       RELEASE_BRANCH: ${{ github.event.workflow_run.head_branch }}
     steps:
       - uses: actions/setup-node@v2
@@ -44,10 +42,6 @@ jobs:
             npm-node-
       - name: Auth NPM
         run: echo "//registry.npmjs.org/:_authToken=${{ env.NPM_TOKEN }}" > ~/.npmrc
-      - name: Auth Git
-        run: |
-          git config user.email "${{ env.GIT_EMAIL }}"
-          git config user.name "${{ env.GIT_USER }}"
       - name: Install Deps
         run: npm ci --ignore-scripts
       - name: Release Latest
