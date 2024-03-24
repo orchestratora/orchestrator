@@ -23,16 +23,13 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     environment: 'Release NPM'
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       RELEASE_BRANCH: ${{ github.event.workflow_run.head_branch }}
     steps:
       - uses: actions/setup-node@v2
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          token: ${{ env.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ env.RELEASE_BRANCH }}
       - uses: actions/cache@v2
         with:
@@ -41,18 +38,37 @@ jobs:
           restore-keys: |
             npm-node-
       - name: Auth NPM
-        run: echo "//registry.npmjs.org/:_authToken=${{ env.NPM_TOKEN }}" > ~/.npmrc
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+      - name: Auth Git
+        run: |
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config --global user.name 'GitHub Actions Bot'
       - name: Install Deps
         run: npm ci --ignore-scripts
       - name: Release Latest
         if: ${{ env.RELEASE_BRANCH == 'master' }}
         run: npm run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Release Next
         if: ${{ env.RELEASE_BRANCH == 'next' }}
         run: RELEASE_TAG=next npm run release:tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Release Branch
         if: ${{ startsWith(env.RELEASE_BRANCH, 'release/') }}
         run: RELEASE_BRANCH=\"${{ env.RELEASE_BRANCH }}\" npm run release:branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Release Error Log
         if: failure()
         run: cat lerna-debug.log
+      - name: Post Auth NPM
+        if: always()
+        run: rm ~/.npmrc
