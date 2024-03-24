@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 env:
-  NX_CLOUD_DISTRIBUTED_EXECUTION: true
+  NX_CLOUD_DISTRIBUTED_EXECUTION: false
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 jobs:
@@ -50,8 +50,6 @@ jobs:
           git config user.name "${{ env.GIT_USER }}"
       - name: Install Deps
         run: npm ci --ignore-scripts
-      - name: Start Agents
-        run: npx nx-cloud start-ci-run
       - name: Release Latest
         if: ${{ env.RELEASE_BRANCH == 'master' }}
         run: npm run release
@@ -64,31 +62,3 @@ jobs:
       - name: Release Error Log
         if: failure()
         run: cat lerna-debug.log
-      - name: Stop Agents
-        if: always()
-        run: npx nx-cloud stop-all-agents
-  agents:
-    runs-on: ubuntu-latest
-    name: Agents
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    timeout-minutes: 60
-    strategy:
-      matrix:
-        agent: [1, 2, 3]
-    env:
-      RELEASE_BRANCH: ${{ github.event.workflow_run.head_branch }}
-    steps:
-      - uses: actions/setup-node@v2
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ env.RELEASE_BRANCH }}
-      - uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: npm-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            npm-node-
-      - name: Install Deps
-        run: npm ci --ignore-scripts
-      - name: Start Nx Agent ${{ matrix.agent }}
-        run: npx nx-cloud start-agent
